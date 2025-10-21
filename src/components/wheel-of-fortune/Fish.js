@@ -12,7 +12,7 @@ export default function Fish({ show, swimming, fishTopPx, onEnd }) {
         src="/BackgroundEraser_20251021_194530773.png"
         alt="Clownfish"
         draggable={false}
-        style={{ width: '160px', height: 'auto', display: 'block' }}
+        style={{ width: '160px', height: 'auto', display: 'block', opacity: 0.7 }}
       />
     </div>
   );

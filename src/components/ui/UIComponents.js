@@ -34,10 +34,19 @@ export function FormContainer({ title, children }) {
 
 // Primary Button Component
 export function PrimaryButton({ children, type = "button", onClick, className = "", disabled = false, isLoading = false }) {
+  const handleClick = (e) => {
+    console.log('PrimaryButton clicked:', children, 'disabled:', disabled, 'isLoading:', isLoading);
+    e.preventDefault();
+    e.stopPropagation();
+    if (onClick && !disabled && !isLoading) {
+      onClick(e);
+    }
+  };
+
   return (
     <button 
       type={type}
-      onClick={onClick}
+      onClick={handleClick}
       disabled={disabled || isLoading}
       className={`w-full primary-button py-4 rounded-lg font-semibold text-lg text-white transition-all duration-200 ${disabled || isLoading ? 'opacity-50 cursor-not-allowed' : 'hover:transform hover:-translate-y-1 hover:shadow-lg'} ${className}`}
       style={{ 
@@ -59,9 +68,18 @@ export function PrimaryButton({ children, type = "button", onClick, className = 
 
 // Tab Button Component
 export function TabButton({ active, onClick, children }) {
+  const handleClick = (e) => {
+    console.log('TabButton clicked:', children, 'active:', active);
+    e.preventDefault();
+    e.stopPropagation();
+    if (onClick) {
+      onClick();
+    }
+  };
+
   return (
     <button
-      onClick={onClick}
+      onClick={handleClick}
       className={`flex-1 py-2 px-4 rounded-md text-sm font-semibold tab-button ${
         active ? 'active text-white' : 'text-gray-600'
       }`}

@@ -54,7 +54,7 @@ export default function Home() {
       <div className={`main-content ${isAuthModalOpen ? 'blur' : ''}`}>
         <Navbar onLoginClick={openAuthModal} />
         
-        {/* Героическая секция AquaRNG */}
+        {/* Героическая секция RandAqua */}
         <section className="aqua-hero-section">
           <div className="aqua-fish-background">
             {/* Дополнительные рыбки */}
@@ -105,12 +105,12 @@ export default function Home() {
                     </svg>
                     Генерировать число
                   </a>
-                  <button className="aqua-how-btn">
+                  <a href="/analyze" className="aqua-how-btn">
                     <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd"/>
+                      <path fillRule="evenodd" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" clipRule="evenodd"/>
                     </svg>
-                    Как это работает
-                  </button>
+                    Анализатор
+                  </a>
                 </div>
               </div>
             </div>

@@ -1,3 +1,7 @@
+# RandAqua
+
+RandAqua - революционная система генерации случайных чисел на основе наблюдения за морской жизнью.
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started

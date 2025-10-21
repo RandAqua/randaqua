@@ -9,16 +9,14 @@ export default function Navbar({ onLoginClick }) {
     <nav className="aqua-navbar">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
-          {/* Логотип AquaRNG */}
+          {/* Логотип RandAqua */}
           <div className="flex-shrink-0 flex items-center">
             <div className="flex items-center space-x-3">
               <div className="w-10 h-10 rounded-full flex items-center justify-center aqua-drop-icon">
-                <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M10 2L3 7v11a1 1 0 001 1h12a1 1 0 001-1V7l-7-5z"/>
-                </svg>
+                <img src="/fish-logo.svg" alt="RandAqua Logo" className="w-6 h-6" />
               </div>
               <div className="text-2xl font-bold text-blue-600">
-                AquaRNG
+                RandAqua
               </div>
             </div>
           </div>
@@ -33,22 +31,22 @@ export default function Navbar({ onLoginClick }) {
                 Создать тираж
               </a>
               <a
-                href="#"
+                href="/analyze"
                 className="aqua-nav-link-wide"
               >
-                Проверка случайности
-              </a>
-              <a
-                href="#"
-                className="aqua-nav-link-wide"
-              >
-                Как это работает
+                Анализатор
               </a>
               <a
                 href="#"
                 className="aqua-nav-link-wide"
               >
                 История
+              </a>
+              <a
+                href="#"
+                className="aqua-nav-link-wide"
+              >
+                Как это работает?
               </a>
             </div>
           </div>
@@ -105,22 +103,22 @@ export default function Navbar({ onLoginClick }) {
                 Создать тираж
               </a>
               <a
-                href="#"
+                href="/analyze"
                 className="aqua-nav-link-mobile"
               >
-                Проверка случайности
-              </a>
-              <a
-                href="#"
-                className="aqua-nav-link-mobile"
-              >
-                Как это работает
+                Анализатор
               </a>
               <a
                 href="#"
                 className="aqua-nav-link-mobile"
               >
                 История
+              </a>
+              <a
+                href="#"
+                className="aqua-nav-link-mobile"
+              >
+                Как это работает?
               </a>
               <div className="pt-4 space-y-2">
                 <button 
