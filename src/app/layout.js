@@ -12,8 +12,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "Генератор лотерей",
-  description: "Генератор случайных чисел для лотерей",
+  title: "RandAqua - Генератор случайных чисел",
+  description: "RandAqua - революционная система генерации случайных чисел на основе наблюдения за морской жизнью",
 };
 
 export default function RootLayout({ children }) {

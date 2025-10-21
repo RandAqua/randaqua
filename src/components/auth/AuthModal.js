@@ -43,6 +43,12 @@ export default function AuthModal({ isOpen, onClose, initialTab = 'login', onVer
     setActiveTab(initialTab);
   }, [initialTab]);
 
+  // Обработчик клика по вкладке
+  const handleTabChange = (tabKey) => {
+    console.log('Tab change requested:', tabKey);
+    setActiveTab(tabKey);
+  };
+
   if (!isOpen) return null;
 
   const tabs = [
@@ -57,7 +63,7 @@ export default function AuthModal({ isOpen, onClose, initialTab = 'login', onVer
         <div className="p-4 sm:p-6 md:p-8">
           <TabSwitcher 
             activeTab={activeTab} 
-            onTabChange={setActiveTab} 
+            onTabChange={handleTabChange} 
             tabs={tabs} 
           />
           {activeTab === 'login' ? (
