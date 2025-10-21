@@ -3,11 +3,12 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
-  --stoloto-red: #dc2626;
-  --stoloto-red-dark: #b91c1c;
-  --stoloto-gold: #fbbf24;
-  --stoloto-yellow: #fbbf24;
-  --stoloto-blue: #1e40af;
+  --aqua-deep-blue: #0f172a;
+  --aqua-ocean-blue: #1e40af;
+  --aqua-light-blue: #3b82f6;
+  --aqua-cyan: #06b6d4;
+  --aqua-green: #10b981;
+  --aqua-white: #ffffff;
 }
 
 @theme inline {
@@ -18,16 +19,18 @@
 }
 
 body {
-  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
-  color: var(--foreground);
+  background: var(--aqua-deep-blue);
+  color: var(--aqua-white);
   font-family: 'Arial', 'Helvetica', sans-serif;
   line-height: 1.6;
   min-height: 100vh;
+  margin: 0;
+  padding: 0;
 }
 
 /* Стили в стиле Столото */
 .stoloto-gradient {
-  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+  background: linear-gradient(135deg, #77DDE7 0%, #5BC4D1 100%);
 }
 
 .stoloto-gradient-gold {
@@ -80,7 +83,7 @@ body {
 
 /* Стили для кнопок в стиле Столото */
 .btn-stoloto {
-  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+  background: linear-gradient(135deg, #77DDE7 0%, #5BC4D1 100%);
   color: white;
   border: none;
   border-radius: 12px;
@@ -88,15 +91,15 @@ body {
   font-weight: 700;
   font-size: 16px;
   transition: all 0.3s ease;
-  box-shadow: 0 8px 15px -3px rgba(220, 38, 38, 0.3);
+  box-shadow: 0 8px 15px -3px rgba(119, 221, 231, 0.3);
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
 .btn-stoloto:hover {
   transform: translateY(-3px);
-  box-shadow: 0 15px 25px -5px rgba(220, 38, 38, 0.4);
-  background: linear-gradient(135deg, #b91c1c 0%, #991b1b 100%);
+  box-shadow: 0 15px 25px -5px rgba(119, 221, 231, 0.4);
+  background: linear-gradient(135deg, #5BC4D1 0%, #4A9BA8 100%);
 }
 
 .btn-stoloto:active {
@@ -106,7 +109,7 @@ body {
 .btn-stoloto:focus {
   outline: none;
   ring: 4px;
-  ring-color: rgba(220, 38, 38, 0.3);
+  ring-color: rgba(119, 221, 231, 0.3);
 }
 
 /* Стили для золотых кнопок */
@@ -139,7 +142,7 @@ body {
 
 /* Стили для логотипа */
 .logo-stoloto {
-  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+  background: linear-gradient(135deg, #77DDE7 0%, #5BC4D1 100%);
   color: white;
   border-radius: 50%;
   display: flex;
@@ -190,7 +193,7 @@ body {
   left: 0;
   right: 0;
   height: 6px;
-  background: linear-gradient(90deg, #dc2626, #fbbf24, #1e40af);
+  background: linear-gradient(90deg, #77DDE7, #fbbf24, #1e40af);
 }
 
 .lottery-card:hover {
@@ -200,7 +203,7 @@ body {
 
 /* Стили для чисел лотереи */
 .lottery-number {
-  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+  background: linear-gradient(135deg, #77DDE7 0%, #5BC4D1 100%);
   color: white;
   border-radius: 50%;
   width: 60px;
@@ -233,3 +236,495 @@ body {
 .lottery-number:nth-child(6) {
   animation-delay: 0.5s;
 }
+
+/* ===== AQUARNG СТИЛИ ===== */
+
+/* Основной фон */
+.aqua-background {
+  background: var(--aqua-deep-blue);
+  min-height: 100vh;
+}
+
+/* Навигационная панель */
+.aqua-navbar {
+  background: var(--aqua-ocean-blue);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+  position: relative;
+  z-index: 50;
+  backdrop-filter: blur(10px);
+}
+
+.aqua-drop-icon {
+  background: var(--aqua-light-blue);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+}
+
+.aqua-nav-link {
+  color: var(--aqua-white);
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.aqua-nav-link:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: var(--aqua-white);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.aqua-nav-active {
+  background: rgba(255, 255, 255, 0.2);
+  color: var(--aqua-white);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Широкие навигационные ссылки */
+.aqua-nav-link-wide {
+  color: var(--aqua-white);
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  min-width: 140px;
+  text-align: center;
+  display: inline-block;
+}
+
+.aqua-nav-link-wide:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: var(--aqua-white);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Контейнер авторизации */
+.aqua-auth-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.aqua-login-link {
+  color: var(--aqua-white);
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  padding: 10px 20px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(5px);
+  white-space: nowrap;
+}
+
+.aqua-login-link:hover {
+  color: var(--aqua-cyan);
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.aqua-register-btn {
+  background: var(--aqua-green);
+  color: var(--aqua-white);
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.aqua-register-btn:hover {
+  background: #059669;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Мобильные стили */
+.aqua-nav-link-mobile {
+  color: var(--aqua-white);
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: block;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  margin: 4px 0;
+}
+
+.aqua-nav-link-mobile:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.aqua-login-link-mobile {
+  color: var(--aqua-white);
+  text-decoration: none;
+  font-weight: 500;
+  display: block;
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  margin: 4px 0;
+  transition: all 0.3s ease;
+}
+
+.aqua-login-link-mobile:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: var(--aqua-cyan);
+}
+
+.aqua-register-btn-mobile {
+  background: var(--aqua-green);
+  color: var(--aqua-white);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  padding: 12px 20px;
+  font-weight: 600;
+  width: 100%;
+  margin: 4px 0;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.aqua-register-btn-mobile:hover {
+  background: #059669;
+  transform: translateY(-1px);
+}
+
+/* Героическая секция */
+.aqua-hero-section {
+  position: relative;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.aqua-fish-background {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: linear-gradient(180deg, #0ea5e9 0%, #0284c7 50%, #0369a1 100%);
+  padding: 0;
+}
+
+.aqua-fish-background::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.1) 2px, transparent 2px),
+    radial-gradient(circle at 80% 70%, rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+    radial-gradient(circle at 40% 80%, rgba(255, 255, 255, 0.1) 1.5px, transparent 1.5px);
+  background-size: 100px 100px, 80px 80px, 120px 120px;
+  animation: aqua-bubbles 20s infinite linear;
+}
+
+.aqua-fish-background::after {
+  content: '🐟 🐠 🐡';
+  position: absolute;
+  top: 10%;
+  left: 5%;
+  font-size: 3rem;
+  opacity: 0.3;
+  animation: aqua-swim 15s infinite linear;
+}
+
+/* Дополнительные рыбки с разными направлениями */
+.aqua-fish-1 {
+  position: absolute;
+  top: 20%;
+  left: -100px;
+  font-size: 2rem;
+  opacity: 0.4;
+  animation: aqua-swim 12s infinite linear;
+  z-index: 1;
+}
+
+.aqua-fish-2 {
+  position: absolute;
+  top: 60%;
+  right: -100px;
+  font-size: 2.5rem;
+  opacity: 0.3;
+  animation: aqua-swim-reverse 18s infinite linear;
+  z-index: 1;
+}
+
+.aqua-fish-3 {
+  position: absolute;
+  top: 40%;
+  left: -100px;
+  font-size: 1.8rem;
+  opacity: 0.35;
+  animation: aqua-swim 20s infinite linear;
+  z-index: 1;
+}
+
+.aqua-fish-4 {
+  position: absolute;
+  top: 15%;
+  right: -100px;
+  font-size: 2.2rem;
+  opacity: 0.3;
+  animation: aqua-swim-reverse 14s infinite linear;
+  z-index: 1;
+}
+
+.aqua-fish-5 {
+  position: absolute;
+  top: 70%;
+  left: -100px;
+  font-size: 3rem;
+  opacity: 0.25;
+  animation: aqua-swim 16s infinite linear;
+  z-index: 1;
+}
+
+.aqua-fish-6 {
+  position: absolute;
+  top: 30%;
+  right: -100px;
+  font-size: 1.5rem;
+  opacity: 0.4;
+  animation: aqua-swim-reverse 22s infinite linear;
+  z-index: 1;
+}
+
+.aqua-fish-7 {
+  position: absolute;
+  top: 80%;
+  right: -100px;
+  font-size: 1.6rem;
+  opacity: 0.35;
+  animation: aqua-swim 18s infinite linear;
+  z-index: 1;
+}
+
+.aqua-fish-8 {
+  position: absolute;
+  top: 10%;
+  left: -100px;
+  font-size: 2.8rem;
+  opacity: 0.2;
+  animation: aqua-swim 25s infinite linear;
+  z-index: 1;
+}
+
+.aqua-fish-9 {
+  position: absolute;
+  top: 50%;
+  right: -100px;
+  font-size: 2.4rem;
+  opacity: 0.3;
+  animation: aqua-swim-reverse 19s infinite linear;
+  z-index: 1;
+}
+
+.aqua-fish-10 {
+  position: absolute;
+  top: 75%;
+  left: -100px;
+  font-size: 3.5rem;
+  opacity: 0.15;
+  animation: aqua-swim 30s infinite linear;
+  z-index: 1;
+}
+
+.aqua-fish-11 {
+  position: absolute;
+  top: 25%;
+  left: 50%;
+  font-size: 1.8rem;
+  opacity: 0.3;
+  animation: aqua-swim-vertical 17s infinite linear;
+  z-index: 1;
+}
+
+.aqua-fish-12 {
+  position: absolute;
+  top: 60%;
+  left: 20%;
+  font-size: 2.1rem;
+  opacity: 0.25;
+  animation: aqua-swim-diagonal 21s infinite linear;
+  z-index: 1;
+}
+
+.aqua-fish-13 {
+  position: absolute;
+  top: 35%;
+  right: 30%;
+  font-size: 2.6rem;
+  opacity: 0.2;
+  animation: aqua-swim-vertical 24s infinite linear;
+  z-index: 1;
+}
+
+.aqua-fish-14 {
+  position: absolute;
+  top: 85%;
+  left: 60%;
+  font-size: 1.4rem;
+  opacity: 0.4;
+  animation: aqua-swim-diagonal 16s infinite linear;
+  z-index: 1;
+}
+
+@keyframes aqua-bubbles {
+  0% { transform: translateY(100vh); }
+  100% { transform: translateY(-100vh); }
+}
+
+@keyframes aqua-swim {
+  0% { transform: translateX(calc(100vw + 100px)); }
+  100% { transform: translateX(-100px); }
+}
+
+@keyframes aqua-swim-reverse {
+  0% { transform: translateX(-100px); }
+  100% { transform: translateX(calc(100vw + 100px)); }
+}
+
+@keyframes aqua-swim-vertical {
+  0% { transform: translateY(100vh); }
+  100% { transform: translateY(-100px); }
+}
+
+@keyframes aqua-swim-diagonal {
+  0% { transform: translate(100vw, 100vh); }
+  100% { transform: translate(-100px, -100px); }
+}
+
+/* Контейнер с текстом поверх рыбок */
+.aqua-text-container {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+/* Заголовки */
+.aqua-main-title {
+  font-size: 4rem;
+  font-weight: 900;
+  margin-bottom: 2rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  line-height: 1.1;
+}
+
+.aqua-title-line1 {
+  display: block;
+  color: var(--aqua-white);
+  margin-bottom: 0.5rem;
+}
+
+.aqua-title-line2 {
+  display: block;
+  color: var(--aqua-cyan);
+  font-size: 3.5rem;
+}
+
+.aqua-hero-description {
+  font-size: 1.25rem;
+  font-weight: 400;
+  opacity: 0.95;
+  max-width: 800px;
+  margin: 0 auto 2rem;
+  line-height: 1.6;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* Кнопки */
+.aqua-generate-btn {
+  background: var(--aqua-light-blue);
+  color: var(--aqua-white);
+  border: none;
+  border-radius: 12px;
+  padding: 16px 32px;
+  font-weight: 700;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 15px -3px rgba(59, 130, 246, 0.3);
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.aqua-generate-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 25px -5px rgba(59, 130, 246, 0.4);
+  background: #2563eb;
+}
+
+.aqua-how-btn {
+  background: transparent;
+  color: var(--aqua-white);
+  border: 2px solid var(--aqua-white);
+  border-radius: 12px;
+  padding: 14px 32px;
+  font-weight: 700;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.aqua-how-btn:hover {
+  background: var(--aqua-white);
+  color: var(--aqua-deep-blue);
+  transform: translateY(-3px);
+  box-shadow: 0 15px 25px -5px rgba(255, 255, 255, 0.4);
+}
+
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  .aqua-main-title {
+    font-size: 2.5rem;
+  }
+  
+  .aqua-title-line2 {
+    font-size: 2rem;
+  }
+  
+  .aqua-hero-description {
+    font-size: 1rem;
+    padding: 0 1rem;
+  }
+  
+  .aqua-generate-btn,
+  .aqua-how-btn {
+    padding: 12px 24px;
+    font-size: 14px;
+  }
+  
+  .aqua-nav-link-wide {
+    min-width: 120px;
+    padding: 10px 16px;
+    font-size: 14px;
+  }
+}
+
