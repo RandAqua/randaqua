@@ -34,7 +34,7 @@ export default function Navbar({ onLoginClick }) {
                 href="/analyze"
                 className="aqua-nav-link-wide"
               >
-                Анализатор
+                Проверка случайности
               </a>
               <a
                 href="#"
@@ -106,7 +106,8 @@ export default function Navbar({ onLoginClick }) {
                 href="/analyze"
                 className="aqua-nav-link-mobile"
               >
-                Анализатор
+
+                Проверка случайности
               </a>
               <a
                 href="#"
