@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState } from 'react';
-import Navbar from '../components/Navbar';
-import AuthModal from '../components/AuthModal';
+import Navbar from '../components/layout/Navbar';
+import AuthModal from '../components/auth/AuthModal';
 
 export default function Home() {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);

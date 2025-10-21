@@ -759,10 +759,12 @@ body {
 .input-container input:not(:placeholder-shown) + label {
   top: -0.5rem;
   font-size: 0.75rem;
-  color: #6b7280;
+  color: #4b5563;
   background: white;
   padding: 0 0.25rem;
   transform: translateY(0);
+  font-weight: 500;
+  z-index: 10;
 }
 
 .input-container label {
@@ -770,11 +772,15 @@ body {
   left: 1rem;
   top: 50%;
   transform: translateY(-50%);
-  color: #9ca3af;
+  color: #6b7280;
   font-size: 1rem;
   transition: all 0.2s ease-in-out;
   pointer-events: none;
   background: transparent;
+  max-width: calc(100% - 2rem);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 button, input, a {
@@ -787,8 +793,8 @@ button, a {
 
 input:focus {
   outline: none;
-  border-color: transparent;
-  box-shadow: 0 0 0 2px #0ea5e9;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
 .primary-button {
@@ -819,14 +825,17 @@ input:focus {
 .tab-button.active {
   background-color: #0ea5e9;
   color: #fff;
+  font-weight: 600;
 }
 
 .tab-button:not(.active) {
-  color: #6b7280;
+  color: #4b5563;
+  font-weight: 500;
 }
 
 .tab-button:not(.active):hover {
-  color: #374151;
+  color: #1f2937;
+  background-color: #f3f4f6;
 }
 
 /* Адаптивность */
@@ -853,6 +862,31 @@ input:focus {
   .aqua-nav-link-wide {
     min-width: 120px;
     padding: 10px 16px;
+    font-size: 14px;
+  }
+  
+  /* Мобильные стили для форм авторизации */
+  .modal {
+    margin: 8px;
+    max-width: calc(100vw - 16px);
+  }
+  
+  .input-container input {
+    padding: 12px 16px;
+    font-size: 16px; /* Предотвращает зум на iOS */
+  }
+  
+  .primary-button {
+    padding: 12px 16px;
+    font-size: 16px;
+  }
+  
+  .form-container {
+    padding: 16px;
+  }
+  
+  .tab-button {
+    padding: 8px 12px;
     font-size: 14px;
   }
 }
