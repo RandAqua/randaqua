@@ -39,7 +39,7 @@ export default function Navbar() {
                 Проверка случайности
               </a>
               <a
-                href="#"
+                href="/how-it-works"
                 className="aqua-nav-link-wide"
               >
                 Как это работает
@@ -105,7 +105,7 @@ export default function Navbar() {
                 Проверка случайности
               </a>
               <a
-                href="#"
+                href="/how-it-works"
                 className="aqua-nav-link-mobile"
               >
                 Как это работает
