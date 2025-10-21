@@ -27,7 +27,7 @@ export default function Navbar({ onLoginClick }) {
           <div className="hidden md:block flex-1">
             <div className="flex items-center justify-center space-x-4">
               <a
-                href="#"
+                href="/generate"
                 className="aqua-nav-link-wide"
               >
                 Создать тираж
@@ -99,7 +99,7 @@ export default function Navbar({ onLoginClick }) {
           <div className="md:hidden">
             <div className="px-2 pt-2 pb-4 space-y-2 sm:px-3 bg-blue-900">
               <a
-                href="#"
+                href="/generate"
                 className="aqua-nav-link-mobile"
               >
                 Создать тираж
