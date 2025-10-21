@@ -416,12 +416,21 @@ body {
   overflow: hidden;
 }
 
+/* Вариант секции строго под хедером (h-20 ≈ 80px) */
+.aqua-hero-section.aqua-under-header {
+  min-height: calc(100vh - 120px);
+}
+
 .aqua-fish-background {
   position: relative;
   width: 100%;
   height: 100vh;
   background: linear-gradient(180deg, #0ea5e9 0%, #0284c7 50%, #0369a1 100%);
   padding: 0;
+}
+
+.aqua-fish-background.aqua-under-header {
+  min-height: calc(100vh - 120px);
 }
 
 .aqua-fish-background::before {
@@ -625,6 +634,10 @@ body {
   height: 100vh;
 }
 
+.aqua-text-container.aqua-under-header {
+  min-height: calc(100vh - 120px);
+}
+
 /* Заголовки */
 .aqua-main-title {
   font-size: 4rem;
@@ -644,6 +657,13 @@ body {
   display: block;
   color: var(--aqua-cyan);
   font-size: 3.5rem;
+}
+
+/* Небольшой подъем заголовка на странице генерации,
+   чтобы не налезал на колесо */
+.generate-title {
+  margin-top: -28px;
+  margin-bottom: 72px;
 }
 
 .aqua-hero-description {
@@ -670,6 +690,7 @@ body {
   display: flex;
   align-items: center;
   cursor: pointer;
+  text-decoration: none;
 }
 
 .aqua-generate-btn:hover {
@@ -829,6 +850,177 @@ input:focus {
   color: #374151;
 }
 
+/* ===== КОЛЕСО ФОРТУНЫ ===== */
+.wheel-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+}
+
+.wheel-of-fortune {
+  position: relative;
+  width: 300px;
+  height: 300px;
+  margin: 2rem 0;
+}
+
+/* Фиксация колеса в центре экрана */
+.wheel-fixed {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 20;
+}
+
+/* Наведение и курсор по требованию */
+.wheel-of-fortune.clickable {
+  cursor: pointer;
+}
+
+.wheel-of-fortune.clickable:hover { }
+
+.wheel {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 8px solid #1e40af;
+  box-shadow: 
+    0 0 20px rgba(0, 0, 0, 0.3),
+    inset 0 0 20px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transform-origin: center;
+}
+
+.wheel-sector {
+  position: absolute;
+  width: 50%;
+  height: 50%;
+  top: 0;
+  left: 50%;
+  transform-origin: 0 100%;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.wheel-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+  border-radius: 50%;
+  border: 4px solid #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 10;
+}
+
+.wheel-center-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  font-size: 2rem;
+  color: white;
+}
+
+.wheel-center-inner.clickable {
+  cursor: pointer;
+}
+
+.wheel-pointer {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 15px solid transparent;
+  border-right: 15px solid transparent;
+  border-top: 30px solid #dc2626;
+  z-index: 20;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+/* Рыба, которая крутит колесо */
+.fish-spinner {
+  position: fixed;
+  left: -10vw;
+  top: var(--fish-top, 50vh);
+  transform: translateY(-50%);
+  font-size: 3rem;
+  z-index: 30;
+  pointer-events: none;
+}
+
+.fish-swimming {
+  animation: fishDashFull 1.6s linear forwards;
+}
+
+/* Плавный рывок рыбы слева направо через центр колеса по всему экрану */
+@keyframes fishDashFull {
+  0% {
+    transform: translate(-10vw, -50%) rotate(0deg);
+    opacity: 1;
+  }
+  50% {
+    transform: translate(45vw, -50%) rotate(0deg);
+  }
+  100% {
+    transform: translate(120vw, -50%) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+/* Результат */
+.result-display {
+  text-align: center;
+  margin-top: 6rem;
+  animation: resultAppear 0.5s ease-out;
+}
+
+.result-number {
+  font-size: 4rem;
+  font-weight: 900;
+  color: var(--aqua-cyan);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  margin-bottom: 1rem;
+  animation: numberPulse 2s ease-in-out infinite;
+}
+
+.result-text {
+  font-size: 1.5rem;
+  color: var(--aqua-white);
+  margin-bottom: 1rem;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+@keyframes resultAppear {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes numberPulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
 /* Адаптивность */
 @media (max-width: 768px) {
   .aqua-main-title {
@@ -854,6 +1046,32 @@ input:focus {
     min-width: 120px;
     padding: 10px 16px;
     font-size: 14px;
+  }
+
+  .wheel-of-fortune {
+    width: 250px;
+    height: 250px;
+  }
+
+  .wheel-center {
+    width: 60px;
+    height: 60px;
+  }
+
+  .wheel-center-inner {
+    font-size: 1.5rem;
+  }
+
+  .result-number {
+    font-size: 3rem;
+  }
+
+  .result-text {
+    font-size: 1.2rem;
+  }
+
+  .result-display {
+    margin-top: 3rem;
   }
 }
 
