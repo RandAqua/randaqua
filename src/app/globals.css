@@ -948,14 +948,7 @@ input:focus {
   margin: 2rem 0;
 }
 
-/* Фиксация колеса в центре экрана */
-.wheel-fixed {
-  position: fixed;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 20;
-}
+/* Колесо фортуны - обычное позиционирование */
 
 /* Наведение и курсор по требованию */
 .wheel-of-fortune.clickable {
@@ -1059,48 +1052,6 @@ input:focus {
   }
 }
 
-/* Результат */
-.result-display {
-  text-align: center;
-  margin-top: 6rem;
-  animation: resultAppear 0.5s ease-out;
-}
-
-.result-number {
-  font-size: 4rem;
-  font-weight: 900;
-  color: var(--aqua-cyan);
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-  margin-bottom: 1rem;
-  animation: numberPulse 2s ease-in-out infinite;
-}
-
-.result-text {
-  font-size: 1.5rem;
-  color: var(--aqua-white);
-  margin-bottom: 1rem;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
-}
-
-@keyframes resultAppear {
-  from {
-    opacity: 0;
-    transform: translateY(20px) scale(0.9);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-@keyframes numberPulse {
-  0%, 100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.1);
-  }
-}
 
 /* Адаптивность */
 @media (max-width: 768px) {
@@ -1168,16 +1119,5 @@ input:focus {
     font-size: 1.5rem;
   }
 
-  .result-number {
-    font-size: 3rem;
-  }
-
-  .result-text {
-    font-size: 1.2rem;
-  }
-
-  .result-display {
-    margin-top: 3rem;
-  }
 }
 
