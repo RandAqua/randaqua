@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-export default function Navbar() {
+export default function Navbar({ onLoginClick }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
@@ -56,12 +56,18 @@ export default function Navbar() {
           {/* Кнопка регистрации в правом углу */}
           <div className="hidden md:block">
             <div className="flex items-center space-x-4">
-              <button className="aqua-register-btn">
+              <button 
+                onClick={() => onLoginClick && onLoginClick('register')}
+                className="aqua-register-btn"
+              >
                 Регистрация
               </button>
-              <a href="#" className="aqua-login-link">
+              <button 
+                onClick={() => onLoginClick && onLoginClick('login')}
+                className="aqua-login-link"
+              >
                 Вход
-              </a>
+              </button>
             </div>
           </div>
 
@@ -117,12 +123,18 @@ export default function Navbar() {
                 История
               </a>
               <div className="pt-4 space-y-2">
-                <button className="aqua-register-btn-mobile">
+                <button 
+                  onClick={() => onLoginClick && onLoginClick('register')}
+                  className="aqua-register-btn-mobile"
+                >
                   Регистрация
                 </button>
-                <a href="#" className="aqua-login-link-mobile">
+                <button 
+                  onClick={() => onLoginClick && onLoginClick('login')}
+                  className="aqua-login-link-mobile"
+                >
                   Вход
-                </a>
+                </button>
               </div>
             </div>
           </div>
