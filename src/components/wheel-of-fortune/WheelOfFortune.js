@@ -122,7 +122,7 @@ export default function WheelOfFortune({ isSpinning, result, onReset, onWheelCli
   return (
     <div className="wheel-container">
       <div
-        className={`wheel-of-fortune wheel-fixed ${isClickable ? 'clickable' : ''}`}
+        className={`wheel-of-fortune ${isClickable ? 'clickable' : ''}`}
         ref={wheelRef}
       >
         <Wheel rotation={wheelRotation}>
@@ -138,12 +138,6 @@ export default function WheelOfFortune({ isSpinning, result, onReset, onWheelCli
         onEnd={() => { setShowFish(false); setFishSwimming(false); }}
       />
 
-      {result && (
-        <div className="result-display">
-          <div className="result-number">{result}</div>
-          <p className="result-text">Случайное число сгенерировано!</p>
-        </div>
-      )}
     </div>
   );
 }
