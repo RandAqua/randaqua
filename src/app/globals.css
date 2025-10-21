@@ -725,7 +725,8 @@ body {
 .modal {
   background: #ffffff;
   border-radius: 16px;
-  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.25);
+  box-shadow: none;
+  border: 1px solid #e5e7eb;
   width: 100%;
   max-width: 480px;
   margin: 16px;
@@ -741,12 +742,10 @@ body {
   from {
     opacity: 0;
     transform: translateY(-12px) scale(0.96);
-    filter: blur(6px);
   }
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
-    filter: blur(0);
   }
 }
 
@@ -810,12 +809,13 @@ input:focus {
 }
 
 .form-container {
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-  transition: box-shadow 0.2s ease-in-out;
+  box-shadow: none;
+  border: 1px solid #e5e7eb;
+  transition: none;
 }
 
 .form-container:hover {
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+  box-shadow: none;
 }
 
 .tab-button {

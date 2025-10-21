@@ -23,6 +23,31 @@ export default function Home() {
 
   const closeAuthModal = () => setIsAuthModalOpen(false);
 
+  const handleVerificationSuccess = () => {
+    closeAuthModal();
+    // Показываем уведомление об успешной верификации
+    const successMessage = document.createElement('div');
+    successMessage.className = 'fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 transition-all duration-300';
+    successMessage.innerHTML = `
+      <div class="flex items-center">
+        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+        </svg>
+        Регистрация завершена! Теперь вы можете войти в систему.
+      </div>
+    `;
+    document.body.appendChild(successMessage);
+    
+    // Убираем уведомление через 5 секунд
+    setTimeout(() => {
+      successMessage.style.opacity = '0';
+      successMessage.style.transform = 'translateX(100%)';
+      setTimeout(() => {
+        document.body.removeChild(successMessage);
+      }, 300);
+    }, 5000);
+  };
+
   return (
     <div className="min-h-screen aqua-background">
       {/* Основной контент */}
@@ -82,6 +107,7 @@ export default function Home() {
         isOpen={isAuthModalOpen}
         onClose={closeAuthModal}
         initialTab={authModalTab}
+        onVerificationSuccess={handleVerificationSuccess}
       />
     </div>
   );
