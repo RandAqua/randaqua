@@ -72,6 +72,22 @@ export default function Home() {
             <div className="aqua-fish-12">🐟</div>
             <div className="aqua-fish-13">🦑</div>
             <div className="aqua-fish-14">🐚</div>
+
+            {/* Пузыри */}
+            <div className="aqua-bubbles">
+              <span className="aqua-bubble"></span>
+              <span className="aqua-bubble"></span>
+              <span className="aqua-bubble"></span>
+              <span className="aqua-bubble"></span>
+              <span className="aqua-bubble"></span>
+              <span className="aqua-bubble"></span>
+              <span className="aqua-bubble"></span>
+              <span className="aqua-bubble"></span>
+              <span className="aqua-bubble"></span>
+              <span className="aqua-bubble"></span>
+              <span className="aqua-bubble"></span>
+              <span className="aqua-bubble"></span>
+            </div>
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 aqua-text-container">
               <div className="text-center">
                 <h1 className="aqua-main-title">
