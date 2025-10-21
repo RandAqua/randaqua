@@ -605,24 +605,93 @@ body {
 }
 
 @keyframes aqua-swim {
-  0% { transform: translateX(calc(100vw + 100px)); }
-  100% { transform: translateX(-100px); }
+  0%   { transform: translateX(calc(100vw + 300px)); opacity: 0; }
+  5%   { opacity: 1; }
+  95%  { opacity: 1; }
+  100% { transform: translateX(-300px); opacity: 0; }
 }
 
 @keyframes aqua-swim-reverse {
-  0% { transform: translateX(-100px); }
-  100% { transform: translateX(calc(100vw + 100px)); }
+  0%   { transform: translateX(-300px); opacity: 0; }
+  5%   { opacity: 1; }
+  95%  { opacity: 1; }
+  100% { transform: translateX(calc(100vw + 300px)); opacity: 0; }
 }
 
 @keyframes aqua-swim-vertical {
-  0% { transform: translateY(100vh); }
-  100% { transform: translateY(-100px); }
+  0%   { transform: translateY(calc(100vh + 300px)); opacity: 0; }
+  5%   { opacity: 1; }
+  95%  { opacity: 1; }
+  100% { transform: translateY(-300px); opacity: 0; }
 }
 
 @keyframes aqua-swim-diagonal {
-  0% { transform: translate(100vw, 100vh); }
-  100% { transform: translate(-100px, -100px); }
+  0%   { transform: translate(calc(100vw + 300px), calc(100vh + 300px)); opacity: 0; }
+  5%   { opacity: 1; }
+  95%  { opacity: 1; }
+  100% { transform: translate(-300px, -300px); opacity: 0; }
 }
+
+/* плавное появление/исчезновение фоновских рыб и без рывков при старте цикла */
+.aqua-fish-1,
+.aqua-fish-2,
+.aqua-fish-3,
+.aqua-fish-4,
+.aqua-fish-5,
+.aqua-fish-6,
+.aqua-fish-7,
+.aqua-fish-8,
+.aqua-fish-9,
+.aqua-fish-10,
+.aqua-fish-11,
+.aqua-fish-12,
+.aqua-fish-13,
+.aqua-fish-14 {
+  animation-fill-mode: both;
+  will-change: transform, opacity;
+}
+
+/* ПУЗЫРИ */
+.aqua-bubbles {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.aqua-bubble {
+  position: absolute;
+  bottom: -80px; /* старт ниже экрана, чтобы цикл был незаметен */
+  width: 16px;
+  height: 16px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.45);
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.35);
+  animation-name: aqua-bubble-rise;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+@keyframes aqua-bubble-rise {
+  0% { transform: translateY(0) scale(0.8); opacity: 0; }
+  5% { opacity: 1; }
+  95% { opacity: 1; }
+  100% { transform: translateY(calc(-100vh - 120px)) scale(1.15); opacity: 0; }
+}
+
+/* вариации пузырей */
+.aqua-bubbles .aqua-bubble:nth-child(1)  { left: 8%;  animation-duration: 14s; animation-delay: 0s;   width: 10px; height: 10px; }
+.aqua-bubbles .aqua-bubble:nth-child(2)  { left: 18%; animation-duration: 18s; animation-delay: 3s;   width: 14px; height: 14px; }
+.aqua-bubbles .aqua-bubble:nth-child(3)  { left: 26%; animation-duration: 16s; animation-delay: 6s;   width: 12px; height: 12px; }
+.aqua-bubbles .aqua-bubble:nth-child(4)  { left: 35%; animation-duration: 20s; animation-delay: 1s;   width: 16px; height: 16px; }
+.aqua-bubbles .aqua-bubble:nth-child(5)  { left: 44%; animation-duration: 22s; animation-delay: 5s;   width: 9px;  height: 9px; }
+.aqua-bubbles .aqua-bubble:nth-child(6)  { left: 52%; animation-duration: 17s; animation-delay: 8s;   width: 13px; height: 13px; }
+.aqua-bubbles .aqua-bubble:nth-child(7)  { left: 61%; animation-duration: 19s; animation-delay: 2s;   width: 11px; height: 11px; }
+.aqua-bubbles .aqua-bubble:nth-child(8)  { left: 69%; animation-duration: 21s; animation-delay: 7s;   width: 15px; height: 15px; }
+.aqua-bubbles .aqua-bubble:nth-child(9)  { left: 77%; animation-duration: 23s; animation-delay: 4s;   width: 10px; height: 10px; }
+.aqua-bubbles .aqua-bubble:nth-child(10) { left: 84%; animation-duration: 16s; animation-delay: 9s;   width: 12px; height: 12px; }
+.aqua-bubbles .aqua-bubble:nth-child(11) { left: 91%; animation-duration: 20s; animation-delay: 11s;  width: 14px; height: 14px; }
+.aqua-bubbles .aqua-bubble:nth-child(12) { left: 50%; animation-duration: 24s; animation-delay: 13s;  width: 18px; height: 18px; }
 
 /* Контейнер с текстом поверх рыбок */
 .aqua-text-container {
