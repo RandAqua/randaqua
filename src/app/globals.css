@@ -700,6 +700,135 @@ body {
 }
 
 
+/* ===== Modal + blur utilities (shared pattern) ===== */
+.main-content {
+  will-change: filter;
+  transition: filter 0.35s ease;
+}
+
+.main-content.blur {
+  filter: blur(14px) brightness(0.85);
+}
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(10, 18, 34, 0.35);
+  /* overlay dims but does not blur; blur is on .main-content */
+  animation: overlayFade 0.35s ease forwards;
+}
+
+.modal {
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.25);
+  width: 100%;
+  max-width: 480px;
+  margin: 16px;
+  animation: modalIn 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes overlayFade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes modalIn {
+  from {
+    opacity: 0;
+    transform: translateY(-12px) scale(0.96);
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+/* Стили для форм авторизации */
+.input-container {
+  position: relative;
+}
+
+.input-container input:focus + label,
+.input-container input:not(:placeholder-shown) + label {
+  top: -0.5rem;
+  font-size: 0.75rem;
+  color: #6b7280;
+  background: white;
+  padding: 0 0.25rem;
+  transform: translateY(0);
+}
+
+.input-container label {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #9ca3af;
+  font-size: 1rem;
+  transition: all 0.2s ease-in-out;
+  pointer-events: none;
+  background: transparent;
+}
+
+button, input, a {
+  transition: all 0.2s ease-in-out;
+}
+
+button, a {
+  cursor: pointer;
+}
+
+input:focus {
+  outline: none;
+  border-color: transparent;
+  box-shadow: 0 0 0 2px #0ea5e9;
+}
+
+.primary-button {
+  background-color: #0ea5e9;
+  color: #fff;
+  transition: all 0.2s ease-in-out;
+}
+
+.primary-button:hover {
+  background-color: #0284c7;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
+}
+
+.form-container {
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.2s ease-in-out;
+}
+
+.form-container:hover {
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+}
+
+.tab-button {
+  transition: all 0.2s ease-in-out;
+}
+
+.tab-button.active {
+  background-color: #0ea5e9;
+  color: #fff;
+}
+
+.tab-button:not(.active) {
+  color: #6b7280;
+}
+
+.tab-button:not(.active):hover {
+  color: #374151;
+}
+
 /* Адаптивность */
 @media (max-width: 768px) {
   .aqua-main-title {
