@@ -2,25 +2,16 @@
 
 import { useState, useEffect } from 'react';
 import AnimatedInput from '../forms/AnimatedInput';
-import { FormContainer, PrimaryButton, LinkButton, HelpLink } from '../ui/UIComponents';
+import { FormContainer, PrimaryButton, LinkButton } from '../ui/UIComponents';
 import { API_URLS } from '../../config/api';
+import { saveAuthData } from '../../utils/auth';
 
 export default function LoginForm({ onSwitchToRegister }) {
   const [emailValue, setEmailValue] = useState('');
   const [passwordValue, setPasswordValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
-  const [rememberMe, setRememberMe] = useState(false);
 
-  // Загружаем сохраненные данные при монтировании
-  useEffect(() => {
-    const savedEmail = localStorage.getItem('rememberedEmail');
-    const savedRememberMe = localStorage.getItem('rememberMe') === 'true';
-    if (savedEmail && savedRememberMe) {
-      setEmailValue(savedEmail);
-      setRememberMe(savedRememberMe);
-    }
-  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -44,13 +35,12 @@ export default function LoginForm({ onSwitchToRegister }) {
         const data = await response.json();
         console.log('Login successful:', data);
         
-        // Сохраняем данные если пользователь выбрал "Запомнить меня"
-        if (rememberMe) {
-          localStorage.setItem('rememberedEmail', emailValue);
-          localStorage.setItem('rememberMe', 'true');
+        // Сохраняем токен и данные пользователя в localStorage
+        const authSaved = saveAuthData(data);
+        if (authSaved) {
+          console.log('Authentication data saved to localStorage');
         } else {
-          localStorage.removeItem('rememberedEmail');
-          localStorage.removeItem('rememberMe');
+          console.error('Failed to save authentication data');
         }
         
         // Показываем успешное уведомление
@@ -115,22 +105,6 @@ export default function LoginForm({ onSwitchToRegister }) {
           showPasswordToggle={true}
         />
 
-        <div className="flex items-center justify-between mb-4">
-          <label className="flex items-center">
-            <input
-              type="checkbox"
-              checked={rememberMe}
-              onChange={(e) => setRememberMe(e.target.checked)}
-              className="mr-2 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-            />
-            <span className="text-sm text-gray-600" style={{ color: '#4b5563' }}>
-              Запомнить меня
-            </span>
-          </label>
-          <a href="#" className="text-sm text-blue-600 hover:text-blue-800" style={{ color: '#2563eb' }}>
-            Забыли пароль?
-          </a>
-        </div>
 
         {error && (
           <div className="text-red-600 text-sm mb-4 text-center font-medium bg-red-50 px-3 py-2 rounded" style={{ color: '#dc2626' }}>
@@ -143,24 +117,7 @@ export default function LoginForm({ onSwitchToRegister }) {
         </PrimaryButton>
       </form>
 
-      <div className="text-center mb-4">
-        <span className="text-gray-600 text-sm font-medium" style={{ color: '#4b5563' }}>Нет аккаунта? </span>
-        {onSwitchToRegister ? (
-          <button 
-            onClick={onSwitchToRegister}
-            className="text-blue-600 hover:text-blue-800 text-sm font-semibold"
-            style={{ color: '#2563eb' }}
-          >
-            Зарегистрироваться
-          </button>
-        ) : (
-          <LinkButton href="/auth?tab=register">
-            Зарегистрироваться
-          </LinkButton>
-        )}
-      </div>
 
-      <HelpLink />
     </FormContainer>
   );
 }

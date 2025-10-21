@@ -2,10 +2,11 @@
 
 import { useState } from 'react';
 import AnimatedInput from '../forms/AnimatedInput';
-import { FormContainer, PrimaryButton, LinkButton, HelpLink } from '../ui/UIComponents';
+import { FormContainer, PrimaryButton, LinkButton } from '../ui/UIComponents';
 import { API_URLS } from '../../config/api';
+import EmailVerificationForm from './EmailVerificationForm';
 
-export default function RegisterForm({ onSwitchToLogin }) {
+export default function RegisterForm({ onSwitchToLogin, onVerificationSuccess }) {
   const [formData, setFormData] = useState({
     username: '',
     email: '',
@@ -15,6 +16,8 @@ export default function RegisterForm({ onSwitchToLogin }) {
   
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+  const [showVerification, setShowVerification] = useState(false);
+  const [registeredEmail, setRegisteredEmail] = useState('');
 
   const handleInputChange = async (field, value) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -162,27 +165,9 @@ export default function RegisterForm({ onSwitchToLogin }) {
           const data = await response.json();
           console.log('Registration successful:', data);
           
-          // Показываем успешное уведомление
-          const successMessage = document.createElement('div');
-          successMessage.className = 'fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 transition-all duration-300';
-          successMessage.innerHTML = `
-            <div class="flex items-center">
-              <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-              </svg>
-              Регистрация успешна!
-            </div>
-          `;
-          document.body.appendChild(successMessage);
-          
-          // Убираем уведомление через 3 секунды
-          setTimeout(() => {
-            successMessage.style.opacity = '0';
-            successMessage.style.transform = 'translateX(100%)';
-            setTimeout(() => {
-              document.body.removeChild(successMessage);
-            }, 300);
-          }, 3000);
+          // Сохраняем email и переключаемся на форму верификации
+          setRegisteredEmail(formData.email);
+          setShowVerification(true);
         } else {
           const errorData = await response.json();
           // Более дружелюбные сообщения об ошибках
@@ -204,6 +189,35 @@ export default function RegisterForm({ onSwitchToLogin }) {
     
     setIsLoading(false);
   };
+
+  const handleVerificationSuccess = () => {
+    if (onVerificationSuccess) {
+      onVerificationSuccess();
+    }
+  };
+
+  const handleBackToRegister = () => {
+    setShowVerification(false);
+    setRegisteredEmail('');
+    setFormData({
+      username: '',
+      email: '',
+      password: '',
+      confirmPassword: ''
+    });
+    setErrors({});
+  };
+
+  // Если нужно показать форму верификации
+  if (showVerification) {
+    return (
+      <EmailVerificationForm 
+        email={registeredEmail}
+        onVerificationSuccess={handleVerificationSuccess}
+        onBackToRegister={handleBackToRegister}
+      />
+    );
+  }
 
   return (
     <FormContainer title="Регистрация">
@@ -259,24 +273,7 @@ export default function RegisterForm({ onSwitchToLogin }) {
         </PrimaryButton>
       </form>
 
-      <div className="text-center mb-4">
-        <span className="text-gray-600 text-sm font-medium" style={{ color: '#4b5563' }}>Уже есть аккаунт? </span>
-        {onSwitchToLogin ? (
-          <button 
-            onClick={onSwitchToLogin}
-            className="text-blue-600 hover:text-blue-800 text-sm font-semibold"
-            style={{ color: '#2563eb' }}
-          >
-            Войти
-          </button>
-        ) : (
-          <LinkButton href="/auth?tab=login">
-            Войти
-          </LinkButton>
-        )}
-      </div>
 
-      <HelpLink />
     </FormContainer>
   );
 }
