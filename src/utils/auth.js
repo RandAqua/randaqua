@@ -24,17 +24,28 @@ export const saveAuthData = (authData) => {
     // Prepare user data
     const userData = {
       id: user?.Id || userId,
-      email: user?.Email,
-      username: user?.Username,
+      email: user?.Email || user?.email || authData.email,
+      username: user?.Username || user?.username || authData.username,
       tokenType,
       expiresAt
     };
+
+    // Сохраняем username отдельно для быстрого доступа
+    if (userData.username) {
+      try {
+        localStorage.setItem('username', userData.username);
+        console.log('Username saved to localStorage in saveAuthData:', userData.username);
+      } catch (error) {
+        console.error('Error saving username to localStorage in saveAuthData:', error);
+      }
+    }
 
     // Save to localStorage
     localStorage.setItem(TOKEN_KEY, token);
     localStorage.setItem(USER_KEY, JSON.stringify(userData));
 
     console.log('Auth data saved successfully');
+    console.log('Saved user data:', userData);
     return true;
   } catch (error) {
     console.error('Error saving auth data:', error);
@@ -59,6 +70,16 @@ export const getUserData = () => {
     return userData ? JSON.parse(userData) : null;
   } catch (error) {
     console.error('Error getting user data:', error);
+    return null;
+  }
+};
+
+// Get username from localStorage
+export const getUsername = () => {
+  try {
+    return localStorage.getItem('username');
+  } catch (error) {
+    console.error('Error getting username:', error);
     return null;
   }
 };
@@ -91,6 +112,7 @@ export const clearAuthData = () => {
   try {
     localStorage.removeItem(TOKEN_KEY);
     localStorage.removeItem(USER_KEY);
+    localStorage.removeItem('username');
     console.log('Auth data cleared');
   } catch (error) {
     console.error('Error clearing auth data:', error);

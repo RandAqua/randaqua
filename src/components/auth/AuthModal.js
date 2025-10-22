@@ -5,7 +5,7 @@ import TabSwitcher from './TabSwitcher';
 import LoginForm from './LoginForm';
 import RegisterForm from './RegisterForm';
 
-export default function AuthModal({ isOpen, onClose, initialTab = 'login', onVerificationSuccess, errorMessage }) {
+export default function AuthModal({ isOpen, onClose, initialTab = 'login', onVerificationSuccess, onLoginSuccess }) {
   const [activeTab, setActiveTab] = useState(initialTab);
   const [isHiding, setIsHiding] = useState(false);
   const modalRef = useRef(null);
@@ -86,9 +86,22 @@ export default function AuthModal({ isOpen, onClose, initialTab = 'login', onVer
         onClick={(e) => e.stopPropagation()}
       >
 
-        <div className="p-2 sm:p-3 md:p-4 auth-compact">
-          {errorMessage && (
-            <div className="alert--modal">{errorMessage}</div>
+        <div className="p-4 sm:p-6 md:p-8">
+          <TabSwitcher 
+            activeTab={activeTab} 
+            onTabChange={handleTabChange} 
+            tabs={tabs} 
+          />
+          {activeTab === 'login' ? (
+            <LoginForm 
+              onSwitchToRegister={() => setActiveTab('register')} 
+              onLoginSuccess={onLoginSuccess}
+            />
+          ) : (
+            <RegisterForm 
+              onSwitchToLogin={() => setActiveTab('login')} 
+              onVerificationSuccess={onVerificationSuccess}
+            />
           )}
           <TabSwitcher
             activeTab={activeTab}

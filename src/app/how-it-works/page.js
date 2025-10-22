@@ -3,11 +3,14 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import Navbar from '../../components/layout/Navbar';
+import AuthModal from '../../components/auth/AuthModal';
 
 export default function HowItWorks() {
   const [currentStep, setCurrentStep] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
   const [generatedNumber, setGeneratedNumber] = useState(null);
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [authModalTab, setAuthModalTab] = useState('login');
   
   const steps = [
     {
@@ -39,7 +42,7 @@ export default function HowItWorks() {
     
     const stepInterval = setInterval(() => {
       setCurrentStep(prev => {
-        if (prev >= steps.length - 1) {
+        if (prev >= steps.length) { // Изменено с steps.length - 1 на steps.length
           clearInterval(stepInterval);
           setIsRunning(false);
           const randomValue = Math.floor(Math.random() * 1000000);
@@ -51,9 +54,47 @@ export default function HowItWorks() {
     }, 2000);
   };
 
+  const openAuthModal = (tab = 'login') => {
+    setAuthModalTab(tab);
+    setIsAuthModalOpen(true);
+  };
+
+  const closeAuthModal = () => setIsAuthModalOpen(false);
+
+  const handleLoginSuccess = () => {
+    closeAuthModal();
+    // Принудительно обновляем страницу для обновления Navbar
+    window.location.reload();
+  };
+
+  const handleVerificationSuccess = () => {
+    closeAuthModal();
+    // Показываем уведомление об успешной верификации
+    const successMessage = document.createElement('div');
+    successMessage.className = 'fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 transition-all duration-300';
+    successMessage.innerHTML = `
+      <div class="flex items-center">
+        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+        </svg>
+        Регистрация завершена! Теперь вы можете войти в систему.
+      </div>
+    `;
+    document.body.appendChild(successMessage);
+    
+    // Убираем уведомление через 5 секунд
+    setTimeout(() => {
+      successMessage.style.opacity = '0';
+      successMessage.style.transform = 'translateX(100%)';
+      setTimeout(() => {
+        document.body.removeChild(successMessage);
+      }, 300);
+    }, 5000);
+  };
+
   return (
     <div className="min-h-screen overflow-x-hidden">
-      <Navbar />
+      <Navbar onLoginClick={openAuthModal} />
       <div className="aqua-text-container py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="space-y-8">
@@ -95,6 +136,33 @@ export default function HowItWorks() {
                       }`}>
                         {step.description}
                       </p>
+                      
+                      {/* Прогресс-бар для каждого этапа */}
+                      <div className="mt-3">
+                        <div className="w-full bg-gray-200 rounded-full h-2 shadow-inner aqua-demo-progress">
+                          <div 
+                            className={`h-2 rounded-full aqua-demo-progress-bar ${
+                              currentStep > index 
+                                ? 'bg-gradient-to-r from-green-400 to-green-600 completed' 
+                                : currentStep === index 
+                                ? 'bg-gradient-to-r from-blue-400 to-blue-600 active' 
+                                : 'bg-gray-300'
+                            }`}
+                            style={{ 
+                              width: currentStep > index ? '100%' : 
+                                     currentStep === index ? '75%' : '0%' 
+                            }}
+                          ></div>
+                        </div>
+                        <div className={`text-xs mt-1 font-medium aqua-demo-status ${
+                          currentStep > index ? 'text-green-600' : 
+                          currentStep === index ? 'text-blue-600' : 'text-gray-400'
+                        }`}>
+                          {currentStep > index ? 'Завершено' : 
+                           currentStep === index ? 'Выполняется...' : 'Ожидание'}
+                        </div>
+                      </div>
+                      
                       {currentStep > index && (
                         <div className="text-blue-500 text-lg mt-2">✓</div>
                       )}
@@ -126,6 +194,33 @@ export default function HowItWorks() {
                     }`}>
                       На основе извлеченной энтропии создается криптографически стойкое случайное число, которое невозможно предсказать или воспроизвести. Полученное число проходит строгие тесты на случайность.
                     </p>
+                    
+                    {/* Прогресс-бар для генерации числа */}
+                    <div className="mt-3">
+                      <div className="w-full bg-gray-200 rounded-full h-2 shadow-inner aqua-demo-progress">
+                        <div 
+                          className={`h-2 rounded-full aqua-demo-progress-bar ${
+                            currentStep > 3 
+                              ? 'bg-gradient-to-r from-green-400 to-green-600 completed' 
+                              : currentStep === 3 
+                              ? 'bg-gradient-to-r from-blue-400 to-blue-600 active' 
+                              : 'bg-gray-300'
+                          }`}
+                          style={{ 
+                            width: currentStep > 3 ? '100%' : 
+                                   currentStep === 3 ? '75%' : '0%' 
+                          }}
+                        ></div>
+                      </div>
+                      <div className={`text-xs mt-1 font-medium aqua-demo-status ${
+                        currentStep > 3 ? 'text-green-600' : 
+                        currentStep === 3 ? 'text-blue-600' : 'text-gray-400'
+                      }`}>
+                        {currentStep > 3 ? 'Завершено' : 
+                         currentStep === 3 ? 'Выполняется...' : 'Ожидание'}
+                      </div>
+                    </div>
+                    
                     {currentStep > 3 && (
                       <div className="text-blue-500 text-lg mt-2">✓</div>
                     )}
@@ -276,6 +371,15 @@ export default function HowItWorks() {
           </div>
         </div>
       </div>
+
+      {/* Модальное окно авторизации */}
+      <AuthModal 
+        isOpen={isAuthModalOpen}
+        onClose={closeAuthModal}
+        initialTab={authModalTab}
+        onVerificationSuccess={handleVerificationSuccess}
+        onLoginSuccess={handleLoginSuccess}
+      />
     </div>
   );
 }

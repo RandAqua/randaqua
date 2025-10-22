@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { getToken, getUserData, isAuthenticated, clearAuthData } from '../../utils/auth';
+import { getToken, getUserData, getUsername, isAuthenticated, clearAuthData } from '../../utils/auth';
 
 export default function AuthStatus() {
   const [isAuth, setIsAuth] = useState(false);
@@ -24,7 +24,7 @@ export default function AuthStatus() {
 
     // Слушаем изменения в localStorage для обновления статуса
     const handleStorageChange = (e) => {
-      if (e.key === 'auth_token' || e.key === 'user_data') {
+      if (e.key === 'auth_token' || e.key === 'user_data' || e.key === 'username') {
         checkAuthStatus();
       }
     };
@@ -60,7 +60,7 @@ export default function AuthStatus() {
           <span className="font-medium">Email:</span> {userData?.email || 'Не указан'}
         </p>
         <p className="text-green-700">
-          <span className="font-medium">Username:</span> {userData?.username || 'Не указан'}
+          <span className="font-medium">Username:</span> {getUsername() || userData?.username || 'Не указан'}
         </p>
         <p className="text-green-700">
           <span className="font-medium">ID:</span> {userData?.id || 'Не указан'}
