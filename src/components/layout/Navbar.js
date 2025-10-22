@@ -148,6 +148,7 @@ export default function Navbar({ onLoginClick }) {
           <div className="flex-shrink-0 flex items-center">
             <div 
               className="aqua-logo-container flex items-center space-x-3"
+              style={{ cursor: 'pointer' }}
               onClick={handleLogoClick}
               role="button"
               tabIndex={0}
