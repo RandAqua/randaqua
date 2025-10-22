@@ -121,23 +121,21 @@ export default function HowItWorks() {
                     }`}
                   >
                     <div className="text-center h-full flex flex-col">
-                      <div className="flex-1 flex flex-col">
-                        <div className={`text-2xl mb-2 ${currentStep >= index ? 'animate-bounce' : ''}`}>
-                          {step.icon}
-                        </div>
-                        <h3 className={`text-sm font-bold mb-2 ${
-                          currentStep === index ? 'text-blue-700' : 
-                          currentStep > index ? 'text-blue-700' : 'text-gray-500'
-                        }`}>
-                          {step.title}
-                        </h3>
-                        <p className={`text-xs leading-relaxed flex-1 ${
-                          currentStep === index ? 'text-blue-600' : 
-                          currentStep > index ? 'text-blue-600' : 'text-gray-400'
-                        }`}>
-                          {step.description}
-                        </p>
+                      <div className={`text-2xl mb-2 ${currentStep >= index ? 'animate-bounce' : ''}`}>
+                        {step.icon}
                       </div>
+                      <h3 className={`text-sm font-bold mb-2 ${
+                        currentStep === index ? 'text-blue-700' : 
+                        currentStep > index ? 'text-blue-700' : 'text-gray-500'
+                      }`}>
+                        {step.title}
+                      </h3>
+                      <p className={`text-xs leading-relaxed ${
+                        currentStep === index ? 'text-blue-600' : 
+                        currentStep > index ? 'text-blue-600' : 'text-gray-400'
+                      }`}>
+                        {step.description}
+                      </p>
                       
                       {/* Прогресс-бар для каждого этапа */}
                       <div className="mt-3">
@@ -164,6 +162,10 @@ export default function HowItWorks() {
                            currentStep === index ? 'Выполняется...' : 'Ожидание'}
                         </div>
                       </div>
+                      
+                      {currentStep > index && (
+                        <div className="text-blue-500 text-lg mt-2">✓</div>
+                      )}
                     </div>
                   </div>
                 ))}
@@ -177,23 +179,21 @@ export default function HowItWorks() {
                     : 'border-gray-200 bg-gray-50'
                 }`}>
                   <div className="text-center h-full flex flex-col">
-                    <div className="flex-1 flex flex-col">
-                      <div className={`text-2xl mb-2 ${currentStep >= 3 ? 'animate-bounce' : ''}`}>
-                        🎲
-                      </div>
-                      <h3 className={`text-sm font-bold mb-2 ${
-                        currentStep === 3 ? 'text-blue-700' : 
-                        currentStep > 3 ? 'text-blue-700' : 'text-gray-500'
-                      }`}>
-                        Генерация случайного числа
-                      </h3>
-                      <p className={`text-xs leading-relaxed flex-1 ${
-                        currentStep === 3 ? 'text-blue-600' : 
-                        currentStep > 3 ? 'text-blue-600' : 'text-gray-400'
-                      }`}>
-                        На основе извлеченной энтропии создается криптографически стойкое случайное число, которое невозможно предсказать или воспроизвести. Полученное число проходит строгие тесты на случайность.
-                      </p>
+                    <div className={`text-2xl mb-2 ${currentStep >= 3 ? 'animate-bounce' : ''}`}>
+                      🎲
                     </div>
+                    <h3 className={`text-sm font-bold mb-2 ${
+                      currentStep === 3 ? 'text-blue-700' : 
+                      currentStep > 3 ? 'text-blue-700' : 'text-gray-500'
+                    }`}>
+                      Генерация случайного числа
+                    </h3>
+                    <p className={`text-xs leading-relaxed ${
+                      currentStep === 3 ? 'text-blue-600' : 
+                      currentStep > 3 ? 'text-blue-600' : 'text-gray-400'
+                    }`}>
+                      На основе извлеченной энтропии создается криптографически стойкое случайное число, которое невозможно предсказать или воспроизвести. Полученное число проходит строгие тесты на случайность.
+                    </p>
                     
                     {/* Прогресс-бар для генерации числа */}
                     <div className="mt-3">
@@ -221,6 +221,9 @@ export default function HowItWorks() {
                       </div>
                     </div>
                     
+                    {currentStep > 3 && (
+                      <div className="text-blue-500 text-lg mt-2">✓</div>
+                    )}
                   </div>
                 </div>
                 
