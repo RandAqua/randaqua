@@ -15,7 +15,7 @@ export default function Navbar({ onLoginClick }) {
               <div className="w-10 h-10 rounded-full flex items-center justify-center aqua-drop-icon">
                 <img src="/fish-logo.svg" alt="RandAqua Logo" className="w-6 h-6" />
               </div>
-              <div className="text-2xl font-bold text-blue-600">
+              <div className="text-2xl font-bold text-white">
                 RandAqua
               </div>
             </div>
