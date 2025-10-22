@@ -52,27 +52,10 @@ export default function HowItWorks() {
   };
 
   return (
-    <div className="min-h-screen aqua-background overflow-x-hidden">
+    <div className="min-h-screen overflow-x-hidden">
       <Navbar />
-      <div className="aqua-fish-background-container">
-        <div className="aqua-fish-background">
-        {/* Плавающие элементы для фона */}
-          <div className="aqua-fish-1">🐟</div>
-          <div className="aqua-fish-2">🐠</div>
-          <div className="aqua-fish-3">🐡</div>
-          <div className="aqua-fish-4">🐙</div>
-          <div className="aqua-fish-5">🦈</div>
-          <div className="aqua-fish-6">🐚</div>
-          <div className="aqua-fish-7">🦀</div>
-          <div className="aqua-fish-8">🐢</div>
-          <div className="aqua-fish-9">🦑</div>
-          <div className="aqua-fish-10">🐋</div>
-        <div className="aqua-fish-11">🐠</div>
-        <div className="aqua-fish-12">🐟</div>
-        <div className="aqua-fish-13">🦑</div>
-        <div className="aqua-fish-14">🦀</div>
-        
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 aqua-text-container py-16">
+      <div className="aqua-text-container py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="space-y-8">
             {/* Демонстрация алгоритма AquaRNG - сверху */}
             <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-2xl p-6 w-full flex flex-col" style={{ height: '485.76px' }}>
@@ -312,7 +295,6 @@ export default function HowItWorks() {
 
             </div>
           </div>
-        </div>
         </div>
       </div>
     </div>
