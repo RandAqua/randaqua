@@ -248,7 +248,7 @@ export default function RegisterForm({ onSwitchToLogin, onVerificationSuccess })
           label="Пароль"
           error={errors.password}
           required={true}
-          showPasswordToggle={true}
+          showPasswordToggle={false}
           showPasswordStrength={true}
         />
 
@@ -259,7 +259,7 @@ export default function RegisterForm({ onSwitchToLogin, onVerificationSuccess })
           label="Подтвердите пароль"
           error={errors.confirmPassword}
           required={true}
-          showPasswordToggle={true}
+          showPasswordToggle={false}
         />
 
         {errors.general && (
@@ -268,9 +268,11 @@ export default function RegisterForm({ onSwitchToLogin, onVerificationSuccess })
           </div>
         )}
 
-        <PrimaryButton type="submit" className="mb-6" disabled={isLoading} isLoading={isLoading}>
-          Зарегистрироваться
-        </PrimaryButton>
+        <div className="form-actions flex justify-end">
+          <PrimaryButton type="submit" className="register-btn" disabled={isLoading} isLoading={isLoading}>
+            Зарегистрироваться
+          </PrimaryButton>
+        </div>
       </form>
 
 

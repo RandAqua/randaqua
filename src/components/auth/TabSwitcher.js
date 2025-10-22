@@ -4,7 +4,7 @@ import { TabButton } from '../ui/UIComponents';
 
 export default function TabSwitcher({ activeTab, onTabChange, tabs }) {
   return (
-    <div className="flex bg-gray-200 rounded-lg p-1 mb-6" style={{ backgroundColor: '#e5e7eb' }}>
+    <div className="flex bg-gray-200 rounded-lg p-1 mb-4" style={{ backgroundColor: '#e5e7eb' }}>
       {tabs.map((tab) => (
         <TabButton
           key={tab.key}

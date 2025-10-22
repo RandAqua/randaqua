@@ -1,12 +1,14 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import TabSwitcher from './TabSwitcher';
 import LoginForm from './LoginForm';
 import RegisterForm from './RegisterForm';
 
-export default function AuthModal({ isOpen, onClose, initialTab = 'login', onVerificationSuccess }) {
+export default function AuthModal({ isOpen, onClose, initialTab = 'login', onVerificationSuccess, errorMessage }) {
   const [activeTab, setActiveTab] = useState(initialTab);
+  const [isHiding, setIsHiding] = useState(false);
+  const modalRef = useRef(null);
 
   useEffect(() => {
     if (isOpen) {
@@ -49,31 +51,60 @@ export default function AuthModal({ isOpen, onClose, initialTab = 'login', onVer
     setActiveTab(tabKey);
   };
 
-  if (!isOpen) return null;
+  const handleClose = () => {
+    setIsHiding(true);
+    setTimeout(() => {
+      setIsHiding(false);
+      onClose();
+    }, 250);
+  };
 
   const tabs = [
     { key: 'login', label: 'Вход' },
     { key: 'register', label: 'Регистрация' }
   ];
 
-  return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="modal" onClick={(e) => e.stopPropagation()}>
+  useEffect(() => {
+    if (isOpen && modalRef.current) {
+      const modalEl = modalRef.current;
+      const firstFocusable = modalEl.querySelector('input, button, [tabindex]:not([tabindex="-1"])');
+      if (firstFocusable) {
+        setTimeout(() => firstFocusable.focus(), 0);
+      }
+    }
+  }, [isOpen, activeTab]);
 
-        <div className="p-4 sm:p-6 md:p-8">
-          <TabSwitcher 
-            activeTab={activeTab} 
-            onTabChange={handleTabChange} 
-            tabs={tabs} 
-          />
-          {activeTab === 'login' ? (
-            <LoginForm onSwitchToRegister={() => setActiveTab('register')} />
-          ) : (
-            <RegisterForm 
-              onSwitchToLogin={() => setActiveTab('login')} 
-              onVerificationSuccess={onVerificationSuccess}
-            />
+  if (!isOpen) return null;
+
+  return (
+    <div className="modal-overlay" onClick={handleClose}>
+      <div
+        ref={modalRef}
+        className={`modal ${isHiding ? 'modal-hide' : ''}`}
+        role="dialog"
+        aria-modal="true"
+        onClick={(e) => e.stopPropagation()}
+      >
+
+        <div className="p-2 sm:p-3 md:p-4 auth-compact">
+          {errorMessage && (
+            <div className="alert--modal">{errorMessage}</div>
           )}
+          <TabSwitcher
+            activeTab={activeTab}
+            onTabChange={handleTabChange}
+            tabs={tabs}
+          />
+          <div key={activeTab} className="auth-tab-panel">
+            {activeTab === 'login' ? (
+              <LoginForm onSwitchToRegister={() => setActiveTab('register')} />
+            ) : (
+              <RegisterForm
+                onSwitchToLogin={() => setActiveTab('login')}
+                onVerificationSuccess={onVerificationSuccess}
+              />
+            )}
+          </div>
         </div>
       </div>
     </div>
