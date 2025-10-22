@@ -23,7 +23,7 @@ export function LinkButton({ href, children, className = "" }) {
 // Form Container Component
 export function FormContainer({ title, children }) {
   return (
-    <div className="w-full max-w-md mx-auto">
+    <div className="w-full max-w-lg mx-auto">
       <div className="bg-white rounded-lg form-container p-4 sm:p-6 md:p-8">
         <h1 className="text-xl sm:text-2xl font-bold text-gray-900 text-center mb-4 sm:mb-6" style={{ color: '#111827' }}>{title}</h1>
         {children}

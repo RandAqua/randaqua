@@ -68,7 +68,7 @@ export default function AnimatedInput({
           onFocus={handleFocus}
           onBlur={handleBlur}
           placeholder={placeholder}
-          className={`w-full px-4 py-4 ${showPasswordToggle && type === 'password' ? 'pr-12' : 'pr-4'} border rounded-lg bg-white text-gray-900 placeholder-gray-400 ${
+          className={`w-full px-6 py-5 ${showPasswordToggle && type === 'password' ? 'pr-14' : 'pr-6'} border rounded-lg bg-white text-gray-900 placeholder-gray-400 ${
             error ? 'border-red-500 focus:border-red-500 focus:ring-red-200' : 'border-gray-300 focus:border-blue-500 focus:ring-blue-200'
           } ${className}`}
           style={{ color: '#111827' }}
@@ -77,7 +77,7 @@ export default function AnimatedInput({
           <button
             type="button"
             onClick={togglePasswordVisibility}
-            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 transition-colors"
+            className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 transition-colors"
             style={{ color: '#6b7280' }}
           >
             {showPassword ? (
@@ -93,7 +93,7 @@ export default function AnimatedInput({
           </button>
         )}
         <label
-          className={`absolute left-4 transition-all duration-200 pointer-events-none ${
+          className={`absolute left-6 transition-all duration-200 pointer-events-none ${
             focused || value
               ? 'top-2 text-xs text-gray-600 bg-white px-1 font-medium z-10 transform translate-y-0'
               : 'top-1/2 transform -translate-y-1/2 text-gray-500'
