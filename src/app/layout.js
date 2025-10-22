@@ -1,5 +1,6 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import "../custom/aquabg-fixes.css";
 import AquaBackground from "../components/layout/AquaBackground";
 
 const geistSans = Geist({

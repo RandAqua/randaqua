@@ -1,0 +1,52 @@
+/* Aqua background smooth fish overrides */
+
+/* Ensure smooth appear/disappear and start off-screen to off-screen */
+@keyframes aqua-swim {
+  0%   { transform: translateX(110vw); opacity: 0; }
+  5%   { opacity: 0.25; }
+  95%  { opacity: 0.25; }
+  100% { transform: translateX(-110vw); opacity: 0; }
+}
+
+@keyframes aqua-swim-reverse {
+  0%   { transform: translateX(-110vw); opacity: 0; }
+  5%   { opacity: 0.25; }
+  95%  { opacity: 0.25; }
+  100% { transform: translateX(110vw); opacity: 0; }
+}
+
+@keyframes aqua-swim-vertical {
+  0%   { transform: translateY(110vh); opacity: 0; }
+  5%   { opacity: 0.25; }
+  95%  { opacity: 0.25; }
+  100% { transform: translateY(-110vh); opacity: 0; }
+}
+
+@keyframes aqua-swim-diagonal {
+  0%   { transform: translate(110vw, 110vh); opacity: 0; }
+  5%   { opacity: 0.25; }
+  95%  { opacity: 0.25; }
+  100% { transform: translate(-110vw, -110vh); opacity: 0; }
+}
+
+/* Extra smoothing utilities for fish */
+.aqua-fish-1,
+.aqua-fish-2,
+.aqua-fish-3,
+.aqua-fish-4,
+.aqua-fish-5,
+.aqua-fish-6,
+.aqua-fish-7,
+.aqua-fish-8,
+.aqua-fish-9,
+.aqua-fish-10,
+.aqua-fish-11,
+.aqua-fish-12,
+.aqua-fish-13,
+.aqua-fish-14 {
+  animation-fill-mode: both !important;
+  will-change: transform, opacity;
+  transition: opacity 0.35s linear;
+}
+
+
