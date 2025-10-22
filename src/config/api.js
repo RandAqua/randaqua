@@ -12,6 +12,7 @@ export const API_CONFIG = {
     LOGIN: '/auth/login',
     REGISTER: '/auth/register',
     VERIFY_CODE: '/auth/verify-code',
+    GET_USER_INFO: '/auth/get-user-info',
   }
 };
 
@@ -25,6 +26,7 @@ export const API_URLS = {
   LOGIN: getApiUrl(API_CONFIG.ENDPOINTS.LOGIN),
   REGISTER: getApiUrl(API_CONFIG.ENDPOINTS.REGISTER),
   VERIFY_CODE: getApiUrl(API_CONFIG.ENDPOINTS.VERIFY_CODE),
+  GET_USER_INFO: getApiUrl(API_CONFIG.ENDPOINTS.GET_USER_INFO),
 };
 
 // Функция для создания заголовков с авторизацией

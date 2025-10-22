@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { MENU_ITEMS } from '../../custom/menu-config';
-import { isAuthenticated, getUserData, getUsername, clearAuthData } from '../../utils/auth';
+import { isAuthenticated, getUserData, getUsername, clearAuthData, validateUserToken } from '../../utils/auth';
 
 export default function Navbar({ onLoginClick }) {
   const router = useRouter();
@@ -16,27 +16,46 @@ export default function Navbar({ onLoginClick }) {
 
   useEffect(() => {
     // Проверяем статус авторизации при загрузке компонента
-    const checkAuthStatus = () => {
-      const authenticated = isAuthenticated();
-      const user = getUserData();
-      const userUsername = getUsername();
-      console.log('Auth status check:', { authenticated, user, userUsername });
-      setIsLoggedIn(authenticated);
-      setUserData(user);
-      setUsername(userUsername || '');
+    const checkAuthStatus = async () => {
+      const token = localStorage.getItem('auth_token');
+      
+      if (token) {
+        console.log('Token found, validating with server...');
+        // Если есть токен, проверяем его на сервере
+        const validationResult = await validateUserToken();
+        
+        if (validationResult.success) {
+          console.log('Token validation successful:', validationResult);
+          setIsLoggedIn(true);
+          setUserData({ id: validationResult.user.id, username: validationResult.username });
+          setUsername(validationResult.username || '');
+        } else {
+          console.log('Token validation failed:', validationResult.error);
+          setIsLoggedIn(false);
+          setUserData(null);
+          setUsername('');
+        }
+      } else {
+        console.log('No token found');
+        setIsLoggedIn(false);
+        setUserData(null);
+        setUsername('');
+      }
     };
 
     checkAuthStatus();
 
     // Слушаем изменения в localStorage для обновления статуса
-    const handleStorageChange = () => {
-      checkAuthStatus();
+    const handleStorageChange = async () => {
+      await checkAuthStatus();
     };
 
     window.addEventListener('storage', handleStorageChange);
     
-    // Также проверяем каждые 5 секунд на случай изменений в том же окне
-    const interval = setInterval(checkAuthStatus, 5000);
+    // Также проверяем каждые 30 секунд на случай изменений в том же окне
+    const interval = setInterval(() => {
+      checkAuthStatus();
+    }, 30000);
 
     // Добавляем слушатель для обновления username при изменении localStorage
     const handleUsernameUpdate = () => {
