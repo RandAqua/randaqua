@@ -5,16 +5,23 @@ import Navbar from '../layout/Navbar';
 import AuthModal from '../auth/AuthModal';
 
 export default function RandomnessChecker() {
+  // Состояние для работы с файлами и текстом
   const [fileContent, setFileContent] = useState('');
   const [textContent, setTextContent] = useState('');
   const [selectedFile, setSelectedFile] = useState(null);
+  
+  // Состояние процесса анализа
   const [isAnalyzingRandomness, setIsAnalyzingRandomness] = useState(false);
   const [randomnessResult, setRandomnessResult] = useState(null);
   const [error, setError] = useState(null);
+  
+  // Флаги для UI состояния
   const [isFileSelected, setIsFileSelected] = useState(false);
   const [isTextEntered, setIsTextEntered] = useState(false);
   const [testResults, setTestResults] = useState(null);
   const [showDetails, setShowDetails] = useState(false);
+  
+  // Состояние авторизации
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [authModalTab, setAuthModalTab] = useState('login');
 

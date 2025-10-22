@@ -6,6 +6,7 @@ import Navbar from '../components/layout/Navbar';
 import AuthModal from '../components/auth/AuthModal';
 
 export default function Home() {
+  // Состояние модального окна авторизации
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [authModalTab, setAuthModalTab] = useState('login');
 
@@ -44,7 +45,7 @@ export default function Home() {
 
   const handleVerificationSuccess = () => {
     closeAuthModal();
-    // Показываем уведомление об успешной верификации
+    // Создаем динамическое уведомление об успешной верификации
     const successMessage = document.createElement('div');
     successMessage.className = 'fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 transition-all duration-300';
     successMessage.innerHTML = `

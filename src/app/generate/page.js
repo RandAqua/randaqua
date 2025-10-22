@@ -9,13 +9,13 @@ export default function GeneratePage() {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [authModalTab, setAuthModalTab] = useState('login');
 
-  // Form state
+  // Состояние формы для параметров генерации
   const [count, setCount] = useState(1);
   const [min, setMin] = useState(1);
   const [max, setMax] = useState(100);
   const [entropySource, setEntropySource] = useState('Камеры аквариумов (рыбки)');
 
-  // Demo/computation state
+  // Состояние процесса генерации и результатов
   const [isComputing, setIsComputing] = useState(false);
   const [stage, setStage] = useState(0); // 0..3 stages
   const [progress, setProgress] = useState(0);
@@ -70,6 +70,7 @@ export default function GeneratePage() {
 
 
   const validate = () => {
+    // Проверяем корректность введенных параметров
     if (min > max) return 'Минимум не может быть больше максимума';
     if (count < 1 || count > 10) return 'Количество должно быть от 1 до 10';
     return '';
@@ -89,7 +90,7 @@ export default function GeneratePage() {
     setGenerationData(null);
 
     try {
-      // Показываем прогресс генерации
+      // Симулируем прогресс генерации для UX
       const progressInterval = setInterval(() => {
         setProgress((prev) => {
           const next = Math.min(90, prev + 10); // Останавливаем на 90% до получения результата
@@ -100,7 +101,7 @@ export default function GeneratePage() {
         });
       }, 200);
 
-      // Отправляем запрос на сервер
+      // Вызываем API для генерации случайных чисел
       const serverData = await generateBatch(count, min, max);
       
       clearInterval(progressInterval);
@@ -125,6 +126,7 @@ export default function GeneratePage() {
   const lenClass = (val) => `len-${String(val).length}`;
 
   const downloadFingerprint = () => {
+    // Создаем JSON файл с полной информацией о генерации для аудита
     const payload = {
       timestamp: new Date().toISOString(),
       params: { count, min, max, entropySource },
