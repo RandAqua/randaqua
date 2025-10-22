@@ -26,8 +26,9 @@ body {
   min-height: 100vh;
   margin: 0;
   padding: 0;
-
+  max-width: 100vw;
   overflow-x: hidden;
+  box-sizing: border-box;
 }
 
 /* Скроллбар теперь видимый */
@@ -56,6 +57,13 @@ body {
 .stoloto-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+/* Utility to disable hover effects on specific cards */
+.no-hover:hover {
+  transform: none !important;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04) !important;
+  cursor: pointer;
 }
 
 /* Анимации */
@@ -210,15 +218,125 @@ body {
   background: linear-gradient(135deg, #77DDE7 0%, #5BC4D1 100%);
   color: white;
   border-radius: 50%;
-  width: 60px;
-  height: 60px;
+  width: 72px;
+  height: 72px;
+  padding: 0 6px; /* небольшой внутренний отступ для 4-5 знаков */
   display: flex;
   align-items: center;
   justify-content: center;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  line-height: 1;
   font-weight: 900;
-  font-size: 1.5rem;
+  font-size: 1.6rem; /* базовый размер */
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
   animation: bounce-gentle 2s ease-in-out infinite;
+}
+
+/* Адаптация размера шрифта под длину числа */
+.lottery-number.len-1 { font-size: 2rem; }
+.lottery-number.len-2 { font-size: 1.8rem; }
+.lottery-number.len-3 { font-size: 1.45rem; }
+.lottery-number.len-4 { font-size: 1.15rem; }
+.lottery-number.len-5, .lottery-number.len-6 { font-size: 0.98rem; }
+
+/* Fancy progress bar for generator */
+.aqua-progress {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.aqua-progress-track {
+  flex: 1 1 auto;
+  height: 12px;
+  background: linear-gradient(180deg, #eef2ff, #e5e7eb);
+  border: 1px solid #e5e7eb;
+  border-radius: 9999px;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.06);
+  overflow: hidden;
+}
+
+.aqua-progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #3b82f6, #06b6d4, #10b981);
+  border-radius: 9999px;
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.35);
+  position: relative;
+  overflow: hidden;
+  transition: width 0.35s ease-out;
+  will-change: width;
+}
+
+.aqua-progress-bar::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -40%;
+  width: 40%;
+  background: linear-gradient(120deg, rgba(255,255,255,0), rgba(255,255,255,0.35), rgba(255,255,255,0));
+  animation: progressShine 1.8s linear infinite;
+}
+
+@keyframes progressShine {
+  0% { left: -40%; }
+  100% { left: 100%; }
+}
+
+.aqua-progress-label {
+  font-size: 12px;
+  color: #4b5563;
+  font-weight: 600;
+  min-width: 44px;
+  text-align: right;
+}
+
+/* Smooth appear for generated numbers */
+@keyframes numberPopIn {
+  from { opacity: 0; transform: scale(0.8); filter: blur(4px); }
+  60% { opacity: 1; transform: scale(1.05); filter: blur(0); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.number-appear {
+  animation: numberPopIn 420ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Uniform inputs across the generator form */
+.uniform-input {
+  height: 48px;
+}
+
+/* Subtitle pill style for the generator page */
+.aqua-subtitle-pill {
+  display: inline-block;
+  padding: 8px 14px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  color: #ffffff;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  backdrop-filter: blur(6px);
+}
+
+/* Loader under the Result heading */
+.aqua-loader {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 3px solid #e5e7eb;
+  border-top-color: #3b82f6;
+  animation: aquaSpin 0.8s linear infinite;
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.02) inset;
+}
+
+@keyframes aquaSpin {
+  from { transform: rotate(0turn); }
+  to   { transform: rotate(1turn); }
 }
 
 .lottery-number:nth-child(2) {
@@ -425,6 +543,16 @@ body {
 .aqua-hero-section.aqua-under-header {
   min-height: calc(100vh - 120px);
 }
+
+/* Auto-height variant to allow scrolling and avoid clipping */
+.aqua-hero-section.auto-height {
+  height: auto;
+  min-height: calc(100vh - 120px);
+  align-items: flex-start;
+  overflow: visible;
+  max-width: 100vw;
+  box-sizing: border-box;
+}
 /* MERGE CONFLICT */
 /* Контейнер для фона с рыбками */
 .aqua-fish-background-container {
@@ -436,6 +564,8 @@ body {
   padding: 0;
   overflow: hidden;
   z-index: -1;
+  max-width: 100vw;
+  box-sizing: border-box;
 }
 
 .aqua-fish-background {
@@ -447,6 +577,20 @@ body {
   overflow: hidden;
 }
 
+/* Auto-height variant for background */
+.aqua-fish-background.auto-height {
+  height: auto;
+  min-height: calc(100vh - 120px);
+  padding-bottom: 96px;
+  overflow: visible;
+  max-width: 100vw;
+  box-sizing: border-box;
+}
+
+.aqua-fish-background::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
+}
 
 .aqua-fish-background::before {
   content: '';
@@ -482,6 +626,8 @@ body {
   opacity: 0.35;
   animation: aqua-swim 12s infinite linear;
   z-index: 1;
+  max-width: 100vw;
+  overflow: hidden;
 }
 
 .aqua-fish-2 {
@@ -620,22 +766,22 @@ body {
 }
 
 @keyframes aqua-swim {
-  0% { transform: translateX(100%); }
+  0% { transform: translateX(100vw); }
   100% { transform: translateX(-100%); }
 }
 
 @keyframes aqua-swim-reverse {
   0% { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
+  100% { transform: translateX(100vw); }
 }
 
 @keyframes aqua-swim-vertical {
-  0% { transform: translateY(100%); }
+  0% { transform: translateY(100vh); }
   100% { transform: translateY(-100%); }
 }
 
 @keyframes aqua-swim-diagonal {
-  0% { transform: translate(100%, 100%); }
+  0% { transform: translate(100vw, 100vh); }
   100% { transform: translate(-100%, -100%); }
 }
 
@@ -739,8 +885,9 @@ body {
 /* Небольшой подъем заголовка на странице генерации,
    чтобы не налезал на колесо */
 .generate-title {
-  margin-top: -28px;
-  margin-bottom: 72px;
+  margin-top: -20px;
+  margin-bottom: 40px;
+  font-size: 3rem;
 }
 
 .aqua-hero-description {
@@ -1082,8 +1229,25 @@ input:focus {
     font-size: 2.5rem;
   }
   
+  .generate-title {
+    font-size: 2rem;
+    margin-bottom: 30px;
+  }
+  
   .aqua-title-line2 {
     font-size: 2rem;
+  }
+  
+  /* Дополнительная оптимизация для очень маленьких экранов */
+  @media (max-width: 480px) {
+    .generate-title {
+      font-size: 1.75rem;
+      margin-bottom: 20px;
+    }
+    
+    .aqua-title-line2 {
+      font-size: 1.75rem;
+    }
   }
   
   .aqua-hero-description {
