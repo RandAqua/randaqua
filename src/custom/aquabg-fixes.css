@@ -47,6 +47,13 @@
   animation-fill-mode: both !important;
   will-change: transform, opacity;
   transition: opacity 0.35s linear;
+  pointer-events: none;
+}
+
+/* Ensure decorative layers never block interactions */
+.aqua-fish-background::before,
+.aqua-fish-background::after {
+  pointer-events: none;
 }
 
 

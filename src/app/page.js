@@ -17,6 +17,18 @@ export default function Home() {
     return () => document.removeEventListener('keydown', onEsc);
   }, [isAuthModalOpen]);
 
+  // На главной полностью отключаем скролл
+  useEffect(() => {
+    const prevHtmlOverflow = document.documentElement.style.overflow;
+    const prevBodyOverflow = document.body.style.overflow;
+    document.documentElement.style.overflow = 'hidden';
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.documentElement.style.overflow = prevHtmlOverflow;
+      document.body.style.overflow = prevBodyOverflow;
+    };
+  }, []);
+
   const openAuthModal = (tab = 'login') => {
     setAuthModalTab(tab);
     setIsAuthModalOpen(true);

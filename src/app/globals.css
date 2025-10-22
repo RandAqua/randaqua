@@ -945,6 +945,27 @@ body {
 }
 
 
+/* Uniform hero buttons (homepage) */
+.hero-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 32px;
+  height: 56px;
+  width: 320px;
+  font-size: 18px;
+  font-weight: 700;
+  border-radius: 12px;
+  box-sizing: border-box; /* include border in height */
+  text-align: center;
+  white-space: nowrap;
+}
+
+@media (max-width: 480px) {
+  .hero-btn { width: 90vw; }
+}
+
+
 /* ===== Modal + blur utilities (shared pattern) ===== */
 .main-content {
   will-change: filter;
