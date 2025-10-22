@@ -188,8 +188,9 @@ export default function GeneratePage() {
 
               <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {/* Form Card */}
-                <div className="stoloto-card no-hover p-6 rounded-2xl cartoon-appear bg-white cursor-pointer" style={{animationDelay: '220ms'}}>
-                  <h3 className="text-2xl font-bold mb-4 text-gray-900">Параметры генерации</h3>
+                <div className="stoloto-card no-hover p-6 rounded-2xl cartoon-appear bg-white cursor-pointer" style={{animationDelay: '220ms', borderWidth: '2px', borderColor: '#3b82f6'}}>
+                  <div className="text-2xl mb-1">🐟</div>
+                  <h3 className="text-2xl font-bold mb-3 text-gray-900">Параметры генерации</h3>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                       <label className="block text-sm text-gray-700 mb-1">Количество чисел</label>
@@ -222,6 +223,7 @@ export default function GeneratePage() {
 
                 {/* Results / Visuals Card */}
                 <div className="stoloto-card no-hover p-6 rounded-2xl cartoon-appear bg-white cursor-pointer" style={{animationDelay: '320ms'}}>
+                  <div className="text-2xl mb-1">🎲</div>
                   <h3 className="text-2xl font-bold text-gray-900">Результат</h3>
                   <div className="mt-3" />
                   {isComputing && progress < 100 && (
