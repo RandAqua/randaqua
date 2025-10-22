@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import Navbar from '../../components/layout/Navbar';
 import AuthModal from '../../components/auth/AuthModal';
+import { isAuthenticated } from '../../utils/auth';
 
 const formatDate = (isoOrMs) => {
   try {
@@ -20,28 +21,32 @@ const formatDate = (isoOrMs) => {
 
 export default function HistoryPage() {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
-  const [authModalTab, setAuthModalTab] = useState('register');
-  const [isAuthed, setIsAuthed] = useState(false);
+  const [authModalTab, setAuthModalTab] = useState('login');
+  const [isUserAuthenticated, setIsUserAuthenticated] = useState(false);
+  const [isCheckingAuth, setIsCheckingAuth] = useState(true);
   const [order, setOrder] = useState('desc'); // desc: сначала новые
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
+  // Проверка авторизации при загрузке
   useEffect(() => {
-    // Простая проверка авторизации (заменим на реальную позже)
-    const token = typeof window !== 'undefined' ? localStorage.getItem('randAqua_auth') : null;
-    const isLogged = Boolean(token);
-    setIsAuthed(isLogged);
-    if (!isLogged) {
-      setIsAuthModalOpen(true);
-      setAuthModalTab('register');
-      setError('Данная функция доступна только зарегистрированным пользователям');
-      return;
-    }
+    const checkAuth = () => {
+      const authenticated = isAuthenticated();
+      setIsUserAuthenticated(authenticated);
+      setIsCheckingAuth(false);
+    };
+    
+    checkAuth();
+    
+    // Проверяем авторизацию каждые 5 секунд
+    const interval = setInterval(checkAuth, 5000);
+    
+    return () => clearInterval(interval);
   }, []);
 
   useEffect(() => {
-    if (!isAuthed) return;
+    if (!isUserAuthenticated) return;
     setLoading(true);
     setError('');
     // Backend integration: replace with real API (GET /api/history?order=desc|asc) that returns { items: HistoryItem[] }
@@ -68,13 +73,95 @@ export default function HistoryPage() {
         setItems(order === 'desc' ? demo.reverse() : demo);
       })
       .finally(() => setLoading(false));
-  }, [isAuthed, order]);
+  }, [isUserAuthenticated, order]);
+
+  useEffect(() => {
+    const onEsc = (e) => {
+      if (e.key === 'Escape') setIsAuthModalOpen(false);
+    };
+    if (isAuthModalOpen) document.addEventListener('keydown', onEsc);
+    return () => document.removeEventListener('keydown', onEsc);
+  }, [isAuthModalOpen]);
 
   const openAuthModal = (tab = 'login') => {
     setAuthModalTab(tab);
     setIsAuthModalOpen(true);
   };
+
   const closeAuthModal = () => setIsAuthModalOpen(false);
+
+  const handleLoginSuccess = () => {
+    closeAuthModal();
+    setIsUserAuthenticated(true);
+    // Принудительно обновляем страницу для обновления Navbar
+    window.location.reload();
+  };
+
+  const handleVerificationSuccess = () => {
+    closeAuthModal();
+    // Показываем уведомление об успешной верификации
+    const successMessage = document.createElement('div');
+    successMessage.className = 'fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 transition-all duration-300';
+    successMessage.innerHTML = `
+      <div class="flex items-center">
+        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+        </svg>
+        Регистрация завершена! Теперь вы можете войти в систему.
+      </div>
+    `;
+    document.body.appendChild(successMessage);
+    
+    // Убираем уведомление через 5 секунд
+    setTimeout(() => {
+      successMessage.style.opacity = '0';
+      successMessage.style.transform = 'translateX(100%)';
+      setTimeout(() => {
+        document.body.removeChild(successMessage);
+      }, 300);
+    }, 5000);
+  };
+
+  // Показываем загрузку во время проверки авторизации
+  if (isCheckingAuth) {
+    return (
+      <div className="min-h-screen max-w-full overflow-x-hidden">
+        <Navbar onLoginClick={openAuthModal} />
+        <div className="flex items-center justify-center min-h-screen">
+          <div className="text-center">
+            <div className="aqua-loader mx-auto mb-4"></div>
+            <p className="text-gray-600">Проверка авторизации...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Показываем сообщение для неавторизованных пользователей
+  if (!isUserAuthenticated) {
+    return (
+      <div className="min-h-screen max-w-full overflow-x-hidden">
+        <Navbar onLoginClick={openAuthModal} />
+        <div className="flex items-center justify-center min-h-screen">
+          <div className="text-center max-w-md mx-auto px-4">
+            <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-2xl p-8">
+              <div className="text-6xl mb-4">🔒</div>
+              <h1 className="text-3xl font-bold text-gray-800 mb-4">
+                Требуется авторизация
+              </h1>
+              <p className="text-gray-600 mb-6">
+                Эта страница предназначена только для авторизованных пользователей. 
+                Пожалуйста, войдите в систему, чтобы продолжить.
+              </p>
+              <p className="text-sm text-gray-500">
+                Используйте кнопки "Регистрация" или "Вход" в верхнем меню для авторизации.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen aqua-background">
@@ -158,18 +245,13 @@ export default function HistoryPage() {
         </section>
       </div>
 
-      <AuthModal 
+      {/* Модальное окно авторизации */}
+      <AuthModal
         isOpen={isAuthModalOpen}
         onClose={closeAuthModal}
         initialTab={authModalTab}
-        errorMessage={error}
-        onVerificationSuccess={() => {
-          // After successful registration, mark authed and reload history from backend
-          try { localStorage.setItem('randAqua_auth', '1'); } catch {}
-          setIsAuthed(true);
-          setIsAuthModalOpen(false);
-          setError('');
-        }}
+        onVerificationSuccess={handleVerificationSuccess}
+        onLoginSuccess={handleLoginSuccess}
       />
     </div>
   );
