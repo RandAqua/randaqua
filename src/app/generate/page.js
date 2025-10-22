@@ -92,7 +92,7 @@ export default function GeneratePage() {
     // Progress ticker with finalize at 100%
     const progId = setInterval(() => {
       setProgress((prev) => {
-        const next = Math.min(100, prev + 4);
+        const next = Math.min(100, prev + 8);
         if (next >= 100) {
           clearInterval(progId);
           clearInterval(genId);
@@ -104,12 +104,15 @@ export default function GeneratePage() {
             const span = max - min + 1;
             buffer.push(min + Math.abs(mix) % span);
           }
-          setResults(buffer);
-          setIsComputing(false);
+          // Small delay to show 100% progress before showing results
+          setTimeout(() => {
+            setResults(buffer);
+            setIsComputing(false);
+          }, 200);
         }
         return next;
       });
-    }, 120);
+    }, 80);
     timers.push(progId);
 
     return () => timers.forEach(clearTimeout);
@@ -135,124 +138,93 @@ export default function GeneratePage() {
   };
 
   return (
-    <div className="min-h-screen aqua-background">
+    <div className="min-h-screen max-w-full overflow-x-hidden">
       {/* Основной контент */}
       <div className={`main-content ${isAuthModalOpen ? 'blur' : ''}`}>
         <Navbar onLoginClick={openAuthModal} />
-        
+
         {/* Секция под хедером, заменена на форму */}
         <section className="aqua-hero-section auto-height">
-          <div className="aqua-fish-background auto-height">
-            {/* Дополнительные рыбки */}
-            <div className="aqua-fish-1">🐟</div>
-            <div className="aqua-fish-2">🐠</div>
-            <div className="aqua-fish-3">🐡</div>
-            <div className="aqua-fish-4">🐙</div>
-            <div className="aqua-fish-5">🦈</div>
-            <div className="aqua-fish-6">🐚</div>
-            <div className="aqua-fish-7">🦀</div>
-            <div className="aqua-fish-8">🐢</div>
-            <div className="aqua-fish-9">🦑</div>
-            <div className="aqua-fish-10">🐋</div>
-            <div className="aqua-fish-11">🐠</div>
-            <div className="aqua-fish-12">🐟</div>
-            <div className="aqua-fish-13">🦑</div>
-            <div className="aqua-fish-14">🐚</div>
 
-            {/* Пузыри */}
-            <div className="aqua-bubbles">
-              <span className="aqua-bubble"></span>
-              <span className="aqua-bubble"></span>
-              <span className="aqua-bubble"></span>
-              <span className="aqua-bubble"></span>
-              <span className="aqua-bubble"></span>
-              <span className="aqua-bubble"></span>
-              <span className="aqua-bubble"></span>
-              <span className="aqua-bubble"></span>
-              <span className="aqua-bubble"></span>
-              <span className="aqua-bubble"></span>
-              <span className="aqua-bubble"></span>
-              <span className="aqua-bubble"></span>
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-8 relative z-10 max-w-full overflow-x-hidden">
+            <div className="text-center cartoon-appear" style={{ animationDelay: '120ms' }}>
+              <h1 className="aqua-main-title generate-title">
+                <span className="aqua-title-line1">Создать тираж</span>
+                <span className="aqua-title-line2">истинной случайности</span>
+              </h1>
             </div>
-            
-            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-16 relative z-10">
-              <div className="text-center cartoon-appear" style={{animationDelay: '120ms'}}>
-                <h1 className="aqua-main-title generate-title">
-                  <span className="aqua-title-line1">Генерация чисел</span>
-                  <span className="aqua-title-line2">истинной случайности</span>
-                </h1>
-                <p className="mt-1">
-                  <span className="aqua-subtitle-pill">Форма генерации с источником энтропии из камер аквариумов</span>
-                </p>
-              </div>
 
-              <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-6">
-                {/* Form Card */}
-                <div className="stoloto-card no-hover p-6 rounded-2xl cartoon-appear bg-white cursor-pointer" style={{animationDelay: '220ms', borderWidth: '2px', borderColor: '#3b82f6'}}>
-                  <div className="text-2xl mb-1">🐟</div>
-                  <h3 className="text-2xl font-bold mb-3 text-gray-900">Параметры генерации</h3>
+            <div className="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-4">
+              {/* Form Card */}
+              <div className="stoloto-card no-hover p-4 rounded-2xl cartoon-appear bg-white cursor-pointer w-110 h-100" style={{ animationDelay: '220ms' }}>
+                <h3 className="text-xl font-bold mb-3 text-gray-900">Параметры генерации</h3>
+                <div className="space-y-3">
+                  {/* Минимум и максимум на одном уровне */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm text-gray-700 mb-1">Количество чисел</label>
-                       <input type="number" min="1" max="10" value={count} onInput={(e)=>{ e.target.value = e.target.value.replace(/^0+(?=\d)/,''); }} onChange={(e)=>setCount(parseInt(e.target.value||'0',10))} className="w-full p-3 rounded-lg bg-white text-gray-900 border border-gray-200 focus:ring-2 focus:ring-blue-400 uniform-input" />
-                    </div>
-                    <div>
                       <label className="block text-sm text-gray-700 mb-1">Минимум</label>
-                      <input type="number" value={min} onChange={(e)=>setMin(parseInt(e.target.value||'0',10))} className="w-full p-3 rounded-lg bg-white text-gray-900 border border-gray-200 focus:ring-2 focus:ring-blue-400 uniform-input" />
+                      <input type="number" value={min} onChange={(e) => setMin(parseInt(e.target.value || '0', 10))} className="w-full p-2 rounded-lg bg-white text-gray-900 border border-gray-200 focus:ring-2 focus:ring-blue-400 uniform-input" />
                     </div>
                     <div>
                       <label className="block text-sm text-gray-700 mb-1">Максимум</label>
-                      <input type="number" value={max} onChange={(e)=>setMax(parseInt(e.target.value||'0',10))} className="w-full p-3 rounded-lg bg-white text-gray-900 border border-gray-200 focus:ring-2 focus:ring-blue-400 uniform-input" />
-                    </div>
-                    <div>
-                      <label className="block text-sm text-gray-700 mb-1">Источник энтропии</label>
-                       <input type="text" value={entropySource} readOnly aria-readonly="true" className="w-full p-3 rounded-lg bg-gray-50 text-gray-900 border border-gray-200 focus:ring-0 uniform-input" />
+                      <input type="number" value={max} onChange={(e) => setMax(parseInt(e.target.value || '0', 10))} className="w-full p-2 rounded-lg bg-white text-gray-900 border border-gray-200 focus:ring-2 focus:ring-blue-400 uniform-input" />
                     </div>
                   </div>
 
-                  <div className="mt-5 flex items-center gap-3 justify-center">
-                    <button onClick={runComputation} disabled={isComputing} className="aqua-generate-btn">
-                      <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd"/>
-                      </svg>
-                      {isComputing ? 'Генерация…' : 'Сгенерировать'}
-                    </button>
+                  {/* Количество чисел */}
+                  <div>
+                    <label className="block text-sm text-gray-700 mb-1">Количество чисел</label>
+                    <input type="number" min="1" max="10" value={count} onInput={(e) => { e.target.value = e.target.value.replace(/^0+(?=\d)/, ''); }} onChange={(e) => setCount(parseInt(e.target.value || '0', 10))} className="w-full p-2 rounded-lg bg-white text-gray-900 border border-gray-200 focus:ring-2 focus:ring-blue-400 uniform-input" />
                   </div>
 
+                  {/* Источник энтропии - серый цвет, неизменяемый */}
+                  <div>
+                    <label className="block text-sm text-gray-500 mb-1">Источник энтропии</label>
+                    <input type="text" value={entropySource} readOnly aria-readonly="true" className="w-full p-2 rounded-lg bg-gray-100 text-gray-500 border border-gray-200 focus:ring-0 uniform-input cursor-not-allowed" />
+                  </div>
                 </div>
 
-                {/* Results / Visuals Card */}
-                <div className="stoloto-card no-hover p-6 rounded-2xl cartoon-appear bg-white cursor-pointer" style={{animationDelay: '320ms'}}>
-                  <div className="text-2xl mb-1">🎲</div>
-                  <h3 className="text-2xl font-bold text-gray-900">Результат</h3>
-                  <div className="mt-3" />
-                  {isComputing && progress < 100 && (
-                    <div className="mb-4">
+                <div className="mt-4 flex items-center gap-3 justify-center">
+                  <button onClick={runComputation} disabled={isComputing} className="aqua-generate-btn">
+                    <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" />
+                    </svg>
+                    {isComputing ? 'Генерация…' : 'Сгенерировать'}
+                  </button>
+                </div>
+
+              </div>
+
+              {/* Results / Visuals Card */}
+              <div className="stoloto-card no-hover p-4 rounded-2xl cartoon-appear bg-white cursor-pointer w-110 h-100 flex flex-col" style={{ animationDelay: '320ms' }}>
+                <h3 className="text-xl font-bold text-gray-900">Результат</h3>
+                <div className="flex-1 flex flex-col justify-center">
+                  {isComputing && (
+                    <div className="mb-4 flex justify-center">
                       <div className="aqua-progress">
                         <div className="aqua-progress-track">
                           <div className="aqua-progress-bar" style={{ width: `${progress}%` }} />
                         </div>
-                        <div className="aqua-progress-label">{progress}%</div>
                       </div>
                     </div>
                   )}
                   {results.length === 0 ? (
-                    <div className="text-gray-600">{progress >= 100 ? '' : 'Нажмите “Сгенерировать”, чтобы получить число(а).'}</div>
+                    <div className="text-gray-600 text-center break-words max-w-full overflow-hidden">{isComputing ? 'Проводится генерация...' : 'Нажмите "Сгенерировать", чтобы получить выигрышные комбинации'}</div>
                   ) : (
                     <div>
                       <div className="flex flex-wrap gap-3 justify-center">
-                         {results.map((n, idx) => (
-                           <div key={idx} className={`lottery-number ${lenClass(n)} number-appear`}>{n}</div>
-                         ))}
+                        {results.map((n, idx) => (
+                          <div key={idx} className={`lottery-number ${lenClass(n)} number-appear`}>{n}</div>
+                        ))}
                       </div>
-                      <p className="mt-4 text-sm text-gray-700 text-center">Источник энтропии: <span className="text-gray-900 font-semibold">{entropySource}</span></p>
+                      <p className="mt-3 text-sm text-gray-700 text-center">Источник энтропии: <span className="text-gray-900 font-semibold">{entropySource}</span></p>
 
                       {/* Download fingerprint button, appears after numbers */}
-                      <div className="mt-4 flex justify-center">
+                      <div className="mt-3 flex justify-center">
                         {results.length > 0 && (
                           <button onClick={downloadFingerprint} className="number-appear flex items-center gap-2 px-4 py-2 rounded-lg border border-gray-300 bg-white text-gray-700 hover:bg-gray-50">
                             <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                              <path d="M21.44 11.05l-7.07 7.07a5 5 0 11-7.07-7.07l7.07-7.07a3.5 3.5 0 114.95 4.95l-7.07 7.07a2 2 0 01-2.83-2.83l6.36-6.36"/>
+                              <path d="M21.44 11.05l-7.07 7.07a5 5 0 11-7.07-7.07l7.07-7.07a3.5 3.5 0 114.95 4.95l-7.07 7.07a2 2 0 01-2.83-2.83l6.36-6.36" />
                             </svg>
                             Скачать цифровой слепок
                           </button>
@@ -268,7 +240,7 @@ export default function GeneratePage() {
       </div>
 
       {/* Модальное окно авторизации */}
-      <AuthModal 
+      <AuthModal
         isOpen={isAuthModalOpen}
         onClose={closeAuthModal}
         initialTab={authModalTab}

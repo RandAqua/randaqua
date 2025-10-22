@@ -62,70 +62,36 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen aqua-background">
+    <div className="min-h-screen">
       {/* Основной контент */}
       <div className={`main-content ${isAuthModalOpen ? 'blur' : ''}`}>
         <Navbar onLoginClick={openAuthModal} />
         
         {/* Героическая секция RandAqua */}
-        <section className="aqua-hero-section" style={{ minHeight: '100vh', overflow: 'hidden' }}>
-          <div className="aqua-fish-background" style={{ minHeight: '100vh', overflow: 'hidden' }}>
-            {/* Дополнительные рыбки */}
-            <div className="aqua-fish-1">🐟</div>
-            <div className="aqua-fish-2">🐠</div>
-            <div className="aqua-fish-3">🐡</div>
-            <div className="aqua-fish-4">🐙</div>
-            <div className="aqua-fish-5">🦈</div>
-            <div className="aqua-fish-6">🐚</div>
-            <div className="aqua-fish-7">🦀</div>
-            <div className="aqua-fish-8">🐢</div>
-            <div className="aqua-fish-9">🦑</div>
-            <div className="aqua-fish-10">🐋</div>
-            <div className="aqua-fish-11">🐠</div>
-            <div className="aqua-fish-12">🐟</div>
-            <div className="aqua-fish-13">🦑</div>
-            <div className="aqua-fish-14">🐚</div>
-
-            {/* Пузыри */}
-            <div className="aqua-bubbles">
-              <span className="aqua-bubble"></span>
-              <span className="aqua-bubble"></span>
-              <span className="aqua-bubble"></span>
-              <span className="aqua-bubble"></span>
-              <span className="aqua-bubble"></span>
-              <span className="aqua-bubble"></span>
-              <span className="aqua-bubble"></span>
-              <span className="aqua-bubble"></span>
-              <span className="aqua-bubble"></span>
-              <span className="aqua-bubble"></span>
-              <span className="aqua-bubble"></span>
-              <span className="aqua-bubble"></span>
-            </div>
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" style={{ paddingTop: '64px', paddingBottom: '64px' }}>
-              <div className="text-center flex flex-col items-center" style={{ gap: '64px', position: 'relative', zIndex: 10 }}>
-                <h1 className="aqua-main-title" style={{ fontSize: '5rem', margin: 0 }}>
-                  <span className="aqua-title-line1">Истинная случайность</span>
-                  <span className="aqua-title-line2">из глубин океана</span>
-                </h1>
-                <p className="aqua-hero-description" style={{ fontSize: '1.5rem', margin: 0, maxWidth: '900px' }}>
-                  Революционная система генерации случайных чисел на основе наблюдения за морской жизнью. 
-                  Камеры видеонаблюдения за рыбами создают истинно случайные числа для ваших нужд.
-                </p>
-                <div className="flex justify-center space-x-6">
-                  <Link href="/generate" className="hero-btn aqua-generate-btn">
-                    <svg className="w-6 h-6 mr-3" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd"/>
-                    </svg>
-                    Генерировать число
-                  </Link>
-                  <Link href="/analyze" className="hero-btn aqua-how-btn">
-                    <svg className="w-6 h-6 mr-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <circle cx="11" cy="11" r="7" />
-                      <line x1="21" y1="21" x2="16.65" y2="16.65" />
-                    </svg>
-                    Проверить случайность
-                  </Link>
-                </div>
+        <section className="aqua-hero-section" style={{ minHeight: '120vh' }}>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 aqua-text-container" style={{ paddingTop: '8rem', paddingBottom: '8rem' }}>
+            <div className="text-center">
+              <h1 className="aqua-main-title" style={{ fontSize: '5rem', marginBottom: '3rem' }}>
+                <span className="aqua-title-line1">Истинная случайность</span>
+                <span className="aqua-title-line2">из глубин океана</span>
+              </h1>
+              <p className="aqua-hero-description" style={{ fontSize: '1.5rem', marginBottom: '4rem', maxWidth: '900px' }}>
+                Революционная система генерации случайных чисел на основе наблюдения за морской жизнью. 
+                Камеры видеонаблюдения за рыбами создают истинно случайные числа для ваших нужд.
+              </p>
+              <div className="flex justify-center space-x-6 mt-12">
+                <Link href="/generate" className="aqua-generate-btn" style={{ padding: '20px 40px', fontSize: '18px' }}>
+                  <svg className="w-6 h-6 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd"/>
+                  </svg>
+                  Генерировать число
+                </Link>
+                <Link href="/analyze" className="aqua-how-btn" style={{ padding: '20px 40px', fontSize: '18px' }}>
+                  <svg className="w-6 h-6 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" clipRule="evenodd"/>
+                  </svg>
+                  Анализатор
+                </Link>
               </div>
             </div>
           </div>
