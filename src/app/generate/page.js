@@ -3,22 +3,41 @@
 import { useEffect, useState } from 'react';
 import Navbar from '../../components/layout/Navbar';
 import AuthModal from '../../components/auth/AuthModal';
+import { isAuthenticated } from '../../utils/auth';
 
 export default function GeneratePage() {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [authModalTab, setAuthModalTab] = useState('login');
+  const [isUserAuthenticated, setIsUserAuthenticated] = useState(false);
+  const [isCheckingAuth, setIsCheckingAuth] = useState(true);
 
   // Form state
   const [count, setCount] = useState(1);
   const [min, setMin] = useState(1);
   const [max, setMax] = useState(100);
-  const [entropySource, setEntropySource] = useState('Камеры аквариумов (рыбы)');
+  const [entropySource, setEntropySource] = useState('Камеры аквариумов (рыбки)');
 
   // Demo/computation state
   const [isComputing, setIsComputing] = useState(false);
   const [stage, setStage] = useState(0); // 0..3 stages
   const [progress, setProgress] = useState(0);
   const [results, setResults] = useState([]);
+
+  // Проверка авторизации при загрузке
+  useEffect(() => {
+    const checkAuth = () => {
+      const authenticated = isAuthenticated();
+      setIsUserAuthenticated(authenticated);
+      setIsCheckingAuth(false);
+    };
+    
+    checkAuth();
+    
+    // Проверяем авторизацию каждые 5 секунд
+    const interval = setInterval(checkAuth, 5000);
+    
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     const onEsc = (e) => {
@@ -37,6 +56,7 @@ export default function GeneratePage() {
 
   const handleLoginSuccess = () => {
     closeAuthModal();
+    setIsUserAuthenticated(true);
     // Принудительно обновляем страницу для обновления Navbar
     window.location.reload();
   };
@@ -167,6 +187,47 @@ export default function GeneratePage() {
     a.remove();
     URL.revokeObjectURL(url);
   };
+
+  // Показываем загрузку во время проверки авторизации
+  if (isCheckingAuth) {
+    return (
+      <div className="min-h-screen max-w-full overflow-x-hidden">
+        <Navbar onLoginClick={openAuthModal} />
+        <div className="flex items-center justify-center min-h-screen">
+          <div className="text-center">
+            <div className="aqua-loader mx-auto mb-4"></div>
+            <p className="text-gray-600">Проверка авторизации...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Показываем сообщение для неавторизованных пользователей
+  if (!isUserAuthenticated) {
+    return (
+      <div className="min-h-screen max-w-full overflow-x-hidden">
+        <Navbar onLoginClick={openAuthModal} />
+        <div className="flex items-center justify-center min-h-screen">
+          <div className="text-center max-w-md mx-auto px-4">
+            <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-2xl p-8">
+              <div className="text-6xl mb-4">🔒</div>
+              <h1 className="text-3xl font-bold text-gray-800 mb-4">
+                Требуется авторизация
+              </h1>
+              <p className="text-gray-600 mb-6">
+                Эта страница предназначена только для авторизованных пользователей. 
+                Пожалуйста, войдите в систему, чтобы продолжить.
+              </p>
+              <p className="text-sm text-gray-500">
+                Используйте кнопки "Регистрация" или "Вход" в верхнем меню для авторизации.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen max-w-full overflow-x-hidden">

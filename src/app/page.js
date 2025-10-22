@@ -83,7 +83,7 @@ export default function Home() {
               </h1>
               <p className="aqua-hero-description" style={{ fontSize: '1.5rem', marginBottom: '2rem', maxWidth: '900px' }}>
                 Революционная система генерации случайных чисел на основе наблюдения за морской жизнью. 
-                Камеры видеонаблюдения за рыбами создают истинно случайные числа для ваших нужд.
+                Камеры видеонаблюдения за рыбками создают истинно случайные числа для ваших нужд.
               </p>
               <div className="flex justify-center space-x-6 mt-6">
                 <Link href="/generate" className="aqua-how-btn" style={{ padding: '20px 40px', fontSize: '18px' }}>
