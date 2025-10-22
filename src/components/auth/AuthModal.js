@@ -5,7 +5,7 @@ import TabSwitcher from './TabSwitcher';
 import LoginForm from './LoginForm';
 import RegisterForm from './RegisterForm';
 
-export default function AuthModal({ isOpen, onClose, initialTab = 'login', onVerificationSuccess }) {
+export default function AuthModal({ isOpen, onClose, initialTab = 'login', onVerificationSuccess, onLoginSuccess }) {
   const [activeTab, setActiveTab] = useState(initialTab);
 
   useEffect(() => {
@@ -67,7 +67,10 @@ export default function AuthModal({ isOpen, onClose, initialTab = 'login', onVer
             tabs={tabs} 
           />
           {activeTab === 'login' ? (
-            <LoginForm onSwitchToRegister={() => setActiveTab('register')} />
+            <LoginForm 
+              onSwitchToRegister={() => setActiveTab('register')} 
+              onLoginSuccess={onLoginSuccess}
+            />
           ) : (
             <RegisterForm 
               onSwitchToLogin={() => setActiveTab('login')} 

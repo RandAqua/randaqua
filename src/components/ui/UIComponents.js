@@ -36,8 +36,17 @@ export function FormContainer({ title, children }) {
 export function PrimaryButton({ children, type = "button", onClick, className = "", disabled = false, isLoading = false }) {
   const handleClick = (e) => {
     console.log('PrimaryButton clicked:', children, 'disabled:', disabled, 'isLoading:', isLoading);
+    
+    // Если это кнопка submit в форме, не блокируем отправку
+    if (type === "submit") {
+      // Позволяем форме отправиться естественным образом
+      return;
+    }
+    
+    // Для обычных кнопок предотвращаем стандартное поведение
     e.preventDefault();
     e.stopPropagation();
+    
     if (onClick && !disabled && !isLoading) {
       onClick(e);
     }
@@ -46,7 +55,7 @@ export function PrimaryButton({ children, type = "button", onClick, className = 
   return (
     <button 
       type={type}
-      onClick={handleClick}
+      onClick={type === "submit" ? undefined : handleClick}
       disabled={disabled || isLoading}
       className={`w-full primary-button py-4 rounded-lg font-semibold text-lg text-white transition-all duration-200 ${disabled || isLoading ? 'opacity-50 cursor-not-allowed' : 'hover:transform hover:-translate-y-1 hover:shadow-lg'} ${className}`}
       style={{ 

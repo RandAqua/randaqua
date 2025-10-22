@@ -6,7 +6,7 @@ import { FormContainer, PrimaryButton, LinkButton } from '../ui/UIComponents';
 import { API_URLS } from '../../config/api';
 import { saveAuthData } from '../../utils/auth';
 
-export default function LoginForm({ onSwitchToRegister }) {
+export default function LoginForm({ onSwitchToRegister, onLoginSuccess }) {
   const [emailValue, setEmailValue] = useState('');
   const [passwordValue, setPasswordValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -14,11 +14,15 @@ export default function LoginForm({ onSwitchToRegister }) {
 
 
   const handleSubmit = async (e) => {
+    console.log('LoginForm handleSubmit called');
     e.preventDefault();
     setIsLoading(true);
     setError('');
 
     try {
+      console.log('Sending login request to:', API_URLS.LOGIN);
+      console.log('Request data:', { email: emailValue, password: '***' });
+      
       const response = await fetch(API_URLS.LOGIN, {
         method: 'POST',
         headers: {
@@ -30,15 +34,31 @@ export default function LoginForm({ onSwitchToRegister }) {
           password: passwordValue
         })
       });
+      
+      console.log('Login response status:', response.status);
 
       if (response.ok) {
         const data = await response.json();
         console.log('Login successful:', data);
+        console.log('User data from API:', data.user);
+        console.log('Email from API:', data.user?.Email || data.user?.email || data.email);
+        console.log('Username from API:', data.user?.Username || data.user?.username || data.username);
         
         // Сохраняем токен и данные пользователя в localStorage
         const authSaved = saveAuthData(data);
         if (authSaved) {
           console.log('Authentication data saved to localStorage');
+          
+          // Дополнительно сохраняем username если он есть в ответе
+          const username = data.user?.Username || data.user?.username || data.username;
+          if (username) {
+            try {
+              localStorage.setItem('username', username);
+              console.log('Username saved to localStorage:', username);
+            } catch (error) {
+              console.error('Error saving username to localStorage:', error);
+            }
+          }
         } else {
           console.error('Failed to save authentication data');
         }
@@ -64,6 +84,11 @@ export default function LoginForm({ onSwitchToRegister }) {
             document.body.removeChild(successMessage);
           }, 300);
         }, 3000);
+        
+        // Уведомляем родительский компонент об успешном входе
+        if (onLoginSuccess) {
+          onLoginSuccess();
+        }
       } else {
         const errorData = await response.json();
         // Более дружелюбные сообщения об ошибках

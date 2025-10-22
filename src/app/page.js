@@ -36,6 +36,12 @@ export default function Home() {
 
   const closeAuthModal = () => setIsAuthModalOpen(false);
 
+  const handleLoginSuccess = () => {
+    closeAuthModal();
+    // Принудительно обновляем страницу для обновления Navbar
+    window.location.reload();
+  };
+
   const handleVerificationSuccess = () => {
     closeAuthModal();
     // Показываем уведомление об успешной верификации
@@ -104,6 +110,7 @@ export default function Home() {
         onClose={closeAuthModal}
         initialTab={authModalTab}
         onVerificationSuccess={handleVerificationSuccess}
+        onLoginSuccess={handleLoginSuccess}
       />
     </div>
   );

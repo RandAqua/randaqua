@@ -107,6 +107,7 @@ export default function RegisterForm({ onSwitchToLogin, onVerificationSuccess })
   };
 
   const handleSubmit = async (e) => {
+    console.log('RegisterForm handleSubmit called');
     e.preventDefault();
     setIsLoading(true);
     const newErrors = {};
@@ -148,6 +149,13 @@ export default function RegisterForm({ onSwitchToLogin, onVerificationSuccess })
 
     if (Object.keys(newErrors).length === 0) {
       try {
+        console.log('Sending register request to:', API_URLS.REGISTER);
+        console.log('Request data:', { 
+          username: formData.username, 
+          email: formData.email, 
+          password: '***' 
+        });
+        
         const response = await fetch(API_URLS.REGISTER, {
           method: 'POST',
           headers: {
@@ -160,10 +168,20 @@ export default function RegisterForm({ onSwitchToLogin, onVerificationSuccess })
             password: formData.password
           })
         });
+        
+        console.log('Register response status:', response.status);
 
         if (response.ok) {
           const data = await response.json();
           console.log('Registration successful:', data);
+          
+          // Сохраняем username в localStorage
+          try {
+            localStorage.setItem('username', formData.username);
+            console.log('Username saved to localStorage:', formData.username);
+          } catch (error) {
+            console.error('Error saving username to localStorage:', error);
+          }
           
           // Сохраняем email и переключаемся на форму верификации
           setRegisteredEmail(formData.email);
