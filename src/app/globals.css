@@ -47,16 +47,14 @@ body {
 }
 
 .stoloto-card {
-  background: white;
+  background: #e7f5fb;
   border-radius: 16px;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-  border: 2px solid #f3f4f6;
+  border: none;
   transition: all 0.3s ease;
 }
 
 .stoloto-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
 }
 
 /* Utility to disable hover effects on specific cards */
@@ -592,6 +590,97 @@ select.select-pointer option:hover {
   max-width: 100vw;
   box-sizing: border-box;
 }
+
+/* Специальный класс для страницы анализа - полный скроллинг */
+.aqua-analyze-page {
+  height: auto !important;
+  min-height: 100vh;
+  overflow: visible !important;
+  align-items: flex-start;
+  padding-bottom: 2rem;
+}
+
+.aqua-analyze-page .aqua-text-container {
+  height: auto !important;
+  min-height: auto !important;
+  overflow: visible !important;
+}
+
+/* Кастомные анимации для результатов анализа */
+@keyframes slideInFromTop {
+  0% {
+    opacity: 0;
+    transform: translateY(-50px) scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes slideInFromLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-30px) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+@keyframes glowPulse {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(251, 113, 133, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(251, 113, 133, 0.4), 0 0 60px rgba(251, 113, 133, 0.2);
+  }
+}
+
+@keyframes glowPulseGreen {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(16, 185, 129, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(16, 185, 129, 0.4), 0 0 60px rgba(16, 185, 129, 0.2);
+  }
+}
+
+@keyframes textShimmer {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+/* Применение анимаций */
+.animate-slide-in-top {
+  animation: slideInFromTop 0.8s ease-out forwards;
+}
+
+.animate-slide-in-left {
+  animation: slideInFromLeft 0.6s ease-out forwards;
+}
+
+.animate-glow-pulse {
+  animation: glowPulse 2s ease-in-out infinite;
+}
+
+.animate-glow-pulse-green {
+  animation: glowPulseGreen 2s ease-in-out infinite;
+}
+
+.animate-text-shimmer {
+  background: linear-gradient(90deg, #0f172a, #334155, #0f172a);
+  background-size: 200% 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: textShimmer 2s ease-in-out infinite;
+}
 /* MERGE CONFLICT */
 /* Контейнер для фона с рыбками */
 .aqua-fish-background-container {
@@ -919,6 +1008,20 @@ select.select-pointer option:hover {
   display: block;
   color: var(--aqua-cyan);
   font-size: 3.5rem;
+}
+
+/* Стиль для предупреждающего текста */
+.aqua-warning-text {
+  font-weight: 700;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  color: #ff6b6b;
+  font-size: 1rem;
+}
+
+/* Градиентный текст как в примере */
+.aqua-gradient-text {
+  color: #225bfb;
+  font-weight: 700;
 }
 
 /* Небольшой подъем заголовка на странице генерации,
