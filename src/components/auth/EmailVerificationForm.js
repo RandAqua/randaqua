@@ -5,7 +5,7 @@ import AnimatedInput from '../forms/AnimatedInput';
 import { FormContainer, PrimaryButton, LinkButton } from '../ui/UIComponents';
 import { API_URLS } from '../../config/api';
 
-export default function EmailVerificationForm({ email, onVerificationSuccess, onBackToRegister }) {
+export default function EmailVerificationForm({ email, username, onVerificationSuccess, onBackToRegister }) {
   const [code, setCode] = useState('');
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
@@ -48,6 +48,16 @@ export default function EmailVerificationForm({ email, onVerificationSuccess, on
         if (response.ok) {
           const data = await response.json();
           console.log('Verification successful:', data);
+          
+          // Сохраняем username в localStorage при успешной верификации
+          if (username) {
+            try {
+              localStorage.setItem('username', username);
+              console.log('Username saved to localStorage after verification:', username);
+            } catch (error) {
+              console.error('Error saving username to localStorage after verification:', error);
+            }
+          }
           
           // Показываем успешное уведомление
           const successMessage = document.createElement('div');

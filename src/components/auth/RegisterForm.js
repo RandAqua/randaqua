@@ -18,6 +18,7 @@ export default function RegisterForm({ onSwitchToLogin, onVerificationSuccess })
   const [isLoading, setIsLoading] = useState(false);
   const [showVerification, setShowVerification] = useState(false);
   const [registeredEmail, setRegisteredEmail] = useState('');
+  const [registeredUsername, setRegisteredUsername] = useState('');
 
   const handleInputChange = async (field, value) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -183,8 +184,9 @@ export default function RegisterForm({ onSwitchToLogin, onVerificationSuccess })
             console.error('Error saving username to localStorage:', error);
           }
           
-          // Сохраняем email и переключаемся на форму верификации
+          // Сохраняем email и username, переключаемся на форму верификации
           setRegisteredEmail(formData.email);
+          setRegisteredUsername(formData.username);
           setShowVerification(true);
         } else {
           const errorData = await response.json();
@@ -217,6 +219,7 @@ export default function RegisterForm({ onSwitchToLogin, onVerificationSuccess })
   const handleBackToRegister = () => {
     setShowVerification(false);
     setRegisteredEmail('');
+    setRegisteredUsername('');
     setFormData({
       username: '',
       email: '',
@@ -231,6 +234,7 @@ export default function RegisterForm({ onSwitchToLogin, onVerificationSuccess })
     return (
       <EmailVerificationForm 
         email={registeredEmail}
+        username={registeredUsername}
         onVerificationSuccess={handleVerificationSuccess}
         onBackToRegister={handleBackToRegister}
       />
