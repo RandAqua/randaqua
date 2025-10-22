@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { MENU_ITEMS } from '../../custom/menu-config';
 
 export default function Navbar({ onLoginClick }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -24,10 +25,9 @@ export default function Navbar({ onLoginClick }) {
           {/* Десктопное меню */}
           <div className="hidden md:block flex-1">
             <div className="flex items-center justify-center space-x-4">
-              <a href="/generate" className="aqua-nav-link-wide">Создать тираж</a>
-              <a href="/how-it-works" className="aqua-nav-link-wide">Как это работает?</a>
-              <a href="/analyze" className="aqua-nav-link-wide">Проверка случайности</a>
-              <a href="#" className="aqua-nav-link-wide">История</a>
+              {MENU_ITEMS.map((item) => (
+                <a key={item.href + item.label} href={item.href} className="aqua-nav-link-wide">{item.label}</a>
+              ))}
             </div>
           </div>
 
@@ -76,10 +76,9 @@ export default function Navbar({ onLoginClick }) {
         {isMenuOpen && (
           <div className="md:hidden">
             <div className="px-2 pt-2 pb-4 space-y-2 sm:px-3 bg-blue-900">
-              <a href="/generate" className="aqua-nav-link-mobile">Создать тираж</a>
-              <a href="/how-it-works" className="aqua-nav-link-mobile">Как это работает?</a>
-              <a href="/analyze" className="aqua-nav-link-mobile">Проверка случайности</a>
-              <a href="#" className="aqua-nav-link-mobile">История</a>
+              {MENU_ITEMS.map((item) => (
+                <a key={item.href + item.label} href={item.href} className="aqua-nav-link-mobile">{item.label}</a>
+              ))}
               <div className="pt-4 space-y-2">
                 <button 
                   onClick={() => onLoginClick && onLoginClick('register')}
