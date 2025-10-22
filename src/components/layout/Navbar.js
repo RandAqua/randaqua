@@ -43,7 +43,7 @@ export default function Navbar({ onLoginClick }) {
                 История
               </a>
               <a
-                href="#"
+                href="/how-it-works"
                 className="aqua-nav-link-wide"
               >
                 Как это работает?
@@ -116,7 +116,7 @@ export default function Navbar({ onLoginClick }) {
                 История
               </a>
               <a
-                href="#"
+                href="/how-it-works"
                 className="aqua-nav-link-mobile"
               >
                 Как это работает?
