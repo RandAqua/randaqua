@@ -5,7 +5,7 @@ import TabSwitcher from './TabSwitcher';
 import LoginForm from './LoginForm';
 import RegisterForm from './RegisterForm';
 
-export default function AuthModal({ isOpen, onClose, initialTab = 'login', onVerificationSuccess, onLoginSuccess }) {
+export default function AuthModal({ isOpen, onClose, initialTab = 'login', onVerificationSuccess, onLoginSuccess, errorMessage }) {
   const [activeTab, setActiveTab] = useState(initialTab);
   const [isHiding, setIsHiding] = useState(false);
   const modalRef = useRef(null);
@@ -87,6 +87,16 @@ export default function AuthModal({ isOpen, onClose, initialTab = 'login', onVer
       >
 
         <div className="p-4 sm:p-6 md:p-8">
+          {errorMessage && (
+            <div className="mb-4 px-4 py-3 rounded-lg bg-red-50 border border-red-200 text-red-700 text-sm font-medium">
+              <div className="flex items-center">
+                <svg className="w-5 h-5 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                </svg>
+                {errorMessage}
+              </div>
+            </div>
+          )}
           <TabSwitcher 
             activeTab={activeTab} 
             onTabChange={handleTabChange} 

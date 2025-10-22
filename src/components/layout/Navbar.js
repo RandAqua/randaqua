@@ -1,10 +1,12 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { MENU_ITEMS } from '../../custom/menu-config';
 import { isAuthenticated, getUserData, getUsername, clearAuthData } from '../../utils/auth';
 
 export default function Navbar({ onLoginClick }) {
+  const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userData, setUserData] = useState(null);
@@ -114,17 +116,33 @@ export default function Navbar({ onLoginClick }) {
     setUsername(userUsername || '');
   };
 
+  // Функция для перехода на главную страницу
+  const handleLogoClick = () => {
+    router.push('/');
+  };
+
   return (
     <nav className="aqua-navbar">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
           {/* Логотип RandAqua */}
           <div className="flex-shrink-0 flex items-center">
-            <div className="flex items-center space-x-3">
+            <div 
+              className="aqua-logo-container flex items-center space-x-3"
+              onClick={handleLogoClick}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  handleLogoClick();
+                }
+              }}
+            >
               <div className="w-10 h-10 rounded-full flex items-center justify-center aqua-drop-icon">
                 <img src="/fish-logo.svg" alt="RandAqua Logo" className="w-6 h-6" />
               </div>
-              <div className="text-2xl font-bold text-white">
+              <div className="aqua-logo-text text-2xl font-bold text-white">
                 RandAqua
               </div>
             </div>
