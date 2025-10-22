@@ -47,60 +47,26 @@ export default function GeneratePage() {
   };
 
   return (
-    <div className="min-h-screen aqua-background">
+    <div className="min-h-screen">
       {/* Основной контент */}
       <div className={`main-content ${isAuthModalOpen ? 'blur' : ''}`}>
         <Navbar onLoginClick={openAuthModal} />
         
         {/* Секция под хедером, оптимизирована под десктоп */}
         <section className="aqua-hero-section aqua-under-header">
-          <div className="aqua-fish-background aqua-under-header">
-            {/* Дополнительные рыбки */}
-            <div className="aqua-fish-1">🐟</div>
-            <div className="aqua-fish-2">🐠</div>
-            <div className="aqua-fish-3">🐡</div>
-            <div className="aqua-fish-4">🐙</div>
-            <div className="aqua-fish-5">🦈</div>
-            <div className="aqua-fish-6">🐚</div>
-            <div className="aqua-fish-7">🦀</div>
-            <div className="aqua-fish-8">🐢</div>
-            <div className="aqua-fish-9">🦑</div>
-            <div className="aqua-fish-10">🐋</div>
-            <div className="aqua-fish-11">🐠</div>
-            <div className="aqua-fish-12">🐟</div>
-            <div className="aqua-fish-13">🦑</div>
-            <div className="aqua-fish-14">🐚</div>
-
-            {/* Пузыри */}
-            <div className="aqua-bubbles">
-              <span className="aqua-bubble"></span>
-              <span className="aqua-bubble"></span>
-              <span className="aqua-bubble"></span>
-              <span className="aqua-bubble"></span>
-              <span className="aqua-bubble"></span>
-              <span className="aqua-bubble"></span>
-              <span className="aqua-bubble"></span>
-              <span className="aqua-bubble"></span>
-              <span className="aqua-bubble"></span>
-              <span className="aqua-bubble"></span>
-              <span className="aqua-bubble"></span>
-              <span className="aqua-bubble"></span>
-            </div>
-            
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 aqua-text-container aqua-under-header">
-              <div className="text-center">
-                <h1 className="aqua-main-title generate-title">
-                  <span className="aqua-title-line1">Генерация чисел</span>
-                  <span className="aqua-title-line2">с помощью рыб</span>
-                </h1>
-                <div className="mt-4">
-                  <WheelOfFortune 
-                    isSpinning={isSpinning}
-                    result={result}
-                    onReset={handleReset}
-                    onWheelClick={handleWheelClick}
-                  />
-                </div>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 aqua-text-container aqua-under-header">
+            <div className="text-center">
+              <h1 className="aqua-main-title generate-title">
+                <span className="aqua-title-line1">Генерация чисел</span>
+                <span className="aqua-title-line2">с помощью рыб</span>
+              </h1>
+              <div className="mt-4">
+                <WheelOfFortune 
+                  isSpinning={isSpinning}
+                  result={result}
+                  onReset={handleReset}
+                  onWheelClick={handleWheelClick}
+                />
               </div>
             </div>
           </div>
