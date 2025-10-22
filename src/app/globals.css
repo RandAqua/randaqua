@@ -1144,7 +1144,7 @@ select.select-pointer option:hover {
   box-shadow: none;
   border: 1px solid #e5e7eb;
   width: 100%;
-  max-width: 400px; /* slightly smaller modal */
+  max-width: 500px; /* wider modal for auth forms */
   margin: 16px;
   animation: modalIn 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
   position: relative;
@@ -1600,6 +1600,34 @@ input:focus {
 
 .pulse-online {
   animation: pulseOnline 2s ease-in-out infinite;
+}
+
+/* Стили для широких экранов */
+@media (min-width: 1024px) {
+  .modal {
+    max-width: 600px; /* еще шире на больших экранах */
+  }
+  
+  .form-container {
+    padding: 2rem 3rem !important;
+  }
+  
+  .input-container input {
+    padding: 16px 24px !important;
+    font-size: 16px;
+    height: 56px !important;
+  }
+  
+  .primary-button {
+    padding: 16px 24px !important;
+    font-size: 18px !important;
+    height: 56px !important;
+  }
+  
+  .tab-button {
+    padding: 12px 20px !important;
+    font-size: 16px !important;
+  }
 }
 
 /* Адаптивность */
