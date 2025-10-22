@@ -1,11 +1,12 @@
 import { NextResponse } from 'next/server';
 
+// API роут для анализа случайности файлов - проксирует запросы к backend
 export async function POST(request) {
   try {
-    // Получаем FormData из запроса
+    // Получаем FormData из запроса клиента
     const formData = await request.formData();
     
-    // Отправляем запрос на внешний сервер через прокси
+    // Проксируем запрос на backend сервер анализа случайности
     const response = await fetch('http://26.237.158.25:8000/files/upload-txt-detailed', {
       method: 'POST',
       body: formData,
@@ -28,7 +29,7 @@ export async function POST(request) {
 
     const data = await response.json();
     
-    // Возвращаем данные клиенту
+    // Возвращаем результат анализа клиенту
     return NextResponse.json(data);
     
   } catch (error) {
@@ -45,7 +46,7 @@ export async function POST(request) {
   }
 }
 
-// Обработка OPTIONS запроса для CORS
+// Обработка CORS preflight запросов
 export async function OPTIONS(request) {
   return new NextResponse(null, {
     status: 200,

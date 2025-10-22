@@ -6,14 +6,20 @@ import Navbar from '../../components/layout/Navbar';
 import AuthModal from '../../components/auth/AuthModal';
 
 export default function HowItWorks() {
+  // Состояние демонстрации алгоритма
   const [currentStep, setCurrentStep] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
   const [generatedNumber, setGeneratedNumber] = useState(null);
+  
+  // Состояние авторизации
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [authModalTab, setAuthModalTab] = useState('login');
+  
+  // Данные для визуализации (генерируются случайно для демо)
   const [randomValues, setRandomValues] = useState({});
   const [isClient, setIsClient] = useState(false);
   
+  // Описание этапов работы алгоритма RandAqua
   const steps = [
     {
       title: "Наблюдение за рыбками",
@@ -37,7 +43,7 @@ export default function HowItWorks() {
     },
   ];
 
-  // Инициализация клиентских значений
+  // Инициализация случайных значений для демонстрации
   useEffect(() => {
     setIsClient(true);
     setRandomValues({

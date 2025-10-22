@@ -4,10 +4,10 @@
 import { getAuthHeader } from '../utils/auth';
 
 export const API_CONFIG = {
-  // Базовый URL для Swagger API
+  // Базовый URL для Swagger API - адрес backend сервера
   BASE_URL: 'http://26.237.158.25:8000',
   
-  // Эндпоинты API
+  // Эндпоинты API для различных операций
   ENDPOINTS: {
     LOGIN: '/auth/login',
     REGISTER: '/auth/register',
@@ -61,9 +61,9 @@ export const makeAuthenticatedRequest = async (url, options = {}) => {
   return fetch(url, requestOptions);
 };
 
-// Функция для генерации тиража
+// Основная функция для генерации случайных чисел через API
 export const generateBatch = async (count, minValue, maxValue) => {
-  const headers = getApiHeaders(false); // Не нужна авторизация для генерации
+  const headers = getApiHeaders(false); // Генерация не требует авторизации
   
   const requestBody = {
     count,
@@ -84,7 +84,7 @@ export const generateBatch = async (count, minValue, maxValue) => {
 
     const data = await response.json();
     
-    // Если есть файл с результатами, загружаем его
+    // Если сервер вернул ссылку на файл с результатами, загружаем его
     if (data.external_response && data.external_response.fileUrl) {
       const fileResponse = await fetch(data.external_response.fileUrl);
       if (fileResponse.ok) {
