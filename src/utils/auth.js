@@ -1,5 +1,7 @@
 // Authentication utility functions for token management
 
+import { API_URLS } from '../config/api';
+
 const TOKEN_KEY = 'auth_token';
 const USER_KEY = 'user_data';
 
@@ -137,4 +139,67 @@ export const getAuthHeader = () => {
 // Check if user is authenticated
 export const isAuthenticated = () => {
   return isTokenValid();
+};
+
+// Validate user token with server
+export const validateUserToken = async () => {
+  try {
+    const token = getToken();
+    
+    if (!token) {
+      console.log('No token found for validation');
+      return { success: false, error: 'No token' };
+    }
+
+    console.log('Validating token with server...');
+    
+    const response = await fetch(API_URLS.GET_USER_INFO, {
+      method: 'POST',
+      headers: {
+        'accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        token: token
+      })
+    });
+
+    console.log('Token validation response status:', response.status);
+
+    if (response.ok) {
+      const data = await response.json();
+      console.log('Token validation successful:', data);
+      
+      if (data.success && data.user) {
+        // Обновляем username в localStorage
+        const username = data.user.username;
+        if (username) {
+          try {
+            localStorage.setItem('username', username);
+            console.log('Username updated from server:', username);
+          } catch (error) {
+            console.error('Error updating username:', error);
+          }
+        }
+        
+        return { 
+          success: true, 
+          user: data.user,
+          username: username 
+        };
+      } else {
+        console.log('Server returned unsuccessful response');
+        return { success: false, error: 'Invalid response format' };
+      }
+    } else {
+      console.log('Token validation failed, clearing auth data');
+      // Если токен недействителен, очищаем данные
+      clearAuthData();
+      return { success: false, error: 'Token invalid' };
+    }
+  } catch (error) {
+    console.error('Error validating token:', error);
+    // При ошибке сети не очищаем токен, возможно проблема с соединением
+    return { success: false, error: 'Network error' };
+  }
 };

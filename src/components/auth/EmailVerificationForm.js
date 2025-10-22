@@ -4,6 +4,7 @@ import { useState } from 'react';
 import AnimatedInput from '../forms/AnimatedInput';
 import { FormContainer, PrimaryButton, LinkButton } from '../ui/UIComponents';
 import { API_URLS } from '../../config/api';
+import { saveAuthData } from '../../utils/auth';
 
 export default function EmailVerificationForm({ email, username, onVerificationSuccess, onBackToRegister }) {
   const [code, setCode] = useState('');
@@ -49,13 +50,37 @@ export default function EmailVerificationForm({ email, username, onVerificationS
           const data = await response.json();
           console.log('Verification successful:', data);
           
-          // Сохраняем username в localStorage при успешной верификации
-          if (username) {
+          // Сохраняем auth_token и другие данные аутентификации в localStorage
+          const token = data.token || data.Token || data.access_token;
+          if (token) {
             try {
-              localStorage.setItem('username', username);
-              console.log('Username saved to localStorage after verification:', username);
+              // Используем существующую функцию saveAuthData для сохранения токена
+              const authData = {
+                token: token,
+                username: username,
+                email: email,
+                ...data // включаем все дополнительные данные от сервера
+              };
+              
+              const saveSuccess = saveAuthData(authData);
+              if (saveSuccess) {
+                console.log('Auth token and data saved successfully after verification');
+              } else {
+                console.error('Failed to save auth data after verification');
+              }
             } catch (error) {
-              console.error('Error saving username to localStorage after verification:', error);
+              console.error('Error saving auth data after verification:', error);
+            }
+          } else {
+            console.warn('No token received from verification response:', data);
+            // Если токена нет, все равно сохраняем username для совместимости
+            if (username) {
+              try {
+                localStorage.setItem('username', username);
+                console.log('Username saved to localStorage after verification (no token):', username);
+              } catch (error) {
+                console.error('Error saving username to localStorage after verification:', error);
+              }
             }
           }
           
