@@ -189,7 +189,7 @@ export default function EmailVerificationForm({ email, username, onVerificationS
           label="Код подтверждения"
           error={errors.code}
           required={true}
-          placeholder="123456"
+          // placeholder="123456"
           maxLength={6}
         />
 
@@ -204,34 +204,8 @@ export default function EmailVerificationForm({ email, username, onVerificationS
         </PrimaryButton>
       </form>
 
-      <div className="text-center mb-4">
-        <button 
-          onClick={handleResendCode}
-          className="text-blue-600 hover:text-blue-800 text-sm font-medium"
-          style={{ color: '#2563eb' }}
-          disabled={isLoading}
-        >
-          Отправить код повторно
-        </button>
-      </div>
 
-      <div className="text-center">
-        <span className="text-gray-600 text-sm font-medium" style={{ color: '#4b5563' }}>Неправильный email? </span>
-        {onBackToRegister ? (
-          <button 
-            onClick={onBackToRegister}
-            className="text-blue-600 hover:text-blue-800 text-sm font-semibold"
-            style={{ color: '#2563eb' }}
-          >
-            Изменить
-          </button>
-        ) : (
-          <LinkButton href="/auth?tab=register">
-            Изменить
-          </LinkButton>
-        )}
-      </div>
-
+      
     </FormContainer>
   );
 }
