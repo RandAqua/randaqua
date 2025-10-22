@@ -95,15 +95,14 @@ export default function AnimatedInput({
         <label
           className={`absolute left-6 transition-all duration-200 pointer-events-none ${
             focused || value
-              ? 'top-2 text-xs text-gray-600 bg-white px-1 font-medium z-10 transform translate-y-0'
+              ? 'top-0 text-xs text-gray-600 bg-white px-2 font-medium z-10'
               : 'top-1/2 transform -translate-y-1/2 text-gray-500'
           }`}
           style={{ 
             color: focused || value ? '#4b5563' : '#6b7280',
             fontWeight: focused || value ? '500' : '400',
             zIndex: focused || value ? 10 : 'auto',
-            // Принудительно поднимаем лейбл вверх при наличии кнопки переключения пароля
-            top: (focused || value) ? '8px' : '50%',
+            top: (focused || value) ? '-6px' : '50%',
             transform: (focused || value) ? 'translateY(0)' : 'translateY(-50%)',
             fontSize: (focused || value) ? '12px' : '16px'
           }}

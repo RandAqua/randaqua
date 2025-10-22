@@ -74,19 +74,19 @@ export default function Home() {
         <Navbar onLoginClick={openAuthModal} />
         
         {/* Героическая секция RandAqua */}
-        <section className="aqua-hero-section" style={{ minHeight: '120vh' }}>
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 aqua-text-container" style={{ paddingTop: '8rem', paddingBottom: '8rem' }}>
+        <section className="aqua-hero-section" style={{ minHeight: '100vh' }}>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 aqua-text-container" style={{ paddingTop: '2rem', paddingBottom: '2rem' }}>
             <div className="text-center">
-              <h1 className="aqua-main-title" style={{ fontSize: '5rem', marginBottom: '3rem' }}>
+              <h1 className="aqua-main-title" style={{ fontSize: '5rem', marginBottom: '2rem' }}>
                 <span className="aqua-title-line1">Истинная случайность</span>
                 <span className="aqua-title-line2">из глубин океана</span>
               </h1>
-              <p className="aqua-hero-description" style={{ fontSize: '1.5rem', marginBottom: '4rem', maxWidth: '900px' }}>
+              <p className="aqua-hero-description" style={{ fontSize: '1.5rem', marginBottom: '2rem', maxWidth: '900px' }}>
                 Революционная система генерации случайных чисел на основе наблюдения за морской жизнью. 
                 Камеры видеонаблюдения за рыбами создают истинно случайные числа для ваших нужд.
               </p>
-              <div className="flex justify-center space-x-6 mt-12">
-                <Link href="/generate" className="aqua-generate-btn" style={{ padding: '20px 40px', fontSize: '18px' }}>
+              <div className="flex justify-center space-x-6 mt-6">
+                <Link href="/generate" className="aqua-how-btn" style={{ padding: '20px 40px', fontSize: '18px' }}>
                   <svg className="w-6 h-6 mr-3" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd"/>
                   </svg>
@@ -94,9 +94,9 @@ export default function Home() {
                 </Link>
                 <Link href="/analyze" className="aqua-how-btn" style={{ padding: '20px 40px', fontSize: '18px' }}>
                   <svg className="w-6 h-6 mr-3" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" clipRule="evenodd"/>
+                    <path fillRule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd"/>
                   </svg>
-                  Анализатор
+                  Проверка случайности
                 </Link>
               </div>
             </div>
