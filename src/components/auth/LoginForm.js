@@ -127,7 +127,7 @@ export default function LoginForm({ onSwitchToRegister, onLoginSuccess }) {
           onChange={(e) => setPasswordValue(e.target.value)}
           label="Пароль"
           required={true}
-          showPasswordToggle={true}
+          showPasswordToggle={false}
         />
 
 
@@ -137,9 +137,11 @@ export default function LoginForm({ onSwitchToRegister, onLoginSuccess }) {
           </div>
         )}
 
-        <PrimaryButton type="submit" className="mb-6" disabled={isLoading} isLoading={isLoading}>
-          Войти
-        </PrimaryButton>
+        <div className="form-actions flex justify-end">
+          <PrimaryButton type="submit" disabled={isLoading} isLoading={isLoading}>
+            Войти
+          </PrimaryButton>
+        </div>
       </form>
 
 

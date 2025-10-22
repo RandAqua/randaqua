@@ -310,6 +310,45 @@ body {
   height: 48px;
 }
 
+.select-pointer {
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
+  border-radius: 10px; /* extra smoothing */
+  appearance: none; /* cleaner look on webkit */
+  background-position: right 10px center;
+  background-repeat: no-repeat;
+}
+.select-pointer:hover {
+  background-color: rgba(14, 165, 233, 0.10); /* light aqua like register */
+  border-color: #0ea5e9; /* primary blue */
+  color: #0f172a;
+  box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.20);
+}
+
+/* Some browsers will apply these option styles */
+select.select-pointer option {
+  border-radius: 8px;
+}
+select.select-pointer option:hover {
+  background-color: #e0f2fe; /* sky-100 */
+  color: #0f172a;
+}
+
+/* Animated emoji for history header */
+.history-emoji {
+  display: inline-block;
+  margin-right: 8px;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+  animation: historyWobble 1.8s ease-in-out infinite;
+}
+
+@keyframes historyWobble {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  25% { transform: translateY(-2px) rotate(6deg); }
+  50% { transform: translateY(0) rotate(-4deg); }
+  75% { transform: translateY(-1px) rotate(3deg); }
+}
+
 /* Subtitle pill style for the generator page */
 .aqua-subtitle-pill {
   display: inline-block;
@@ -981,11 +1020,19 @@ body {
   inset: 0;
   z-index: 99999;
   display: flex;
-  align-items: center;
+  align-items: center; /* center vertically */
   justify-content: center;
   background: rgba(10, 18, 34, 0.35);
   /* overlay dims but does not blur; blur is on .main-content */
   animation: overlayFade 0.35s ease forwards;
+}
+
+/* Backdrop alias to satisfy different markup naming */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  pointer-events: auto;
 }
 
 .modal {
@@ -994,11 +1041,18 @@ body {
   box-shadow: none;
   border: 1px solid #e5e7eb;
   width: 100%;
-  max-width: 480px;
+  max-width: 400px; /* slightly smaller modal */
   margin: 16px;
   animation: modalIn 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
   position: relative;
   z-index: 100000;
+  max-height: 92vh; /* never cover screen entirely */
+  overflow: visible; /* allow close button to overflow */
+  box-sizing: border-box;
+}
+
+.modal.modal-hide {
+  animation: modalOut 0.25s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 @keyframes overlayFade {
@@ -1015,6 +1069,90 @@ body {
     opacity: 1;
     transform: translateY(0) scale(1);
   }
+}
+
+@keyframes modalOut {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-12px) scale(0.96);
+  }
+}
+
+.modal-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: #ff4d4d;
+  color: #ffffff; /* white cross */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.12);
+  overflow: visible;
+}
+.modal-close:hover {
+  background: #ff6b6b; /* lighter on hover */
+  box-shadow: 0 6px 14px rgba(239,68,68,0.25);
+}
+
+/* Ensure interactive elements are above any accidental overlays */
+.modal, .modal__content { position: relative; z-index: 1010; }
+.modal .primary-button, .register-btn { position: relative; z-index: 1020 !important; pointer-events: auto !important; }
+.modal::before,
+.modal::after,
+.modal__content::before,
+.modal__content::after { pointer-events: none; }
+.modal-wrapper[style*="transform"] { transform: none; }
+
+/* Smooth tab swap for auth modal */
+.auth-tab-panel {
+  animation: authSwap 240ms ease both;
+}
+
+@keyframes authSwap {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Compact auth layout to fit both login and register without scroll */
+.auth-compact .form-container { padding: 12px !important; }
+.auth-compact h1 { margin-bottom: 8px !important; font-size: 18px !important; }
+.auth-compact .primary-button { padding-top: 12px !important; padding-bottom: 12px !important; font-size: 16px !important; height: 48px !important; }
+.auth-compact .uniform-input { height: 48px !important; }
+.auth-compact .auth-tab-panel { height: auto; overflow: visible; max-height: none; }
+.auth-compact .text-sm { line-height: 1.25rem; }
+
+/* ОДИНАКОВЫЕ ОТСТУПЫ МЕЖДУ ВСЕМИ ПОЛЯМИ */
+.auth-compact .input-container { margin-bottom: 8px !important; }
+.auth-compact .mb-4 { margin-bottom: 8px !important; }
+.auth-compact .mb-6 { margin-bottom: 8px !important; }
+.auth-compact .mt-4 { margin-top: 8px !important; }
+.auth-compact .form-actions { margin-top: 8px !important; }
+
+/* ОДИНАКОВАЯ ВЫСОТА ВСЕХ ПОЛЕЙ ВВОДА И КНОПОК */
+.auth-compact .input-container input { height: 48px !important; }
+.auth-compact input { height: 48px !important; }
+
+/* Alert banner inside modal */
+.alert--modal {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 12px 16px;
+  background: #ffecec;
+  color: #b30000;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  word-break: break-word;
 }
 
 /* Стили для форм авторизации */
@@ -1068,6 +1206,12 @@ input:focus {
   background-color: #0ea5e9;
   color: #fff;
   transition: all 0.2s ease-in-out;
+  white-space: nowrap; /* keep long labels like Зарегистрироваться on one line */
+}
+
+/* Utility to override default full width button when needed */
+.btn-auto {
+  width: auto !important;
 }
 
 .primary-button:hover {
@@ -1401,24 +1545,31 @@ input:focus {
   
   /* Мобильные стили для форм авторизации */
   .modal {
-    margin: 8px;
-    max-width: calc(100vw - 16px);
+    margin: 4px;
+    max-width: calc(100vw - 8px);
   }
-  
+
   .input-container input {
     padding: 12px 16px;
     font-size: 16px; /* Предотвращает зум на iOS */
+    height: 48px;
   }
   
+  /* Ensure all inputs in auth forms have same height */
+  .auth-compact .input-container input {
+    height: 48px !important;
+  }
+
   .primary-button {
     padding: 12px 16px;
     font-size: 16px;
+    height: 48px;
   }
-  
+
   .form-container {
-    padding: 16px;
+    padding: 12px;
   }
-  
+
   .tab-button {
     padding: 8px 12px;
     font-size: 14px;
