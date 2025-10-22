@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Navbar from '../../components/layout/Navbar';
 import AuthModal from '../../components/auth/AuthModal';
@@ -11,16 +11,18 @@ export default function HowItWorks() {
   const [generatedNumber, setGeneratedNumber] = useState(null);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [authModalTab, setAuthModalTab] = useState('login');
+  const [randomValues, setRandomValues] = useState({});
+  const [isClient, setIsClient] = useState(false);
   
   const steps = [
     {
-      title: "Наблюдение за рыбами",
-      description: "Специализированные подводные камеры высокого разрешения непрерывно фиксируют движение морских обитателей в их естественной среде обитания. Система отслеживает координаты, скорость и направление движения каждой рыбы в реальном времени.",
+      title: "Наблюдение за рыбками",
+      description: "Специализированные подводные камеры высокого разрешения непрерывно фиксируют движение морских обитателей в их естественной среде обитания. Система отслеживает координаты, скорость и направление движения каждой рыбки в реальном времени.",
       icon: "🐟"
     },
     {
       title: "Анализ траекторий",
-      description: "Алгоритмы машинного обучения анализируют полученные данные о движении рыб, вычисляя математические параметры: скорость, ускорение, угловую скорость, кривизну траектории и другие характеристики, которые создают уникальные паттерны движения.",
+      description: "Алгоритмы машинного обучения анализируют полученные данные о движении рыбок, вычисляя математические параметры: скорость, ускорение, угловую скорость, кривизну траектории и другие характеристики, которые создают уникальные паттерны движения.",
       icon: "📊"
     },
     {
@@ -34,6 +36,23 @@ export default function HowItWorks() {
       icon: "🎲"
     },
   ];
+
+  // Инициализация клиентских значений
+  useEffect(() => {
+    setIsClient(true);
+    setRandomValues({
+      fish1: { x: Math.floor(Math.random() * 100), y: Math.floor(Math.random() * 100) },
+      fish2: { x: Math.floor(Math.random() * 100), y: Math.floor(Math.random() * 100) },
+      fish3: { x: Math.floor(Math.random() * 100), y: Math.floor(Math.random() * 100) },
+      fish4: { x: Math.floor(Math.random() * 100), y: Math.floor(Math.random() * 100) },
+      speed: (Math.random() * 5).toFixed(2),
+      direction: Math.floor(Math.random() * 360),
+      acceleration: (Math.random() * 2).toFixed(2),
+      hash1: Math.random().toString(16).substr(2, 8),
+      hash2: Date.now().toString(16).slice(-8),
+      hash3: Math.random().toString(16).substr(2, 8)
+    });
+  }, []);
 
   const startDemo = () => {
     setIsRunning(true);
@@ -138,7 +157,7 @@ export default function HowItWorks() {
                       </p>
                       
                       {/* Прогресс-бар для каждого этапа */}
-                      <div className="mt-3">
+                      <div className="mt-auto">
                         <div className="w-full bg-gray-200 rounded-full h-2 shadow-inner aqua-demo-progress">
                           <div 
                             className={`h-2 rounded-full aqua-demo-progress-bar ${
@@ -162,10 +181,6 @@ export default function HowItWorks() {
                            currentStep === index ? 'Выполняется...' : 'Ожидание'}
                         </div>
                       </div>
-                      
-                      {currentStep > index && (
-                        <div className="text-blue-500 text-lg mt-2">✓</div>
-                      )}
                     </div>
                   </div>
                 ))}
@@ -196,7 +211,7 @@ export default function HowItWorks() {
                     </p>
                     
                     {/* Прогресс-бар для генерации числа */}
-                    <div className="mt-3">
+                    <div className="mt-auto">
                       <div className="w-full bg-gray-200 rounded-full h-2 shadow-inner aqua-demo-progress">
                         <div 
                           className={`h-2 rounded-full aqua-demo-progress-bar ${
@@ -220,10 +235,6 @@ export default function HowItWorks() {
                          currentStep === 3 ? 'Выполняется...' : 'Ожидание'}
                       </div>
                     </div>
-                    
-                    {currentStep > 3 && (
-                      <div className="text-blue-500 text-lg mt-2">✓</div>
-                    )}
                   </div>
                 </div>
                 
@@ -261,16 +272,16 @@ export default function HowItWorks() {
                 }`}>
                   <div className="text-center h-full flex flex-col ">
                     <div className={`text-2xl mb-2 ${currentStep >= 0 ? 'animate-bounce' : ''}`}>🐟</div>
-                    <h3 className="text-sm font-bold text-blue-800 mb-2">Наблюдение за рыбами</h3>
+                    <h3 className="text-sm font-bold text-blue-800 mb-2">Наблюдение за рыбками</h3>
                     <div className="grid grid-cols-2 gap-1 mb-2">
                       {[1, 2, 3, 4].map((fish) => (
                         <div key={fish} className={`text-center p-1 rounded-sm transition-all duration-300 ${
                           currentStep >= 0 ? 'bg-blue-200 animate-pulse shadow-md' : 'bg-gray-200'
                         }`}>
                           <div className="text-xs mb-1">🐠</div>
-                          <div className="text-xs font-mono text-gray-700">
-                            {currentStep >= 0 ? `x:${Math.floor(Math.random() * 100)}, y:${Math.floor(Math.random() * 100)}` : '---'}
-                          </div>
+                           <div className="text-xs font-mono text-gray-700">
+                             {currentStep >= 0 && isClient ? `x:${randomValues[`fish${fish}`]?.x || '---'}, y:${randomValues[`fish${fish}`]?.y || '---'}` : '---'}
+                           </div>
                         </div>
                       ))}
                     </div>
@@ -287,20 +298,20 @@ export default function HowItWorks() {
                     <div className="space-y-1 mb-2">
                       <div className="flex justify-between items-center p-1 bg-white/60 rounded-sm">
                         <span className="text-blue-700 font-medium text-xs">Скорость:</span>
-                        <span className="font-mono text-blue-600 font-bold text-xs">
-                          {currentStep >= 1 ? `${(Math.random() * 5).toFixed(2)} м/с` : '---'}
-                        </span>
+                         <span className="font-mono text-blue-600 font-bold text-xs">
+                           {currentStep >= 1 && isClient ? `${randomValues.speed} м/с` : '---'}
+                         </span>
                       </div>
                       <div className="flex justify-between items-center p-1 bg-white/60 rounded-sm">
                         <span className="text-blue-700 font-medium text-xs">Направление:</span>
                         <span className="font-mono text-blue-600 font-bold text-xs">
-                          {currentStep >= 1 ? `${Math.floor(Math.random() * 360)}°` : '---'}
+                          {currentStep >= 1 && isClient ? `${randomValues.direction}°` : '---'}
                         </span>
                       </div>
                       <div className="flex justify-between items-center p-1 bg-white/60 rounded-sm">
                         <span className="text-blue-700 font-medium text-xs">Ускорение:</span>
                         <span className="font-mono text-blue-600 font-bold text-xs">
-                          {currentStep >= 1 ? `${(Math.random() * 2).toFixed(2)} м/с²` : '---'}
+                          {currentStep >= 1 && isClient ? `${randomValues.acceleration} м/с²` : '---'}
                         </span>
                       </div>
                     </div>
@@ -314,18 +325,18 @@ export default function HowItWorks() {
                   <div className="text-center h-full flex flex-col">
                     <div className={`text-2xl mb-2 ${currentStep >= 2 ? 'animate-bounce' : ''}`}>⚡</div>
                     <h3 className="text-sm font-bold text-blue-800 mb-2">Извлечение энтропии</h3>
-                    <div className="bg-gradient-to-br from-gray-900 to-gray-800 text-green-400 p-2 rounded-sm font-mono text-xs shadow-inner border border-gray-700 mb-2">
+                      <div className="text-left bg-gradient-to-br from-gray-900 to-gray-800 text-green-400 p-2 rounded-sm font-mono text-xs shadow-inner border border-gray-700 mb-2">
                       <div className="text-green-300">SHA-256(</div>
                       <div className="ml-1 text-green-300">concat(</div>
-                      <div className="ml-1 text-green-400">
-                        fish_data: {currentStep >= 2 ? '0x' + Math.random().toString(16).substr(2, 8) : '--------'}
-                      </div>
-                      <div className="ml-1 text-green-400">
-                        timestamp: {currentStep >= 2 ? Date.now().toString(16).slice(-8) : '--------'}
-                      </div>
-                      <div className="ml-1 text-green-400">
-                        vectors: {currentStep >= 2 ? '0x' + Math.random().toString(16).substr(2, 8) : '--------'}
-                      </div>
+                       <div className="ml-1 text-green-400">
+                         рыбки_data: {currentStep >= 2 && isClient ? '0x' + randomValues.hash1 : '--------'}
+                       </div>
+                       <div className="ml-1 text-green-400">
+                         timestamp: {currentStep >= 2 && isClient ? randomValues.hash2 : '--------'}
+                       </div>
+                       <div className="ml-1 text-green-400">
+                         vectors: {currentStep >= 2 && isClient ? '0x' + randomValues.hash3 : '--------'}
+                       </div>
                       <div className="ml-1 text-green-300">)</div>
                       <div className="text-green-300">)</div>
                     </div>

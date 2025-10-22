@@ -13,6 +13,7 @@ export const API_CONFIG = {
     REGISTER: '/auth/register',
     VERIFY_CODE: '/auth/verify-code',
     GET_USER_INFO: '/auth/get-user-info',
+    GENERATE_BATCH: '/video/generate-batch-snapshot',
   }
 };
 
@@ -27,6 +28,7 @@ export const API_URLS = {
   REGISTER: getApiUrl(API_CONFIG.ENDPOINTS.REGISTER),
   VERIFY_CODE: getApiUrl(API_CONFIG.ENDPOINTS.VERIFY_CODE),
   GET_USER_INFO: getApiUrl(API_CONFIG.ENDPOINTS.GET_USER_INFO),
+  GENERATE_BATCH: getApiUrl(API_CONFIG.ENDPOINTS.GENERATE_BATCH),
 };
 
 // Функция для создания заголовков с авторизацией
@@ -57,4 +59,46 @@ export const makeAuthenticatedRequest = async (url, options = {}) => {
   };
 
   return fetch(url, requestOptions);
+};
+
+// Функция для генерации тиража
+export const generateBatch = async (count, minValue, maxValue) => {
+  const headers = getApiHeaders(false); // Не нужна авторизация для генерации
+  
+  const requestBody = {
+    count,
+    min_value: minValue,
+    max_value: maxValue
+  };
+
+  try {
+    const response = await fetch(API_URLS.GENERATE_BATCH, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify(requestBody)
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    
+    // Если есть файл с результатами, загружаем его
+    if (data.external_response && data.external_response.fileUrl) {
+      const fileResponse = await fetch(data.external_response.fileUrl);
+      if (fileResponse.ok) {
+        const fileData = await fileResponse.json();
+        return {
+          ...data,
+          generatedNumbers: fileData.result.values
+        };
+      }
+    }
+    
+    return data;
+  } catch (error) {
+    console.error('Error generating batch:', error);
+    throw error;
+  }
 };
