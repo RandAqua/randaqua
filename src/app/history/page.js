@@ -153,12 +153,21 @@ export default function HistoryPage() {
                 Эта страница предназначена только для авторизованных пользователей. 
                 Пожалуйста, войдите в систему, чтобы продолжить.
               </p>
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-gray-500 mb-6">
                 Используйте кнопки "Регистрация" или "Вход" в верхнем меню для авторизации.
               </p>
             </div>
           </div>
         </div>
+        
+        {/* Модальное окно авторизации */}
+        <AuthModal
+          isOpen={isAuthModalOpen}
+          onClose={closeAuthModal}
+          initialTab={authModalTab}
+          onVerificationSuccess={handleVerificationSuccess}
+          onLoginSuccess={handleLoginSuccess}
+        />
       </div>
     );
   }

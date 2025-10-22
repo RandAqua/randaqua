@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import Navbar from '../../components/layout/Navbar';
 import AuthModal from '../../components/auth/AuthModal';
 import { isAuthenticated } from '../../utils/auth';
+import { generateBatch } from '../../config/api';
 
 export default function GeneratePage() {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
@@ -22,6 +23,7 @@ export default function GeneratePage() {
   const [stage, setStage] = useState(0); // 0..3 stages
   const [progress, setProgress] = useState(0);
   const [results, setResults] = useState([]);
+  const [generationData, setGenerationData] = useState(null); // Данные о генерации с сервера
 
   // Проверка авторизации при загрузке
   useEffect(() => {
@@ -86,15 +88,6 @@ export default function GeneratePage() {
     }, 5000);
   };
 
-  // Simple string hash (FNV-1a like) to mix entropy source into RNG
-  const hashString = (str) => {
-    let h = 2166136261;
-    for (let i = 0; i < str.length; i++) {
-      h ^= str.charCodeAt(i);
-      h += (h << 1) + (h << 4) + (h << 7) + (h << 8) + (h << 24);
-    }
-    return h >>> 0;
-  };
 
   const validate = () => {
     if (min > max) return 'Минимум не может быть больше максимума';
@@ -102,71 +95,51 @@ export default function GeneratePage() {
     return '';
   };
 
-  const runComputation = () => {
+  const runComputation = async () => {
     const err = validate();
     if (err) {
       alert(err);
       return;
     }
+    
     setIsComputing(true);
     setStage(0);
     setProgress(0);
     setResults([]);
+    setGenerationData(null);
 
-    const startTs = Date.now();
-    const timers = [];
-
-    // Stage progression (kept for internal timing, not shown)
-    timers.push(setTimeout(() => setStage(0), 0));
-    timers.push(setTimeout(() => setStage(1), 1200));
-    timers.push(setTimeout(() => setStage(2), 2400));
-    timers.push(setTimeout(() => setStage(3), 3600));
-
-    // Progressive generation during progress movement
-    const entropySeed = hashString(entropySource);
-    const buffer = [];
-    let nextIndex = 0;
-    const genId = setInterval(() => {
-      if (nextIndex >= count) {
-        clearInterval(genId);
-        return;
-      }
-      const i = nextIndex;
-      const rotated = (entropySeed << (i % 13)) | (entropySeed >>> (32 - (i % 13)));
-      const mix = (startTs ^ (i * 2654435761) ^ rotated) + Math.floor(Math.random() * 1e9);
-      const span = max - min + 1;
-      buffer.push(min + Math.abs(mix) % span);
-      nextIndex += 1;
-    }, 120);
-    timers.push(genId);
-
-    // Progress ticker with finalize at 100%
-    const progId = setInterval(() => {
-      setProgress((prev) => {
-        const next = Math.min(100, prev + 8);
-        if (next >= 100) {
-          clearInterval(progId);
-          clearInterval(genId);
-          // Ensure buffer has all numbers; if not, fill remaining synchronously
-          while (buffer.length < count) {
-            const i = buffer.length;
-            const rotated = (entropySeed << (i % 13)) | (entropySeed >>> (32 - (i % 13)));
-            const mix = (startTs ^ (i * 2654435761) ^ rotated) + Math.floor(Math.random() * 1e9);
-            const span = max - min + 1;
-            buffer.push(min + Math.abs(mix) % span);
+    try {
+      // Показываем прогресс генерации
+      const progressInterval = setInterval(() => {
+        setProgress((prev) => {
+          const next = Math.min(90, prev + 10); // Останавливаем на 90% до получения результата
+          if (next >= 90) {
+            clearInterval(progressInterval);
           }
-          // Small delay to show 100% progress before showing results
-          setTimeout(() => {
-            setResults(buffer);
-            setIsComputing(false);
-          }, 200);
-        }
-        return next;
-      });
-    }, 80);
-    timers.push(progId);
+          return next;
+        });
+      }, 200);
 
-    return () => timers.forEach(clearTimeout);
+      // Отправляем запрос на сервер
+      const serverData = await generateBatch(count, min, max);
+      
+      clearInterval(progressInterval);
+      setProgress(100);
+      
+      // Устанавливаем результаты
+      if (serverData.generatedNumbers) {
+        setResults(serverData.generatedNumbers);
+        setGenerationData(serverData);
+      } else {
+        throw new Error('Не удалось получить сгенерированные числа');
+      }
+      
+    } catch (error) {
+      console.error('Ошибка генерации:', error);
+      alert(`Ошибка генерации: ${error.message}`);
+    } finally {
+      setIsComputing(false);
+    }
   };
 
   const lenClass = (val) => `len-${String(val).length}`;
@@ -176,6 +149,7 @@ export default function GeneratePage() {
       timestamp: new Date().toISOString(),
       params: { count, min, max, entropySource },
       results,
+      serverData: generationData, // Добавляем данные с сервера
     };
     const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
@@ -310,6 +284,21 @@ export default function GeneratePage() {
                         ))}
                       </div>
                       <p className="mt-3 text-sm text-gray-700 text-center">Источник энтропии: <span className="text-gray-900 font-semibold">{entropySource}</span></p>
+                      
+                      {/* Дополнительная информация с сервера */}
+                      {generationData && (
+                        <div className="mt-3 text-xs text-gray-600 text-center space-y-1">
+                          {generationData.seed && (
+                            <div>Seed: <span className="font-mono">{generationData.seed}</span></div>
+                          )}
+                          {generationData.entropy_quality && (
+                            <div>Качество случайности: <span className="font-semibold">{(generationData.entropy_quality.randomness_score * 100).toFixed(1)}%</span></div>
+                          )}
+                          {generationData.processing_time && (
+                            <div>Время обработки: <span className="font-semibold">{generationData.processing_time}мс</span></div>
+                          )}
+                        </div>
+                      )}
 
                       {/* Download fingerprint button, appears after numbers */}
                       <div className="mt-3 flex justify-center">
