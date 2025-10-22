@@ -592,9 +592,10 @@ select.select-pointer option:hover {
   position: relative;
   height: 100vh;
   display: flex;
-  align-items: flex-start;
+  justify-content: center; /* Центрирование по горизонтали */
+  align-items: center;   /* Центрирование по вертикали */
   overflow: hidden;
-  padding-top: 2rem;
+  /* padding-top: 2rem; Удалено для идеального вертикального центрирования */
 }
 
 /* Вариант секции строго под хедером (h-20 ≈ 80px) */
@@ -1001,10 +1002,11 @@ select.select-pointer option:hover {
   z-index: 10;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  min-height: auto;
+  justify-content: center; /* Центрирование содержимого по вертикали */
+  align-items: center;   /* Центрирование содержимого по горизонтали */
+  min-height: 100%;
   overflow-y: auto;
-  padding: 2rem 0;
+  padding: 0;
 }
 
 .aqua-text-container.aqua-under-header {

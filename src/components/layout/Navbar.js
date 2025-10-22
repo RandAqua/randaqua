@@ -195,7 +195,7 @@ export default function Navbar({ onLoginClick }) {
                     <div className="py-1">
                       <button 
                         onClick={handleLogout}
-                        className="w-full text-left px-1.5 py-1 text-xs text-gray-700 hover:bg-gradient-to-r hover:from-red-50 hover:to-pink-50 hover:text-red-600 transition-all duration-300 flex items-center group rounded-md mx-1"
+                        className="w-full text-left px-1.5 py-1 text-xs text-gray-700 hover:text-red-600 transition-all duration-300 flex items-center group rounded-md mx-1"
                       >
                         <div className="w-2.5 h-2.5 rounded-full bg-red-100 group-hover:bg-red-200 flex items-center justify-center mr-1 transition-colors duration-300">
                           <svg className="w-1 h-1 text-red-500 group-hover:text-red-600 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -1,8 +1,27 @@
 "use client";
 
+/*
+ * ========================================
+ * СТРАНИЦА ИСТОРИИ ГЕНЕРАЦИЙ
+ * ========================================
+ * 
+ * ИНСТРУКЦИИ ПО ИНТЕГРАЦИИ С БЭКЕНДОМ:
+ * 
+ * 1. Замените блок кода в useEffect (строки 52-124) на вызов функции fetchHistoryFromBackend()
+ * 2. Реализуйте функцию fetchHistoryFromBackend() согласно примеру в комментариях
+ * 3. Убедитесь, что формат данных соответствует ожидаемому (см. комментарии)
+ * 4. Удалите демо-данные после успешной интеграции
+ * 
+ * ОЖИДАЕМЫЙ API ENDPOINT: GET /api/history?order=desc|asc
+ * ОЖИДАЕМЫЙ FORMAT ОТВЕТА: { success: true, items: HistoryItem[] }
+ * 
+ * ========================================
+ */
+
 import { useEffect, useState } from 'react';
 import Navbar from '../../components/layout/Navbar';
 import AuthModal from '../../components/auth/AuthModal';
+import { isAuthenticated } from '../../utils/auth';
 
 const formatDate = (isoOrMs) => {
   try {
@@ -28,15 +47,18 @@ export default function HistoryPage() {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    // Простая проверка авторизации (заменим на реальную позже)
-    const token = typeof window !== 'undefined' ? localStorage.getItem('randAqua_auth') : null;
-    const isLogged = Boolean(token);
+    // Проверка авторизации с использованием правильной функции
+    const isLogged = isAuthenticated();
     setIsAuthed(isLogged);
     if (!isLogged) {
       setIsAuthModalOpen(true);
       setAuthModalTab('register');
       setError('Данная функция доступна только зарегистрированным пользователям');
       return;
+    } else {
+      // Если пользователь авторизован, убираем ошибку и закрываем модальное окно
+      setError('');
+      setIsAuthModalOpen(false);
     }
   }, []);
 
@@ -44,7 +66,56 @@ export default function HistoryPage() {
     if (!isAuthed) return;
     setLoading(true);
     setError('');
-    // Backend integration: replace with real API (GET /api/history?order=desc|asc) that returns { items: HistoryItem[] }
+    
+    // ========================================
+    // МЕСТО ДЛЯ ИНТЕГРАЦИИ С БЭКЕНДОМ
+    // ========================================
+    // Замените этот блок на вызов функции fetchHistoryFromBackend(order)
+    
+    // Пример функции для получения истории из бэкенда:
+    /*
+    const fetchHistoryFromBackend = async (orderParam) => {
+      try {
+        const response = await fetch(`/api/history?order=${orderParam}`, {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('auth_token')}`,
+            'Content-Type': 'application/json'
+          }
+        });
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        
+        // Ожидаемый формат ответа от бэкенда:
+        // {
+        //   success: true,
+        //   items: [
+        //     {
+        //       id: "unique_id",
+        //       createdAt: "2024-01-15T10:30:00Z" или timestamp,
+        //       fingerprint: {
+        //         min: 1,
+        //         max: 100,
+        //         count: 5,
+        //         combos: [[1, 2, 3, 4, 5]]
+        //       }
+        //     }
+        //   ]
+        // }
+        
+        return data.items || [];
+      } catch (error) {
+        console.error('Error fetching history from backend:', error);
+        throw error;
+      }
+    };
+    */
+    
+    // Текущий код (удалить после интеграции с бэкендом):
     fetch(`/api/history?order=${order}`)
       .then(async (res) => {
         if (!res.ok) throw new Error('Failed to load');
@@ -165,7 +236,6 @@ export default function HistoryPage() {
         errorMessage={error}
         onVerificationSuccess={() => {
           // After successful registration, mark authed and reload history from backend
-          try { localStorage.setItem('randAqua_auth', '1'); } catch {}
           setIsAuthed(true);
           setIsAuthModalOpen(false);
           setError('');

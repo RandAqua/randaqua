@@ -1,12 +1,14 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import AnimatedInput from '../forms/AnimatedInput';
 import { FormContainer, PrimaryButton, LinkButton } from '../ui/UIComponents';
 import { API_URLS } from '../../config/api';
 import { saveAuthData } from '../../utils/auth';
 
 export default function LoginForm({ onSwitchToRegister, onLoginSuccess }) {
+  const router = useRouter();
   const [emailValue, setEmailValue] = useState('');
   const [passwordValue, setPasswordValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -89,6 +91,17 @@ export default function LoginForm({ onSwitchToRegister, onLoginSuccess }) {
         if (onLoginSuccess) {
           onLoginSuccess();
         }
+        
+        // Плавный редирект на главную страницу после успешного входа
+        setTimeout(() => {
+          // Добавляем класс для плавного перехода
+          document.body.style.transition = 'opacity 0.5s ease-in-out';
+          document.body.style.opacity = '0.8';
+          
+          setTimeout(() => {
+            router.push('/');
+          }, 300);
+        }, 1500); // Увеличиваем задержку, чтобы пользователь увидел уведомление
       } else {
         const errorData = await response.json();
         // Более дружелюбные сообщения об ошибках

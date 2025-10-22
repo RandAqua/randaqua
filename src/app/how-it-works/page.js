@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Navbar from '../../components/layout/Navbar';
 import AuthModal from '../../components/auth/AuthModal';
@@ -11,6 +11,16 @@ export default function HowItWorks() {
   const [generatedNumber, setGeneratedNumber] = useState(null);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [authModalTab, setAuthModalTab] = useState('login');
+  const [fishCoordinates, setFishCoordinates] = useState([]);
+  
+  // Генерируем координаты рыб при монтировании компонента
+  useEffect(() => {
+    const coordinates = Array.from({ length: 12 }, () => ({
+      x: Math.floor(Math.random() * 100),
+      y: Math.floor(Math.random() * 100)
+    }));
+    setFishCoordinates(coordinates);
+  }, []);
   
   const steps = [
     {
@@ -47,6 +57,35 @@ export default function HowItWorks() {
           setIsRunning(false);
           const randomValue = Math.floor(Math.random() * 1000000);
           setGeneratedNumber(randomValue);
+          
+          // Показываем подсказку в браузере после завершения демонстрации
+          setTimeout(() => {
+            // Создаем подсказку в браузере
+            const tooltip = document.createElement('div');
+            tooltip.className = 'fixed top-4 right-4 bg-blue-500 text-white px-4 py-3 rounded-lg shadow-lg z-50 transition-all duration-300';
+            tooltip.innerHTML = `
+              <div class="flex items-center">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                <div>
+                  <div class="font-semibold">💡 Подсказка</div>
+                  <div class="text-sm">Можно посмотреть анимацию генерации данного числа!</div>
+                </div>
+              </div>
+            `;
+            document.body.appendChild(tooltip);
+            
+            // Убираем подсказку через 5 секунд
+            setTimeout(() => {
+              tooltip.style.opacity = '0';
+              tooltip.style.transform = 'translateX(100%)';
+              setTimeout(() => {
+                document.body.removeChild(tooltip);
+              }, 300);
+            }, 5000);
+          }, 1000);
+          
           return steps.length; // Устанавливаем значение больше количества шагов для полного прогресса
         }
         return prev + 1;
@@ -95,19 +134,32 @@ export default function HowItWorks() {
   return (
     <div className="min-h-screen overflow-x-hidden">
       <Navbar onLoginClick={openAuthModal} />
-      <div className="aqua-text-container py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="aqua-text-container pt-64 pb-16">
+        <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-6">
           <div className="space-y-8">
             {/* Демонстрация алгоритма RandAqua - сверху */}
-            <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-2xl p-6 w-full flex flex-col" style={{ height: '485.76px' }}>
-              <div className="flex items-center justify-between mb-6">
-                <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-2xl p-6 w-full flex flex-col min-h-[400px] max-h-[600px] overflow-y-auto">
+              <div className="flex items-center justify-between mb-20">
+                <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                   Демонстрация алгоритма RandAqua
                 </h1>
+                
+                {/* Кнопка запуска демонстрации - появляется только если демонстрация не запущена */}
+                {currentStep === 0 && !isRunning && (
+                  <button
+                    onClick={startDemo}
+                    className="px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+                  >
+                    <svg className="w-5 h-5 mr-2 inline" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd"/>
+                    </svg>
+                    Запустить демонстрацию
+                  </button>
+                )}
               </div>
 
               {/* Шаги алгоритма - горизонтально */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 flex-1 items-center">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3 flex-1 items-start">
                 {/* Первые три блока */}
                 {steps.slice(0, 3).map((step, index) => (
                   <div
@@ -121,16 +173,16 @@ export default function HowItWorks() {
                     }`}
                   >
                     <div className="text-center h-full flex flex-col">
-                      <div className={`text-2xl mb-2 ${currentStep >= index ? 'animate-bounce' : ''}`}>
+                      <div className={`text-xl mb-1 ${currentStep >= index ? 'animate-bounce' : ''}`}>
                         {step.icon}
                       </div>
-                      <h3 className={`text-sm font-bold mb-2 ${
+                      <h3 className={`text-xs font-bold mb-1 ${
                         currentStep === index ? 'text-blue-700' : 
                         currentStep > index ? 'text-blue-700' : 'text-gray-500'
                       }`}>
                         {step.title}
                       </h3>
-                      <p className={`text-xs leading-relaxed ${
+                      <p className={`text-xs leading-tight flex-1 ${
                         currentStep === index ? 'text-blue-600' : 
                         currentStep > index ? 'text-blue-600' : 'text-gray-400'
                       }`}>
@@ -138,7 +190,7 @@ export default function HowItWorks() {
                       </p>
                       
                       {/* Прогресс-бар для каждого этапа */}
-                      <div className="mt-3">
+                      <div className="mt-2">
                         <div className="w-full bg-gray-200 rounded-full h-2 shadow-inner aqua-demo-progress">
                           <div 
                             className={`h-2 rounded-full aqua-demo-progress-bar ${
@@ -164,7 +216,11 @@ export default function HowItWorks() {
                       </div>
                       
                       {currentStep > index && (
-                        <div className="text-blue-500 text-lg mt-2">✓</div>
+                        <div className="text-blue-500 text-lg mt-0.5 flex justify-center items-center">
+                          <div className="w-6 h-6 flex items-center justify-center">
+                            ✓
+                          </div>
+                        </div>
                       )}
                     </div>
                   </div>
@@ -222,7 +278,11 @@ export default function HowItWorks() {
                     </div>
                     
                     {currentStep > 3 && (
-                      <div className="text-blue-500 text-lg mt-2">✓</div>
+                      <div className="text-blue-500 text-lg mt-0.5 flex justify-center items-center">
+                        <div className="w-6 h-6 flex items-center justify-center">
+                          ✓
+                        </div>
+                      </div>
                     )}
                   </div>
                 </div>
@@ -233,24 +293,10 @@ export default function HowItWorks() {
 
             {/* Наглядная демонстрация - снизу */}
             <div className="bg-gradient-to-br from-white/95 to-blue-50/95 backdrop-blur-md rounded-3xl shadow-2xl border border-white/20 p-6 w-full flex flex-col" style={{ height: '485.76px' }}>
-              <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center justify-center mb-6">
                 <h2 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                   Наглядная демонстрация
                 </h2>
-                
-                {/* Кнопка запуска */}
-                <button
-                  onClick={startDemo}
-                  disabled={isRunning}
-                  className={`aqua-generate-btn text-lg px-8 py-4 ${
-                    isRunning ? 'opacity-50 cursor-not-allowed' : 'hover:opacity-90'
-                  }`}
-                >
-                  <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd"/>
-                  </svg>
-                  {isRunning ? 'Демонстрация запущена...' : 'Запустить демонстрацию'}
-                </button>
               </div>
               
               {/* Визуализация процесса - горизонтально */}
@@ -269,7 +315,7 @@ export default function HowItWorks() {
                         }`}>
                           <div className="text-xs mb-1">🐠</div>
                           <div className="text-xs font-mono text-gray-700">
-                            {currentStep >= 0 ? `x:${Math.floor(Math.random() * 100)}, y:${Math.floor(Math.random() * 100)}` : '---'}
+                            {currentStep >= 0 && fishCoordinates[fish] ? `x:${fishCoordinates[fish].x}, y:${fishCoordinates[fish].y}` : '---'}
                           </div>
                         </div>
                       ))}
@@ -368,6 +414,28 @@ export default function HowItWorks() {
               </div>
 
             </div>
+
+            {/* Кнопка появляется только после завершения всех этапов */}
+            {currentStep >= steps.length && (
+              <div className="flex justify-center mt-8 mb-8">
+                <button
+                  onClick={() => window.location.href = '/animated-demo'}
+                  className="px-8 py-4 bg-blue-100/80 backdrop-blur-sm border border-blue-200/50 text-blue-800 font-bold rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 animate-pulse flex items-center"
+                  style={{
+                    background: 'rgba(219, 234, 254, 0.8)',
+                    backdropFilter: 'blur(10px)',
+                    border: '1px solid rgba(147, 197, 253, 0.5)'
+                  }}
+                >
+                  <div className="w-6 h-6 rounded-full border-2 border-blue-800 flex items-center justify-center mr-3">
+                    <svg className="w-3 h-3 text-blue-800" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
+                    </svg>
+                  </div>
+                  Смотреть анимированную демонстрацию
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>

@@ -1,11 +1,13 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import AnimatedInput from '../forms/AnimatedInput';
 import { FormContainer, PrimaryButton, LinkButton } from '../ui/UIComponents';
 import { API_URLS } from '../../config/api';
 
 export default function EmailVerificationForm({ email, username, onVerificationSuccess, onBackToRegister }) {
+  const router = useRouter();
   const [code, setCode] = useState('');
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
@@ -85,6 +87,17 @@ export default function EmailVerificationForm({ email, username, onVerificationS
           if (onVerificationSuccess) {
             onVerificationSuccess();
           }
+          
+          // Плавный редирект на главную страницу после успешной верификации
+          setTimeout(() => {
+            // Добавляем класс для плавного перехода
+            document.body.style.transition = 'opacity 0.5s ease-in-out';
+            document.body.style.opacity = '0.8';
+            
+            setTimeout(() => {
+              router.push('/');
+            }, 300);
+          }, 2000); // Задержка, чтобы пользователь увидел уведомление об успехе
         } else {
           const errorData = await response.json();
           if (response.status === 400) {

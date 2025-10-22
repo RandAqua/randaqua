@@ -74,8 +74,8 @@ export default function Home() {
         <Navbar onLoginClick={openAuthModal} />
         
         {/* Героическая секция RandAqua */}
-        <section className="aqua-hero-section" style={{ minHeight: '100vh' }}>
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 aqua-text-container" style={{ paddingTop: '2rem', paddingBottom: '2rem' }}>
+        <section className="aqua-hero-section" style={{ minHeight: 'calc(100vh - 80px)' }}>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 aqua-text-container">
             <div className="text-center">
               <h1 className="aqua-main-title" style={{ fontSize: '5rem', marginBottom: '2rem' }}>
                 <span className="aqua-title-line1">Истинная случайность</span>
