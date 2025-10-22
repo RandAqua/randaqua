@@ -16,6 +16,11 @@ const geistMono = Geist_Mono({
 export const metadata = {
   title: "RandAqua - Генератор случайных чисел",
   description: "RandAqua - революционная система генерации случайных чисел на основе наблюдения за морской жизнью",
+  icons: {
+    icon: '/icon.png',
+    shortcut: '/icon.png',
+    apple: '/icon.png',
+  },
 };
 
 export default function RootLayout({ children }) {
