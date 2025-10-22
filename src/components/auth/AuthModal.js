@@ -103,21 +103,6 @@ export default function AuthModal({ isOpen, onClose, initialTab = 'login', onVer
               onVerificationSuccess={onVerificationSuccess}
             />
           )}
-          <TabSwitcher
-            activeTab={activeTab}
-            onTabChange={handleTabChange}
-            tabs={tabs}
-          />
-          <div key={activeTab} className="auth-tab-panel">
-            {activeTab === 'login' ? (
-              <LoginForm onSwitchToRegister={() => setActiveTab('register')} />
-            ) : (
-              <RegisterForm
-                onSwitchToLogin={() => setActiveTab('login')}
-                onVerificationSuccess={onVerificationSuccess}
-              />
-            )}
-          </div>
         </div>
       </div>
     </div>
