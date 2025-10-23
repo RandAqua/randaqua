@@ -1,0 +1,193 @@
+/* ===== СТИЛИ СТОЛОТО ===== */
+
+.stoloto-gradient {
+  background: linear-gradient(135deg, #77DDE7 0%, #5BC4D1 100%);
+}
+
+.stoloto-gradient-gold {
+  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+}
+
+.stoloto-shadow {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.stoloto-card {
+  background: #e7f5fb;
+  border-radius: 16px;
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.stoloto-card:hover {
+  cursor: pointer;
+}
+
+/* Утилита для отключения эффектов наведения на определенных карточках */
+.no-hover:hover {
+  transform: none !important;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04) !important;
+  cursor: pointer;
+}
+
+/* Стили для кнопок в стиле Столото */
+.btn-stoloto {
+  background: linear-gradient(135deg, #77DDE7 0%, #5BC4D1 100%);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 14px 28px;
+  font-weight: 700;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 15px -3px rgba(119, 221, 231, 0.3);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.btn-stoloto:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 25px -5px rgba(119, 221, 231, 0.4);
+  background: linear-gradient(135deg, #5BC4D1 0%, #4A9BA8 100%);
+}
+
+.btn-stoloto:active {
+  transform: translateY(-1px);
+}
+
+.btn-stoloto:focus {
+  outline: none;
+  ring: 4px;
+  ring-color: rgba(119, 221, 231, 0.3);
+}
+
+/* Стили для золотых кнопок */
+.btn-gold {
+  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+  color: #1f2937;
+  border: none;
+  border-radius: 12px;
+  padding: 14px 28px;
+  font-weight: 700;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 15px -3px rgba(251, 191, 36, 0.3);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.btn-gold:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 25px -5px rgba(251, 191, 36, 0.4);
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+}
+
+/* Стили для навбара */
+.navbar-stoloto {
+  background: white;
+  border-bottom: 4px solid #fbbf24;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+/* Стили для логотипа */
+.logo-stoloto {
+  background: linear-gradient(135deg, #77DDE7 0%, #5BC4D1 100%);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+/* Стили для главной страницы */
+.hero-section {
+  background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+  color: white;
+  padding: 80px 0;
+  text-align: center;
+}
+
+.hero-title {
+  font-size: 4rem;
+  font-weight: 900;
+  margin-bottom: 1.5rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.hero-subtitle {
+  font-size: 1.5rem;
+  font-weight: 400;
+  opacity: 0.9;
+  margin-bottom: 2rem;
+}
+
+/* Стили для карточек лотерей */
+.lottery-card {
+  background: white;
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  border: 3px solid #f3f4f6;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.lottery-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background: linear-gradient(90deg, #77DDE7, #fbbf24, #1e40af);
+}
+
+.lottery-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+/* Стили для чисел лотереи */
+.lottery-number {
+  background: linear-gradient(135deg, #77DDE7 0%, #5BC4D1 100%);
+  color: white;
+  border-radius: 50%;
+  width: 72px;
+  height: 72px;
+  padding: 0 6px; /* небольшой внутренний отступ для 4-5 знаков */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  line-height: 1;
+  font-weight: 900;
+  font-size: 1.6rem; /* базовый размер */
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  animation: bounce-gentle 2s ease-in-out infinite;
+  flex-shrink: 0; /* предотвращает сжатие чисел */
+}
+
+/* Адаптация размера шрифта под длину числа */
+.lottery-number.len-1 { font-size: 2rem; }
+.lottery-number.len-2 { font-size: 1.8rem; }
+.lottery-number.len-3 { font-size: 1.45rem; }
+.lottery-number.len-4 { font-size: 1.15rem; }
+.lottery-number.len-5, .lottery-number.len-6 { font-size: 0.98rem; }
+
+/* Компактные числа для больших списков */
+.lottery-number.compact {
+  width: 56px;
+  height: 56px;
+  font-size: 1.2rem;
+}
+
+.lottery-number.compact.len-1 { font-size: 1.4rem; }
+.lottery-number.compact.len-2 { font-size: 1.3rem; }
+.lottery-number.compact.len-3 { font-size: 1.1rem; }
+.lottery-number.compact.len-4 { font-size: 0.95rem; }
+.lottery-number.compact.len-5, .lottery-number.compact.len-6 { font-size: 0.85rem; }

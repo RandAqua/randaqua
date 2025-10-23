@@ -1,0 +1,297 @@
+/* ===== МАКЕТ И НАВИГАЦИЯ ===== */
+
+/* Основной фон */
+.aqua-background {
+  background: linear-gradient(180deg, #0ea5e9 0%, #0284c7 50%, #0369a1 100%);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Навигационная панель */
+.aqua-navbar {
+  background: var(--aqua-ocean-blue);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+  position: relative;
+  z-index: 50;
+  backdrop-filter: blur(10px);
+}
+
+.aqua-drop-icon {
+  background: var(--aqua-light-blue);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+}
+
+/* Эффекты наведения логотипа */
+.aqua-logo-container {
+  cursor: pointer !important;
+  transition: all 0.3s ease-in-out;
+}
+
+.aqua-logo-container:hover {
+  transform: scale(1.05);
+}
+
+.aqua-logo-container:hover .aqua-drop-icon {
+  background: var(--aqua-light-blue);
+}
+
+.aqua-logo-container:hover .aqua-logo-text {
+  color: #bfdbfe;
+  text-shadow: 0 0 10px rgba(191, 219, 254, 0.3);
+}
+
+.aqua-nav-link {
+  color: var(--aqua-white);
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.aqua-nav-link:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: var(--aqua-white);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.aqua-nav-active {
+  background: rgba(255, 255, 255, 0.2);
+  color: var(--aqua-white);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Широкие навигационные ссылки */
+.aqua-nav-link-wide {
+  color: var(--aqua-white);
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(5px);
+  border: none;
+  min-width: 140px;
+  text-align: center;
+  display: inline-block;
+}
+
+.aqua-nav-link-wide:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: var(--aqua-white);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Контейнер авторизации */
+.aqua-auth-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.aqua-login-link {
+  color: var(--aqua-white);
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  padding: 10px 20px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  border: none;
+  backdrop-filter: blur(5px);
+  white-space: nowrap;
+}
+
+.aqua-login-link:hover {
+  color: var(--aqua-cyan);
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.aqua-register-btn {
+  background: var(--aqua-green);
+  color: var(--aqua-white);
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  backdrop-filter: blur(5px);
+}
+
+.aqua-register-btn:hover {
+  background: #059669;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Мобильные стили */
+.aqua-nav-link-mobile {
+  color: var(--aqua-white);
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: block;
+  background: rgba(255, 255, 255, 0.05);
+  border: none;
+  margin: 4px 0;
+}
+
+.aqua-nav-link-mobile:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.aqua-login-link-mobile {
+  color: var(--aqua-white);
+  text-decoration: none;
+  font-weight: 500;
+  display: block;
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  border: none;
+  margin: 4px 0;
+  transition: all 0.3s ease;
+}
+
+.aqua-login-link-mobile:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: var(--aqua-cyan);
+}
+
+.aqua-register-btn-mobile {
+  background: var(--aqua-green);
+  color: var(--aqua-white);
+  border: none;
+  border-radius: 8px;
+  padding: 12px 20px;
+  font-weight: 600;
+  width: 100%;
+  margin: 4px 0;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.aqua-register-btn-mobile:hover {
+  background: #059669;
+  transform: translateY(-1px);
+}
+
+/* Героическая секция */
+.aqua-hero-section {
+  position: relative;
+  height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  overflow: hidden;
+  padding-top: 2rem;
+}
+
+/* Вариант секции строго под хедером (h-20 ≈ 80px) */
+.aqua-hero-section.aqua-under-header {
+  min-height: calc(100vh - 120px);
+}
+
+/* Автоматическая высота для прокрутки и избежания обрезания */
+.aqua-hero-section.auto-height {
+  height: auto;
+  min-height: calc(100vh - 120px);
+  align-items: flex-start;
+  overflow: visible;
+  max-width: 100vw;
+  box-sizing: border-box;
+}
+
+/* Специальный класс для страницы анализа - полный скроллинг */
+.aqua-analyze-page {
+  height: auto !important;
+  min-height: 100vh;
+  overflow: visible !important;
+  align-items: flex-start;
+  padding-bottom: 2rem;
+}
+
+.aqua-analyze-page .aqua-text-container {
+  height: auto !important;
+  min-height: auto !important;
+  overflow: visible !important;
+}
+
+/* Контейнер с текстом поверх рыбок */
+.aqua-text-container {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  min-height: auto;
+  overflow-y: auto;
+  padding: 2rem 0;
+}
+
+.aqua-text-container.aqua-under-header {
+  min-height: calc(100vh - 120px);
+}
+
+/* Заголовки */
+.aqua-main-title {
+  font-size: 4rem;
+  font-weight: 900;
+  margin-bottom: 2rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  line-height: 1.1;
+}
+
+.aqua-title-line1 {
+  display: block;
+  color: var(--aqua-white);
+  margin-bottom: 0.5rem;
+}
+
+.aqua-title-line2 {
+  display: block;
+  color: var(--aqua-cyan);
+  font-size: 3.5rem;
+}
+
+/* Стиль для предупреждающего текста */
+.aqua-warning-text {
+  font-weight: 700;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  color: #ff6b6b;
+  font-size: 1rem;
+}
+
+/* Градиентный текст как в примере */
+.aqua-gradient-text {
+  color: #225bfb;
+  font-weight: 700;
+}
+
+/* Небольшой подъем заголовка на странице генерации,
+   чтобы не налезал на колесо */
+.generate-title {
+  margin-top: -20px;
+  margin-bottom: 40px;
+  font-size: 3rem;
+}
+
+.aqua-hero-description {
+  font-size: 1.25rem;
+  font-weight: 400;
+  opacity: 0.95;
+  max-width: 800px;
+  margin: 0 auto 2rem;
+  line-height: 1.6;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}

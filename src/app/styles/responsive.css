@@ -1,0 +1,120 @@
+/* ===== АДАПТИВНОСТЬ ===== */
+
+/* Стили для широких экранов */
+@media (min-width: 1024px) {
+  .modal {
+    max-width: 600px; /* еще шире на больших экранах */
+  }
+  
+  .form-container {
+    padding: 2rem 3rem !important;
+  }
+  
+  .input-container input {
+    padding: 16px 24px !important;
+    font-size: 16px;
+    height: 56px !important;
+  }
+  
+  .primary-button {
+    padding: 16px 24px !important;
+    font-size: 18px !important;
+    height: 56px !important;
+  }
+  
+  .tab-button {
+    padding: 12px 20px !important;
+    font-size: 16px !important;
+  }
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  .aqua-main-title {
+    font-size: 2.5rem;
+  }
+  
+  .generate-title {
+    font-size: 2rem;
+    margin-bottom: 30px;
+  }
+  
+  .aqua-title-line2 {
+    font-size: 2rem;
+  }
+  
+  /* Дополнительная оптимизация для очень маленьких экранов */
+  @media (max-width: 480px) {
+    .generate-title {
+      font-size: 1.75rem;
+      margin-bottom: 20px;
+    }
+    
+    .aqua-title-line2 {
+      font-size: 1.75rem;
+    }
+  }
+  
+  .aqua-hero-description {
+    font-size: 1rem;
+    padding: 0 1rem;
+  }
+  
+  .aqua-generate-btn,
+  .aqua-how-btn {
+    padding: 12px 24px;
+    font-size: 14px;
+  }
+  
+  .aqua-nav-link-wide {
+    min-width: 120px;
+    padding: 10px 16px;
+    font-size: 14px;
+  }
+  
+  /* Мобильные стили для форм авторизации */
+  .modal {
+    margin: 4px;
+    max-width: calc(100vw - 8px);
+  }
+
+  .input-container input {
+    padding: 12px 16px;
+    font-size: 16px; /* Предотвращает зум на iOS */
+    height: 48px;
+  }
+  
+  /* Убедиться, что все поля ввода в формах авторизации имеют одинаковую высоту */
+  .auth-compact .input-container input {
+    height: 48px !important;
+  }
+
+  .primary-button {
+    padding: 12px 16px;
+    font-size: 16px;
+    height: 48px;
+  }
+
+  .form-container {
+    padding: 12px;
+  }
+
+  .tab-button {
+    padding: 8px 12px;
+    font-size: 14px;
+  }
+
+  .wheel-of-fortune {
+    width: 250px;
+    height: 250px;
+  }
+
+  .wheel-center {
+    width: 60px;
+    height: 60px;
+  }
+
+  .wheel-center-inner {
+    font-size: 1.5rem;
+  }
+}
