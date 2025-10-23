@@ -1,6 +1,6 @@
 'use client';
 
-// Help Link Component
+// Компонент ссылки помощи
 export function HelpLink() {
   return (
     <div className="text-center">
@@ -11,7 +11,7 @@ export function HelpLink() {
   );
 }
 
-// Link Button Component
+// Компонент кнопки-ссылки
 export function LinkButton({ href, children, className = "" }) {
   return (
     <a href={href} className={`text-blue-600 hover:text-blue-800 text-sm font-semibold ${className}`} style={{ color: '#2563eb' }}>
@@ -20,7 +20,7 @@ export function LinkButton({ href, children, className = "" }) {
   );
 }
 
-// Form Container Component
+// Компонент контейнера формы
 export function FormContainer({ title, children }) {
   return (
     <div className="w-full max-w-lg mx-auto">
@@ -32,7 +32,7 @@ export function FormContainer({ title, children }) {
   );
 }
 
-// Primary Button Component
+// Компонент основной кнопки
 export function PrimaryButton({ children, type = "button", onClick, className = "", disabled = false, isLoading = false }) {
   const handleClick = (e) => {
     console.log('PrimaryButton clicked:', children, 'disabled:', disabled, 'isLoading:', isLoading);
@@ -75,7 +75,7 @@ export function PrimaryButton({ children, type = "button", onClick, className = 
   );
 }
 
-// Tab Button Component
+// Компонент кнопки вкладки
 export function TabButton({ active, onClick, children }) {
   const handleClick = (e) => {
     console.log('TabButton clicked:', children, 'active:', active);

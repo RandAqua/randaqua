@@ -1,14 +1,14 @@
-// Authentication utility functions for token management
+// Утилиты аутентификации для управления токенами
 
 import { API_URLS } from '../config/api';
 
 const TOKEN_KEY = 'auth_token';
 const USER_KEY = 'user_data';
 
-// Save authentication data to localStorage
+// Сохранение данных аутентификации в localStorage
 export const saveAuthData = (authData) => {
   try {
-    // Handle different response formats
+    // Обработка различных форматов ответа
     const token = authData.token || authData.Token;
     const user = authData.user || authData.User;
     const userId = authData.user_id || authData.user_uuid;
@@ -20,10 +20,10 @@ export const saveAuthData = (authData) => {
       return false;
     }
 
-    // Calculate expiration time
+    // Вычисление времени истечения
     const expiresAt = expiresIn ? Date.now() + (expiresIn * 1000) : null;
 
-    // Prepare user data
+    // Подготовка данных пользователя
     const userData = {
       id: user?.Id || userId,
       email: user?.Email || user?.email || authData.email,
@@ -42,7 +42,7 @@ export const saveAuthData = (authData) => {
       }
     }
 
-    // Save to localStorage
+    // Сохранение в localStorage
     localStorage.setItem(TOKEN_KEY, token);
     localStorage.setItem(USER_KEY, JSON.stringify(userData));
 
@@ -55,7 +55,7 @@ export const saveAuthData = (authData) => {
   }
 };
 
-// Get token from localStorage
+// Получение токена из localStorage
 export const getToken = () => {
   try {
     return localStorage.getItem(TOKEN_KEY);
@@ -65,7 +65,7 @@ export const getToken = () => {
   }
 };
 
-// Get user data from localStorage
+// Получение данных пользователя из localStorage
 export const getUserData = () => {
   try {
     const userData = localStorage.getItem(USER_KEY);
@@ -76,7 +76,7 @@ export const getUserData = () => {
   }
 };
 
-// Get username from localStorage
+// Получение имени пользователя из localStorage
 export const getUsername = () => {
   try {
     return localStorage.getItem('username');
@@ -86,7 +86,7 @@ export const getUsername = () => {
   }
 };
 
-// Check if token is valid and not expired
+// Проверка действительности токена и отсутствия истечения
 export const isTokenValid = () => {
   try {
     const token = getToken();
@@ -96,7 +96,7 @@ export const isTokenValid = () => {
       return false;
     }
 
-    // Check if token has expired
+    // Проверка истечения токена
     if (userData.expiresAt && Date.now() > userData.expiresAt) {
       clearAuthData();
       return false;
@@ -109,7 +109,7 @@ export const isTokenValid = () => {
   }
 };
 
-// Clear authentication data from localStorage
+// Очистка данных аутентификации из localStorage
 export const clearAuthData = () => {
   try {
     localStorage.removeItem(TOKEN_KEY);
@@ -121,7 +121,7 @@ export const clearAuthData = () => {
   }
 };
 
-// Get authorization header for API requests
+// Получение заголовка авторизации для API запросов
 export const getAuthHeader = () => {
   const token = getToken();
   const userData = getUserData();
@@ -136,12 +136,12 @@ export const getAuthHeader = () => {
   };
 };
 
-// Check if user is authenticated
+// Проверка аутентификации пользователя
 export const isAuthenticated = () => {
   return isTokenValid();
 };
 
-// Validate user token with server
+// Валидация токена пользователя с сервером
 export const validateUserToken = async () => {
   try {
     const token = getToken();

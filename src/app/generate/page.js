@@ -17,7 +17,7 @@ export default function GeneratePage() {
 
   // Состояние процесса генерации и результатов
   const [isComputing, setIsComputing] = useState(false);
-  const [stage, setStage] = useState(0); // 0..3 stages
+  const [stage, setStage] = useState(0); // 0..3 этапа
   const [progress, setProgress] = useState(0);
   const [results, setResults] = useState([]);
   const [generationData, setGenerationData] = useState(null); // Данные о генерации с сервера
@@ -162,7 +162,7 @@ export default function GeneratePage() {
             </div>
 
             <div className="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-4">
-              {/* Form Card */}
+              {/* Карточка формы */}
               <div className="stoloto-card no-hover p-4 rounded-2xl cartoon-appear bg-white cursor-pointer w-110 h-100" style={{ animationDelay: '220ms' }}>
                 <h3 className="text-xl font-bold mb-3 text-gray-900">Параметры генерации</h3>
                 <div className="space-y-3">
@@ -202,7 +202,7 @@ export default function GeneratePage() {
 
               </div>
 
-              {/* Results / Visuals Card */}
+              {/* Карточка результатов / визуализации */}
               <div className="stoloto-card no-hover p-4 rounded-2xl cartoon-appear bg-white cursor-pointer w-110 h-100 flex flex-col" style={{ animationDelay: '320ms' }}>
                 <h3 className="text-xl font-bold text-gray-900">Результат</h3>
                 <div className="flex-1 flex flex-col justify-center">
@@ -241,7 +241,7 @@ export default function GeneratePage() {
                         </div>
                       )}
 
-                      {/* Download fingerprint button, appears after numbers */}
+                      {/* Кнопка загрузки отпечатка, появляется после чисел */}
                       <div className="mt-3 flex justify-center">
                         {results.length > 0 && (
                           <button onClick={downloadFingerprint} className="number-appear flex items-center gap-2 px-4 py-2 rounded-lg border border-gray-300 bg-white text-gray-700 hover:bg-gray-50">

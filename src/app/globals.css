@@ -57,7 +57,7 @@ body {
   cursor: pointer;
 }
 
-/* Utility to disable hover effects on specific cards */
+/* Утилита для отключения эффектов наведения на определенных карточках */
 .no-hover:hover {
   transform: none !important;
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04) !important;
@@ -239,7 +239,7 @@ body {
 .lottery-number.len-4 { font-size: 1.15rem; }
 .lottery-number.len-5, .lottery-number.len-6 { font-size: 0.98rem; }
 
-/* Fancy progress bar for generator */
+/* Красивый прогресс-бар для генератора */
 .aqua-progress {
   display: flex;
   align-items: center;
@@ -292,7 +292,7 @@ body {
   text-align: right;
 }
 
-/* Smooth appear for generated numbers */
+/* Плавное появление сгенерированных чисел */
 @keyframes numberPopIn {
   from { opacity: 0; transform: scale(0.8); filter: blur(4px); }
   60% { opacity: 1; transform: scale(1.05); filter: blur(0); }
@@ -303,7 +303,7 @@ body {
   animation: numberPopIn 420ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
-/* Uniform inputs across the generator form */
+/* Единообразные поля ввода для формы генератора */
 .uniform-input {
   height: 48px;
 }
@@ -311,19 +311,19 @@ body {
 .select-pointer {
   cursor: pointer;
   transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
-  border-radius: 10px; /* extra smoothing */
-  appearance: none; /* cleaner look on webkit */
+  border-radius: 10px; /* дополнительное сглаживание */
+  appearance: none; /* более чистый вид на webkit */
   background-position: right 10px center;
   background-repeat: no-repeat;
 }
 .select-pointer:hover {
-  background-color: rgba(14, 165, 233, 0.10); /* light aqua like register */
-  border-color: #0ea5e9; /* primary blue */
+  background-color: rgba(14, 165, 233, 0.10); /* светло-голубой как в регистрации */
+  border-color: #0ea5e9; /* основной синий */
   color: #0f172a;
   box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.20);
 }
 
-/* Some browsers will apply these option styles */
+/* Некоторые браузеры будут применять эти стили опций */
 select.select-pointer option {
   border-radius: 8px;
 }
@@ -332,7 +332,7 @@ select.select-pointer option:hover {
   color: #0f172a;
 }
 
-/* Animated emoji for history header */
+/* Анимированная эмодзи для заголовка истории */
 .history-emoji {
   display: inline-block;
   margin-right: 8px;
@@ -347,7 +347,7 @@ select.select-pointer option:hover {
   75% { transform: translateY(-1px) rotate(3deg); }
 }
 
-/* Subtitle pill style for the generator page */
+/* Стиль пилюли подзаголовка для страницы генератора */
 .aqua-subtitle-pill {
   display: inline-block;
   padding: 8px 14px;
@@ -360,7 +360,7 @@ select.select-pointer option:hover {
   backdrop-filter: blur(6px);
 }
 
-/* Loader under the Result heading */
+/* Загрузчик под заголовком Результат */
 .aqua-loader {
   width: 28px;
   height: 28px;
@@ -420,7 +420,7 @@ select.select-pointer option:hover {
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
 }
 
-/* Logo hover effects */
+/* Эффекты наведения логотипа */
 .aqua-logo-container {
   cursor: pointer !important;
   transition: all 0.3s ease-in-out;
@@ -601,7 +601,7 @@ select.select-pointer option:hover {
   min-height: calc(100vh - 120px);
 }
 
-/* Auto-height variant to allow scrolling and avoid clipping */
+/* Автоматическая высота для прокрутки и избежания обрезания */
 .aqua-hero-section.auto-height {
   height: auto;
   min-height: calc(100vh - 120px);
@@ -701,7 +701,7 @@ select.select-pointer option:hover {
   -webkit-text-fill-color: transparent;
   animation: textShimmer 2s ease-in-out infinite;
 }
-/* MERGE CONFLICT */
+/* КОНФЛИКТ СЛИЯНИЯ */
 /* Контейнер для фона с рыбками */
 .aqua-fish-background-container {
   position: fixed;
@@ -725,7 +725,7 @@ select.select-pointer option:hover {
   overflow: hidden;
 }
 
-/* Auto-height variant for background */
+/* Автоматическая высота для фона */
 .aqua-fish-background.auto-height {
   height: auto;
   min-height: calc(100vh - 120px);
@@ -1108,7 +1108,7 @@ select.select-pointer option:hover {
 }
 
 
-/* Uniform hero buttons (homepage) */
+/* Единообразные кнопки героя (главная страница) */
 .hero-btn {
   display: inline-flex;
   align-items: center;
@@ -1119,7 +1119,7 @@ select.select-pointer option:hover {
   font-size: 18px;
   font-weight: 700;
   border-radius: 12px;
-  box-sizing: border-box; /* include border in height */
+  box-sizing: border-box; /* включать границу в высоту */
   text-align: center;
   white-space: nowrap;
 }
@@ -1129,7 +1129,7 @@ select.select-pointer option:hover {
 }
 
 
-/* ===== Modal + blur utilities (shared pattern) ===== */
+/* ===== МОДАЛЬНОЕ ОКНО + УТИЛИТЫ РАЗМЫТИЯ (общий паттерн) ===== */
 .main-content {
   will-change: filter;
   transition: filter 0.35s ease;
@@ -1144,14 +1144,14 @@ select.select-pointer option:hover {
   inset: 0;
   z-index: 99999;
   display: flex;
-  align-items: center; /* center vertically */
+  align-items: center; /* центрировать по вертикали */
   justify-content: center;
   background: rgba(10, 18, 34, 0.35);
-  /* overlay dims but does not blur; blur is on .main-content */
+  /* оверлей затемняет, но не размывает; размытие на .main-content */
   animation: overlayFade 0.35s ease forwards;
 }
 
-/* Backdrop alias to satisfy different markup naming */
+/* Псевдоним фона для удовлетворения различного именования разметки */
 .modal-backdrop {
   position: fixed;
   inset: 0;
@@ -1165,13 +1165,13 @@ select.select-pointer option:hover {
   box-shadow: none;
   border: 1px solid #e5e7eb;
   width: 100%;
-  max-width: 500px; /* wider modal for auth forms */
+  max-width: 500px; /* шире модальное окно для форм авторизации */
   margin: 16px;
   animation: modalIn 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
   position: relative;
   z-index: 100000;
-  max-height: 92vh; /* never cover screen entirely */
-  overflow: visible; /* allow close button to overflow */
+  max-height: 92vh; /* никогда не покрывать экран полностью */
+  overflow: visible; /* позволить кнопке закрытия переполняться */
   box-sizing: border-box;
 }
 
@@ -1215,7 +1215,7 @@ select.select-pointer option:hover {
   border-radius: 50%;
   border: none;
   background: #ff4d4d;
-  color: #ffffff; /* white cross */
+  color: #ffffff; /* белый крестик */
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -1225,11 +1225,11 @@ select.select-pointer option:hover {
   overflow: visible;
 }
 .modal-close:hover {
-  background: #ff6b6b; /* lighter on hover */
+  background: #ff6b6b; /* светлее при наведении */
   box-shadow: 0 6px 14px rgba(239,68,68,0.25);
 }
 
-/* Ensure interactive elements are above any accidental overlays */
+/* Убедиться, что интерактивные элементы выше любых случайных оверлеев */
 .modal, .modal__content { position: relative; z-index: 1010; }
 .modal .primary-button, .register-btn { position: relative; z-index: 1020 !important; pointer-events: auto !important; }
 .modal::before,
@@ -1238,7 +1238,7 @@ select.select-pointer option:hover {
 .modal__content::after { pointer-events: none; }
 .modal-wrapper[style*="transform"] { transform: none; }
 
-/* Smooth tab swap for auth modal */
+/* Плавная смена вкладок для модального окна авторизации */
 .auth-tab-panel {
   animation: authSwap 240ms ease both;
 }
@@ -1248,7 +1248,7 @@ select.select-pointer option:hover {
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* Compact auth layout to fit both login and register without scroll */
+/* Компактная раскладка авторизации для размещения входа и регистрации без прокрутки */
 .auth-compact .form-container { padding: 12px !important; }
 .auth-compact h1 { margin-bottom: 8px !important; font-size: 18px !important; }
 .auth-compact .primary-button { padding-top: 12px !important; padding-bottom: 12px !important; font-size: 16px !important; height: 48px !important; }
@@ -1267,7 +1267,7 @@ select.select-pointer option:hover {
 .auth-compact .input-container input { height: 48px !important; }
 .auth-compact input { height: 48px !important; }
 
-/* Alert banner inside modal */
+/* Баннер предупреждения внутри модального окна */
 .alert--modal {
   box-sizing: border-box;
   width: 100%;
@@ -1330,10 +1330,10 @@ input:focus {
   background-color: #0ea5e9;
   color: #fff;
   transition: all 0.2s ease-in-out;
-  white-space: nowrap; /* keep long labels like Зарегистрироваться on one line */
+  white-space: nowrap; /* держать длинные метки как Зарегистрироваться на одной строке */
 }
 
-/* Utility to override default full width button when needed */
+/* Утилита для переопределения кнопки полной ширины по умолчанию при необходимости */
 .btn-auto {
   width: auto !important;
 }
@@ -1707,7 +1707,7 @@ input:focus {
     height: 48px;
   }
   
-  /* Ensure all inputs in auth forms have same height */
+  /* Убедиться, что все поля ввода в формах авторизации имеют одинаковую высоту */
   .auth-compact .input-container input {
     height: 48px !important;
   }
