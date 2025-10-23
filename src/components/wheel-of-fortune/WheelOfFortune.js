@@ -13,7 +13,7 @@ export default function WheelOfFortune({ isSpinning, result, onReset, onWheelCli
   const [fishTopPx, setFishTopPx] = useState(null);
   const isClickable = !isSpinning;
 
-  // rAF-based spinning
+  // Вращение на основе requestAnimationFrame
   const rafIdRef = useRef(null);
   const lastTimeRef = useRef(0);
   const rotationRef = useRef(0);

@@ -7,7 +7,7 @@ export default function CenterButton({ isClickable, onClick }) {
         className={`wheel-center-inner ${isClickable ? 'clickable' : ''}`}
         onClick={isClickable ? onClick : undefined}
       >
-        {/* empty by design */}
+        {/* пусто по дизайну */}
       </div>
     </div>
   );

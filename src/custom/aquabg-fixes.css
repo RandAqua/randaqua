@@ -1,6 +1,6 @@
-/* Aqua background smooth fish overrides */
+/* Переопределения для плавного фона с рыбками */
 
-/* Ensure smooth appear/disappear and start off-screen to off-screen */
+/* Обеспечить плавное появление/исчезновение и старт за экраном до за экраном */
 @keyframes aqua-swim {
   0%   { transform: translateX(110vw); opacity: 0; }
   5%   { opacity: 0.25; }
@@ -29,7 +29,7 @@
   100% { transform: translate(-110vw, -110vh); opacity: 0; }
 }
 
-/* Extra smoothing utilities for fish */
+/* Дополнительные утилиты сглаживания для рыб */
 .aqua-fish-1,
 .aqua-fish-2,
 .aqua-fish-3,
@@ -50,7 +50,7 @@
   pointer-events: none;
 }
 
-/* Ensure decorative layers never block interactions */
+/* Убедиться, что декоративные слои никогда не блокируют взаимодействие */
 .aqua-fish-background::before,
 .aqua-fish-background::after {
   pointer-events: none;

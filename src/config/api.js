@@ -1,4 +1,4 @@
-// API Configuration
+// Конфигурация API
 // Здесь можно быстро изменить адрес Swagger API
 
 import { getAuthHeader } from '../utils/auth';

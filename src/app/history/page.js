@@ -49,7 +49,7 @@ export default function HistoryPage() {
     if (!isUserAuthenticated) return;
     setLoading(true);
     setError('');
-    // Backend integration: replace with real API (GET /api/history?order=desc|asc) that returns { items: HistoryItem[] }
+    // Интеграция с backend: заменить на реальный API (GET /api/history?order=desc|asc) который возвращает { items: HistoryItem[] }
     fetch(`/api/history?order=${order}`)
       .then(async (res) => {
         if (!res.ok) throw new Error('Failed to load');
