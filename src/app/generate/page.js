@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import Navbar from '../../components/layout/Navbar';
 import AuthModal from '../../components/auth/AuthModal';
 import { generateBatch } from '../../config/api';
+import { addToHistory } from '../../utils/historyStorage';
 
 export default function GeneratePage() {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
@@ -111,6 +112,16 @@ export default function GeneratePage() {
       if (serverData.generatedNumbers) {
         setResults(serverData.generatedNumbers);
         setGenerationData(serverData);
+        
+        // Сохраняем в LocalStorage
+        addToHistory({
+          numbers: serverData.generatedNumbers,
+          min,
+          max,
+          count,
+          entropySource,
+          serverData,
+        });
       } else {
         throw new Error('Не удалось получить сгенерированные числа');
       }
@@ -224,7 +235,24 @@ export default function GeneratePage() {
                           <div key={idx} className={`lottery-number ${lenClass(n)} number-appear`}>{n}</div>
                         ))}
                       </div>
-                      <p className="mt-3 text-sm text-gray-700 text-center">Источник энтропии: <span className="text-gray-900 font-semibold">{entropySource}</span></p>
+                      <p className="mt-3 text-sm text-gray-700 text-center">
+                        Источник энтропии: <span className="text-gray-900 font-semibold">{entropySource}</span>
+                        {generationData?.source === 'local' && (
+                          <span className="ml-2 text-xs text-orange-600 font-semibold">(локальная генерация)</span>
+                        )}
+                      </p>
+                      
+                      {/* Предупреждение о локальной генерации */}
+                      {generationData?.warning && (
+                        <div className="mt-3 px-4 py-2 rounded-lg bg-orange-50 border border-orange-200 text-orange-800 text-xs text-center">
+                          <div className="flex items-center justify-center gap-2">
+                            <svg className="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                              <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                            </svg>
+                            {generationData.warning}
+                          </div>
+                        </div>
+                      )}
                       
                       {/* Дополнительная информация с сервера */}
                       {generationData && (
@@ -233,9 +261,14 @@ export default function GeneratePage() {
                             <div>Seed: <span className="font-mono">{generationData.seed}</span></div>
                           )}
                           {generationData.entropy_quality && (
-                            <div>Качество случайности: <span className="font-semibold">{(generationData.entropy_quality.randomness_score * 100).toFixed(1)}%</span></div>
+                            <div>
+                              Качество случайности: <span className="font-semibold">{(generationData.entropy_quality.randomness_score * 100).toFixed(1)}%</span>
+                              {generationData.entropy_quality.source && (
+                                <span className="ml-1 text-gray-500">({generationData.entropy_quality.source})</span>
+                              )}
+                            </div>
                           )}
-                          {generationData.processing_time && (
+                          {generationData.processing_time !== undefined && (
                             <div>Время обработки: <span className="font-semibold">{generationData.processing_time}мс</span></div>
                           )}
                         </div>
