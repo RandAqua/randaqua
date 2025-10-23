@@ -115,7 +115,11 @@ export const clearAuthData = () => {
     localStorage.removeItem(TOKEN_KEY);
     localStorage.removeItem(USER_KEY);
     localStorage.removeItem('username');
-    console.log('Auth data cleared');
+    
+    // Очищаем историю генераций при выходе
+    localStorage.removeItem('aquarng_generation_history');
+    
+    console.log('Auth data and history cleared');
   } catch (error) {
     console.error('Error clearing auth data:', error);
   }

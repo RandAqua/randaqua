@@ -3,6 +3,7 @@
 import { useEffect, useState, memo } from 'react';
 import Navbar from '../../components/layout/Navbar';
 import AuthModal from '../../components/auth/AuthModal';
+import { isAuthenticated } from '../../utils/auth';
 import { getHistoryPaginated, clearHistory, exportHistory } from '../../utils/historyStorage';
 
 const formatDate = (isoOrMs) => {
@@ -46,17 +47,16 @@ const HistoryItem = memo(({ item, index }) => {
       <div className="flex flex-col lg:flex-row items-start gap-6">
         {/* Левая часть: основная информация */}
         <div className="flex-1 space-y-3 min-w-0">
-          <div className="flex items-center gap-3">
-            <div className="flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-cyan-400 text-white font-bold shadow-lg flex-shrink-0">
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-            </div>
-            <div className="min-w-0">
-              <div className="text-gray-800 text-base font-bold">{formatDate(item.createdAt)}</div>
-              <div className="text-gray-500 text-xs">ID: {item.id}</div>
-            </div>
-          </div>
+           <div className="flex items-center gap-3">
+             <div className="flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-cyan-400 text-white font-bold shadow-lg flex-shrink-0">
+               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+               </svg>
+             </div>
+             <div className="min-w-0">
+               <div className="text-gray-800 text-base font-bold">{formatDate(item.createdAt)}</div>
+             </div>
+           </div>
           
           <div className="pl-13 space-y-2">
             <div className="flex flex-wrap gap-2 items-center">
@@ -77,30 +77,48 @@ const HistoryItem = memo(({ item, index }) => {
           </div>
         </div>
         
-        {/* Правая часть: комбинации */}
-        {item.fingerprint?.combos && item.fingerprint.combos.length > 0 && (
-          <div className="flex-shrink-0 lg:w-auto w-full lg:pl-6">
-            <div className="space-y-3">
-              <div className="text-sm font-bold text-gray-700 flex items-center gap-2 lg:justify-end">
-                <svg className="w-4 h-4 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M2 6a2 2 0 012-2h5l2 2h5a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" />
-                </svg>
-                Комбинации:
-              </div>
-              <div className="flex flex-col gap-2">
-                {item.fingerprint.combos.map((combo, idx) => (
-                  <div key={idx} className="flex items-center gap-1 px-3 py-2 bg-gradient-to-br from-blue-100 to-cyan-100 rounded-lg shadow-sm border border-blue-200 justify-center lg:justify-end">
-                    {combo.map((num, numIdx) => (
-                      <span key={numIdx} className="flex items-center justify-center w-8 h-8 rounded-full bg-white text-blue-700 font-bold text-sm shadow-sm">
-                        {num}
-                      </span>
-                    ))}
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        )}
+         {/* Правая часть: комбинации */}
+         {item.fingerprint?.combos && item.fingerprint.combos.length > 0 && (
+           <div className="flex-shrink-0 lg:w-auto w-full lg:pl-6">
+             <div className="space-y-3">
+               <div className="text-sm font-bold text-gray-700 flex items-center gap-2 lg:justify-end">
+                 <svg className="w-4 h-4 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
+                   <path d="M2 6a2 2 0 012-2h5l2 2h5a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" />
+                 </svg>
+                 Комбинации:
+               </div>
+               <div className="flex flex-col gap-2">
+                 {item.fingerprint.combos.map((combo, idx) => {
+                   const isLargeSet = combo.length > 10;
+                   
+                   return (
+                     <div key={idx} className="px-3 py-2 bg-gradient-to-br from-blue-100 to-cyan-100 rounded-lg shadow-sm border border-blue-200">
+                       {isLargeSet ? (
+                         // Для больших наборов (>10) - сетка с 10 колонками
+                         <div className="grid grid-cols-10 gap-1">
+                           {combo.map((num, numIdx) => (
+                             <span key={numIdx} className="flex items-center justify-center w-7 h-7 rounded-full bg-white text-blue-700 font-bold text-xs shadow-sm">
+                               {num}
+                             </span>
+                           ))}
+                         </div>
+                       ) : (
+                         // Для маленьких наборов (≤10) - горизонтальная линия
+                         <div className="flex items-center gap-1 justify-center lg:justify-end">
+                           {combo.map((num, numIdx) => (
+                             <span key={numIdx} className="flex items-center justify-center w-8 h-8 rounded-full bg-white text-blue-700 font-bold text-sm shadow-sm">
+                               {num}
+                             </span>
+                           ))}
+                         </div>
+                       )}
+                     </div>
+                   );
+                 })}
+               </div>
+             </div>
+           </div>
+         )}
       </div>
     </div>
   );
@@ -122,6 +140,8 @@ const EmptyState = () => (
 export default function HistoryPage() {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [authModalTab, setAuthModalTab] = useState('login');
+  const [isUserAuthenticated, setIsUserAuthenticated] = useState(false);
+  const [isCheckingAuth, setIsCheckingAuth] = useState(true);
   const [order, setOrder] = useState('desc');
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -131,8 +151,27 @@ export default function HistoryPage() {
   const [totalItems, setTotalItems] = useState(0);
   const itemsPerPage = 20;
 
+  // Проверка авторизации при загрузке страницы
+  useEffect(() => {
+    const checkAuth = () => {
+      const authenticated = isAuthenticated();
+      setIsUserAuthenticated(authenticated);
+      setIsCheckingAuth(false);
+    };
+    
+    checkAuth();
+    
+    // Проверяем авторизацию каждые 5 секунд
+    const interval = setInterval(checkAuth, 5000);
+    
+    return () => clearInterval(interval);
+  }, []);
+
   // Оптимизированная загрузка истории из LocalStorage с пагинацией
   useEffect(() => {
+    // Не загружаем историю, если пользователь не авторизован
+    if (!isUserAuthenticated) return;
+    
     setLoading(true);
     setError('');
     
@@ -162,7 +201,7 @@ export default function HistoryPage() {
     }, 100); // Короткая задержка для плавности
     
     return () => clearTimeout(timeoutId);
-  }, [order, page]);
+  }, [isUserAuthenticated, order, page]);
 
   // Сброс пагинации при смене сортировки
   useEffect(() => {
@@ -187,7 +226,8 @@ export default function HistoryPage() {
 
   const handleLoginSuccess = () => {
     closeAuthModal();
-    // Принудительно обновляем страницу для обновления Navbar
+    setIsUserAuthenticated(true);
+    // Принудительно обновляем страницу для обновления Navbar и загрузки истории
     window.location.reload();
   };
 
@@ -231,6 +271,71 @@ export default function HistoryPage() {
   const handleExportHistory = () => {
     exportHistory();
   };
+
+  // Показываем загрузку во время проверки авторизации
+  if (isCheckingAuth) {
+    return (
+      <div className="min-h-screen max-w-full overflow-x-hidden aqua-background">
+        <Navbar onLoginClick={openAuthModal} />
+        <div className="flex items-center justify-center min-h-screen">
+          <div className="text-center">
+            <div className="aqua-loader mx-auto mb-4"></div>
+            <p className="text-white text-lg">Проверка авторизации...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Показываем сообщение для неавторизованных пользователей
+  if (!isUserAuthenticated) {
+    return (
+      <div className="min-h-screen max-w-full overflow-x-hidden aqua-background">
+        <Navbar onLoginClick={openAuthModal} />
+        <div className="flex items-center justify-center min-h-screen px-4">
+          <div className="text-center max-w-lg mx-auto">
+            <div className="bg-white/95 backdrop-blur-sm rounded-3xl shadow-2xl p-8 md:p-12 border-2 border-blue-200">
+              <div className="text-7xl mb-6 animate-bounce">🔒</div>
+              <h1 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
+                Вход в систему обязателен
+              </h1>
+              <p className="text-gray-700 text-lg mb-6 leading-relaxed">
+                Вы не можете зайти сюда без аккаунта. Пожалуйста, войдите в систему или зарегистрируйтесь для доступа к истории генераций.
+              </p>
+              <div className="space-y-3">
+                <p className="text-sm text-gray-600 mb-4">
+                  Используйте кнопки в верхнем меню для авторизации:
+                </p>
+                <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                  <button
+                    onClick={() => openAuthModal('login')}
+                    className="px-6 py-3 bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl hover:from-blue-600 hover:to-cyan-600 transition-all duration-300 transform hover:scale-105"
+                  >
+                    Войти
+                  </button>
+                  <button
+                    onClick={() => openAuthModal('register')}
+                    className="px-6 py-3 bg-gradient-to-r from-green-500 to-emerald-500 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl hover:from-green-600 hover:to-emerald-600 transition-all duration-300 transform hover:scale-105"
+                  >
+                    Регистрация
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        {/* Модальное окно авторизации */}
+        <AuthModal
+          isOpen={isAuthModalOpen}
+          onClose={closeAuthModal}
+          initialTab={authModalTab}
+          onVerificationSuccess={handleVerificationSuccess}
+          onLoginSuccess={handleLoginSuccess}
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen aqua-background">

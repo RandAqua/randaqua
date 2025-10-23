@@ -90,13 +90,16 @@ export default function Navbar({ onLoginClick }) {
     
     // Показываем уведомление о выходе
     const logoutMessage = document.createElement('div');
-    logoutMessage.className = 'fixed top-4 right-4 bg-blue-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 transition-all duration-300';
+    logoutMessage.className = 'fixed top-4 right-4 bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 transition-all duration-300';
     logoutMessage.innerHTML = `
-      <div class="flex items-center">
-        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
-        </svg>
-        Вы вышли из системы
+      <div class="flex flex-col space-y-1">
+        <div class="flex items-center">
+          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+          </svg>
+          <span class="font-semibold">Вы вышли из системы</span>
+        </div>
+        <div class="text-xs text-blue-100 ml-7">История генераций очищена</div>
       </div>
     `;
     document.body.appendChild(logoutMessage);
