@@ -72,7 +72,8 @@ export default function GeneratePage() {
   const validate = () => {
     // Проверяем корректность введенных параметров
     if (min > max) return 'Минимум не может быть больше максимума';
-    if (count < 1 || count > 10) return 'Количество должно быть от 1 до 10';
+    if (count < 1) return 'Количество должно быть больше 0';
+    if (count > 10000) return 'Количество не должно превышать 10000 для оптимальной производительности';
     return '';
   };
 
@@ -117,7 +118,21 @@ export default function GeneratePage() {
       
     } catch (error) {
       console.error('Ошибка генерации:', error);
-      alert(`Ошибка генерации: ${error.message}`);
+      
+      // Более детальная обработка ошибок
+      let errorMessage = 'Произошла ошибка при генерации случайных чисел.';
+      
+      if (error.message.includes('Failed to fetch')) {
+        errorMessage = 'Не удается подключиться к серверу генерации. Проверьте подключение к интернету.';
+      } else if (error.message.includes('HTTP error')) {
+        errorMessage = `Ошибка сервера: ${error.message}`;
+      } else if (error.message.includes('CORS')) {
+        errorMessage = 'Ошибка доступа к серверу. Попробуйте обновить страницу.';
+      } else {
+        errorMessage = `Ошибка генерации: ${error.message}`;
+      }
+      
+      alert(errorMessage);
     } finally {
       setIsComputing(false);
     }
@@ -125,23 +140,28 @@ export default function GeneratePage() {
 
   const lenClass = (val) => `len-${String(val).length}`;
 
-  const downloadFingerprint = () => {
-    // Создаем JSON файл с полной информацией о генерации для аудита
-    const payload = {
-      timestamp: new Date().toISOString(),
-      params: { count, min, max, entropySource },
-      results,
-      serverData: generationData, // Добавляем данные с сервера
-    };
-    const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `aquarng_fingerprint_${Date.now()}.json`;
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    URL.revokeObjectURL(url);
+  const downloadFingerprint = async () => {
+    if (!generationData || !generationData.external_response || !generationData.external_response.fileUrl) {
+      alert('Цифровой слепок недоступен. Попробуйте сгенерировать числа заново.');
+      return;
+    }
+
+    try {
+      // Создаем невидимую ссылку для скачивания файла с сервера
+      const link = document.createElement('a');
+      link.href = generationData.external_response.fileUrl;
+      link.download = `aquarng_fingerprint_${generationData.seed || Date.now()}.json`;
+      link.target = '_blank'; // Открываем в новой вкладке для обхода CORS
+      
+      // Добавляем ссылку в DOM и кликаем
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      
+    } catch (error) {
+      console.error('Ошибка при скачивании цифрового слепка:', error);
+      alert('Не удалось скачать цифровой слепок. Попробуйте обновить страницу и сгенерировать числа заново.');
+    }
   };
 
   return (
@@ -181,7 +201,8 @@ export default function GeneratePage() {
                   {/* Количество чисел */}
                   <div>
                     <label className="block text-sm text-gray-700 mb-1">Количество чисел</label>
-                    <input type="number" min="1" max="10" value={count} onInput={(e) => { e.target.value = e.target.value.replace(/^0+(?=\d)/, ''); }} onChange={(e) => setCount(parseInt(e.target.value || '0', 10))} className="w-full p-2 rounded-lg bg-white text-gray-900 border border-gray-200 focus:ring-2 focus:ring-blue-400 uniform-input" />
+                    <input type="number" min="1" value={count} onInput={(e) => { e.target.value = e.target.value.replace(/^0+(?=\d)/, ''); }} onChange={(e) => setCount(parseInt(e.target.value || '0', 10))} className="w-full p-2 rounded-lg bg-white text-gray-900 border border-gray-200 focus:ring-2 focus:ring-blue-400 uniform-input" />
+                    <p className="text-xs text-gray-500 mt-1">Максимум: 10000 для оптимальной производительности</p>
                   </div>
 
                   {/* Источник энтропии - серый цвет, неизменяемый */}
@@ -204,8 +225,8 @@ export default function GeneratePage() {
 
               {/* Карточка результатов / визуализации */}
               <div className="stoloto-card no-hover p-4 rounded-2xl cartoon-appear bg-white cursor-pointer w-110 h-100 flex flex-col" style={{ animationDelay: '320ms' }}>
-                <h3 className="text-xl font-bold text-gray-900">Результат</h3>
-                <div className="flex-1 flex flex-col justify-center">
+                <h3 className="text-xl font-bold text-gray-900 mb-3">Результат</h3>
+                <div className="flex-1 flex flex-col min-h-0">
                   {isComputing && (
                     <div className="mb-4 flex justify-center">
                       <div className="aqua-progress">
@@ -216,41 +237,45 @@ export default function GeneratePage() {
                     </div>
                   )}
                   {results.length === 0 ? (
-                    <div className="text-gray-600 text-center break-words max-w-full overflow-hidden">{isComputing ? 'Проводится генерация...' : 'Нажмите "Сгенерировать", чтобы получить выигрышные комбинации'}</div>
+                    <div className="text-gray-600 text-center break-words max-w-full overflow-hidden flex-1 flex items-center justify-center">{isComputing ? 'Проводится генерация...' : 'Нажмите "Сгенерировать", чтобы получить выигрышные комбинации'}</div>
                   ) : (
-                    <div>
-                      <div className="flex flex-wrap gap-3 justify-center">
-                        {results.map((n, idx) => (
-                          <div key={idx} className={`lottery-number ${lenClass(n)} number-appear`}>{n}</div>
-                        ))}
+                    <div className="flex flex-col h-full min-h-0">
+                      {/* Контейнер с прокруткой для чисел */}
+                      <div className="flex-1 overflow-y-auto max-h-96 mb-3 results-scroll-container">
+                        <div className="flex flex-wrap gap-2 justify-center p-2">
+                          {results.map((n, idx) => (
+                            <div key={idx} className={`lottery-number ${lenClass(n)} ${results.length > 100 ? 'compact' : ''} number-appear`}>{n}</div>
+                          ))}
+                        </div>
                       </div>
-                      <p className="mt-3 text-sm text-gray-700 text-center">Источник энтропии: <span className="text-gray-900 font-semibold">{entropySource}</span></p>
                       
-                      {/* Дополнительная информация с сервера */}
-                      {generationData && (
-                        <div className="mt-3 text-xs text-gray-600 text-center space-y-1">
-                          {generationData.seed && (
-                            <div>Seed: <span className="font-mono">{generationData.seed}</span></div>
-                          )}
-                          {generationData.entropy_quality && (
-                            <div>Качество случайности: <span className="font-semibold">{(generationData.entropy_quality.randomness_score * 100).toFixed(1)}%</span></div>
-                          )}
-                          {generationData.processing_time && (
-                            <div>Время обработки: <span className="font-semibold">{generationData.processing_time}мс</span></div>
+                      {/* Информация о генерации - фиксированная внизу */}
+                      <div className="flex-shrink-0 space-y-2">
+
+                        
+                        {/* Дополнительная информация с сервера */}
+                        {generationData && (
+                          <div className="text-xs text-gray-600 text-center space-y-1">
+                            {generationData.entropy_quality && (
+                              <div>Качество случайности: <span className="font-semibold">{(generationData.entropy_quality.randomness_score * 100).toFixed(1)}%</span></div>
+                            )}
+                            {generationData.processing_time && (
+                              <div>Время обработки: <span className="font-semibold">{generationData.processing_time}мс</span></div>
+                            )}
+                          </div>
+                        )}
+
+                        {/* Кнопка загрузки отпечатка */}
+                        <div className="flex justify-center">
+                          {results.length > 0 && (
+                            <button onClick={downloadFingerprint} className="number-appear flex items-center gap-2 px-4 py-2 rounded-lg border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 text-sm">
+                              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <path d="M21.44 11.05l-7.07 7.07a5 5 0 11-7.07-7.07l7.07-7.07a3.5 3.5 0 114.95 4.95l-7.07 7.07a2 2 0 01-2.83-2.83l6.36-6.36" />
+                              </svg>
+                              Скачать цифровой слепок
+                            </button>
                           )}
                         </div>
-                      )}
-
-                      {/* Кнопка загрузки отпечатка, появляется после чисел */}
-                      <div className="mt-3 flex justify-center">
-                        {results.length > 0 && (
-                          <button onClick={downloadFingerprint} className="number-appear flex items-center gap-2 px-4 py-2 rounded-lg border border-gray-300 bg-white text-gray-700 hover:bg-gray-50">
-                            <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                              <path d="M21.44 11.05l-7.07 7.07a5 5 0 11-7.07-7.07l7.07-7.07a3.5 3.5 0 114.95 4.95l-7.07 7.07a2 2 0 01-2.83-2.83l6.36-6.36" />
-                            </svg>
-                            Скачать цифровой слепок
-                          </button>
-                        )}
                       </div>
                     </div>
                   )}
