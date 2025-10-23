@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import Navbar from '../../components/layout/Navbar';
 import AuthModal from '../../components/auth/AuthModal';
 import { generateBatch } from '../../config/api';
+import { addToHistory } from '../../utils/historyStorage';
 
 export default function GeneratePage() {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
@@ -112,6 +113,16 @@ export default function GeneratePage() {
       if (serverData.generatedNumbers) {
         setResults(serverData.generatedNumbers);
         setGenerationData(serverData);
+        
+        // Сохраняем в LocalStorage
+        addToHistory({
+          numbers: serverData.generatedNumbers,
+          min,
+          max,
+          count,
+          entropySource,
+          serverData,
+        });
       } else {
         throw new Error('Не удалось получить сгенерированные числа');
       }

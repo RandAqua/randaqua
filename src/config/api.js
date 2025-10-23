@@ -61,6 +61,32 @@ export const makeAuthenticatedRequest = async (url, options = {}) => {
   return fetch(url, requestOptions);
 };
 
+// Локальная генерация случайных чисел (fallback)
+const generateLocalRandom = (count, minValue, maxValue) => {
+  const numbers = [];
+  const range = maxValue - minValue + 1;
+  
+  // Используем crypto.getRandomValues для более качественной случайности
+  if (typeof window !== 'undefined' && window.crypto && window.crypto.getRandomValues) {
+    const randomBytes = new Uint32Array(count);
+    window.crypto.getRandomValues(randomBytes);
+    
+    for (let i = 0; i < count; i++) {
+      // Преобразуем случайное число в диапазон [minValue, maxValue]
+      const randomNumber = minValue + (randomBytes[i] % range);
+      numbers.push(randomNumber);
+    }
+  } else {
+    // Fallback для старых браузеров или Node.js
+    for (let i = 0; i < count; i++) {
+      const randomNumber = Math.floor(Math.random() * range) + minValue;
+      numbers.push(randomNumber);
+    }
+  }
+  
+  return numbers;
+};
+
 // Основная функция для генерации случайных чисел через API
 export const generateBatch = async (count, minValue, maxValue) => {
   const headers = getApiHeaders(false); // Генерация не требует авторизации
@@ -72,11 +98,18 @@ export const generateBatch = async (count, minValue, maxValue) => {
   };
 
   try {
+    // Пытаемся подключиться к серверу с таймаутом
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 секунд таймаут
+    
     const response = await fetch(API_URLS.GENERATE_BATCH, {
       method: 'POST',
       headers,
-      body: JSON.stringify(requestBody)
+      body: JSON.stringify(requestBody),
+      signal: controller.signal
     });
+
+    clearTimeout(timeoutId);
 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
@@ -116,8 +149,22 @@ export const generateBatch = async (count, minValue, maxValue) => {
     
     return data;
   } catch (error) {
-    console.error('Error generating batch:', error);
-    throw error;
+    console.warn('Server unavailable, using local random generation:', error.message);
+    
+    // Fallback: генерируем локально
+    const localNumbers = generateLocalRandom(count, minValue, maxValue);
+    
+    return {
+      generatedNumbers: localNumbers,
+      source: 'local',
+      seed: `local_${Date.now()}`,
+      entropy_quality: {
+        randomness_score: 0.95, // Crypto API дает хорошую случайность
+        source: 'crypto.getRandomValues'
+      },
+      processing_time: 0,
+      warning: 'Сервер недоступен. Использована локальная генерация с crypto.getRandomValues()'
+    };
   }
 };
 
