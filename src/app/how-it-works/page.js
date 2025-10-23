@@ -386,6 +386,24 @@ export default function HowItWorks() {
 
             </div>
           </div>
+          
+          {/* Кнопка "Подробнее" */}
+          <div className="flex justify-center mt-8">
+            <Link href="/details" className="aqua-how-btn inline-flex items-center">
+              {/* Иконка облака с стрелкой */}
+              <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+              </svg>
+              
+              {/* Текст кнопки */}
+              <span>Подробнее</span>
+              
+              {/* Правая иконка (полупрозрачная звезда/шестеренка) */}
+              <svg className="w-4 h-4 ml-3 opacity-60" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2L15.09 8.26L22 9L17 14L18.18 21L12 17.77L5.82 21L7 14L2 9L8.91 8.26L12 2Z" />
+              </svg>
+            </Link>
+          </div>
         </div>
       </div>
 
