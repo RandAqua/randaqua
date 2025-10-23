@@ -259,16 +259,13 @@ export default function GeneratePage() {
                             {generationData.entropy_quality && (
                               <div>Качество случайности: <span className="font-semibold">{(generationData.entropy_quality.randomness_score * 100).toFixed(1)}%</span></div>
                             )}
-                            {generationData.processing_time && (
-                              <div>Время обработки: <span className="font-semibold">{generationData.processing_time}мс</span></div>
-                            )}
                           </div>
                         )}
 
                         {/* Кнопка загрузки отпечатка */}
                         <div className="flex justify-center">
                           {results.length > 0 && (
-                            <button onClick={downloadFingerprint} className="number-appear flex items-center gap-2 px-4 py-2 rounded-lg border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 text-sm">
+                            <button onClick={downloadFingerprint} className="aqua-generate-btn number-appear flex items-center gap-2">
                               <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                 <path d="M21.44 11.05l-7.07 7.07a5 5 0 11-7.07-7.07l7.07-7.07a3.5 3.5 0 114.95 4.95l-7.07 7.07a2 2 0 01-2.83-2.83l6.36-6.36" />
                               </svg>
