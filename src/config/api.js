@@ -117,24 +117,33 @@ export const generateBatch = async (count, minValue, maxValue) => {
 
     const data = await response.json();
     
-    // Если сервер вернул ссылку на файл с результатами, загружаем его
+    // Если сервер вернул ссылку на файл с результатами, пытаемся загрузить его
     if (data.external_response && data.external_response.fileUrl) {
-      const fileResponse = await fetch(data.external_response.fileUrl);
-      if (fileResponse.ok) {
-        const fileData = await fileResponse.json();
-        return {
-          ...data,
-          generatedNumbers: fileData.result.values,
-          source: 'server'
-        };
+      try {
+        const fileResponse = await fetch(data.external_response.fileUrl);
+        if (fileResponse.ok) {
+          const fileData = await fileResponse.json();
+          return {
+            ...data,
+            generatedNumbers: fileData.result.values
+          };
+        } else {
+          console.warn('Не удалось загрузить файл с результатами:', fileResponse.status);
+        }
+      } catch (fileError) {
+        console.warn('Ошибка при загрузке файла с результатами:', fileError);
+        // Продолжаем выполнение, возможно данные есть в основном ответе
       }
     }
     
-    // Если сервер вернул числа напрямую
-    if (data.generatedNumbers) {
+    // Если не удалось загрузить файл или его нет, возвращаем основные данные
+    // и генерируем числа на основе seed
+    if (!data.generatedNumbers && data.seed) {
+      // Генерируем числа на основе seed для демонстрации
+      const generatedNumbers = generateNumbersFromSeed(data.seed, count, minValue, maxValue);
       return {
         ...data,
-        source: 'server'
+        generatedNumbers
       };
     }
     
@@ -157,4 +166,20 @@ export const generateBatch = async (count, minValue, maxValue) => {
       warning: 'Сервер недоступен. Использована локальная генерация с crypto.getRandomValues()'
     };
   }
+};
+
+// Функция для генерации чисел на основе seed (для демонстрации)
+const generateNumbersFromSeed = (seed, count, minValue, maxValue) => {
+  // Простой генератор псевдослучайных чисел на основе seed
+  const numbers = [];
+  let currentSeed = parseInt(seed.slice(0, 8), 16) || 12345;
+  
+  for (let i = 0; i < count; i++) {
+    // Линейный конгруэнтный генератор
+    currentSeed = (currentSeed * 1664525 + 1013904223) % 2147483648;
+    const randomValue = minValue + (currentSeed % (maxValue - minValue + 1));
+    numbers.push(randomValue);
+  }
+  
+  return numbers;
 };

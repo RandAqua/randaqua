@@ -230,6 +230,7 @@ body {
   font-size: 1.6rem; /* базовый размер */
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
   animation: bounce-gentle 2s ease-in-out infinite;
+  flex-shrink: 0; /* предотвращает сжатие чисел */
 }
 
 /* Адаптация размера шрифта под длину числа */
@@ -238,6 +239,43 @@ body {
 .lottery-number.len-3 { font-size: 1.45rem; }
 .lottery-number.len-4 { font-size: 1.15rem; }
 .lottery-number.len-5, .lottery-number.len-6 { font-size: 0.98rem; }
+
+/* Стили для контейнера результатов с прокруткой */
+.results-scroll-container {
+  scrollbar-width: thin;
+  scrollbar-color: #77DDE7 #f1f5f9;
+}
+
+.results-scroll-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.results-scroll-container::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 4px;
+}
+
+.results-scroll-container::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #77DDE7 0%, #5BC4D1 100%);
+  border-radius: 4px;
+}
+
+.results-scroll-container::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #5BC4D1 0%, #4A9BA8 100%);
+}
+
+/* Компактные числа для больших списков */
+.lottery-number.compact {
+  width: 56px;
+  height: 56px;
+  font-size: 1.2rem;
+}
+
+.lottery-number.compact.len-1 { font-size: 1.4rem; }
+.lottery-number.compact.len-2 { font-size: 1.3rem; }
+.lottery-number.compact.len-3 { font-size: 1.1rem; }
+.lottery-number.compact.len-4 { font-size: 0.95rem; }
+.lottery-number.compact.len-5, .lottery-number.compact.len-6 { font-size: 0.85rem; }
 
 /* Красивый прогресс-бар для генератора */
 .aqua-progress {
